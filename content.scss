@@ -1,0 +1,905 @@
+/* ------------ */
+/* -- GLOBAL -- */
+/* ------------ */
+
+// $color-red: #DD1E2F;
+// $color-green: #218559;
+// $color-yellow: #EBB035;
+// $color-blue: #06a2cb;
+// $color-grey-med: #ddd;
+
+$color-red: #d9534f;
+$color-green: #5cb85c;
+$color-yellow: #f0ad4e;
+$color-blue: #5bc0de;
+$color-blue-primary: #337ab7;
+//$color-grey-med: #ddd;
+$color-grey-med: #fff;
+$color-grey-med2: #ddd;
+
+$color-dark-red: darken($color-red, 20%);
+$color-dark-green: darken($color-green, 20%);
+
+body .form-control{
+	font-size: 16px;
+}
+
+@media (min-width: 768px) {
+  .container.full {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  .col-travel, .col-quest, .col-skills, .col-items{
+		height: 400px;
+		overflow-x: hidden !important;
+	}
+
+	body .form-control{
+		font-size: 14px;
+	}
+}
+@media (min-width: 992px) {
+	.container{
+		padding-bottom: 10px;
+		margin-bottom: 20px;
+	}
+	.navbar .container{
+		padding-bottom: 0;
+		margin-bottom: 0;
+	}
+  .container.full {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+  .col-travel, .col-quest, .col-skills, .col-items{
+		height: 400px;
+		overflow-x: hidden !important;
+	}
+
+	body .form-control{
+		font-size: 14px;
+	}
+
+	// h1 .shift{
+	// 	top: -1px;
+	// 	position: relative;
+	// }
+
+	// h1::first-letter { 
+ //    font-size: 120%;
+	// }
+
+	
+}
+@media (min-width: 1200px) {
+  .container.full {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+  .col-travel, .col-quest, .col-skills, .col-items{
+		height: 400px;
+		overflow-x: hidden !important;
+	}
+
+	body .form-control{
+		font-size: 14px;
+	}
+}
+
+@media print {
+
+  a[href]:after {
+    content: none !important;
+  }
+
+}
+
+h1{
+	color: $color-blue-primary !important;
+}
+
+h3{
+	border-bottom: 1px solid $color-grey-med2;
+	padding-bottom: 5px;
+}
+
+body {
+	background: url('img/bg.jpg');
+	margin: 0;
+	padding: 0;
+	// font-family: verdana;
+	padding-top: 50px; 
+}
+
+.row.no-gutters {
+  margin-right: 0;
+  margin-left: 0;
+}
+.row.no-gutters > [class^="col-"],
+.row.no-gutters > [class*=" col-"] {
+  padding-right: 0;
+  padding-left: 0;
+}
+
+.container.grey{
+	background: $color-grey-med;
+}
+
+.badge{
+	margin-top: 10px;
+	&.red{
+		background-color: $color-red;
+	}
+	&.dark-red{
+		background-color: $color-dark-red;
+	}
+	&.green{
+		background-color: $color-green;
+	}
+	&.dark-green{
+		background-color: $color-dark-green;
+	}
+	&.yellow{
+		background-color: $color-yellow;
+	}
+	&.blue{
+		background-color: $color-blue;
+	}
+	&.grey{
+		background-color: $color-grey-med;
+	}
+}
+
+.text-red{
+	color: $color-red;
+}
+
+.text-yellow{
+	color: $color-yellow;
+}
+
+.text-green{
+	color: $color-green;
+}
+
+.top-lead{
+	border-left: 4px solid $color-blue-primary;
+	padding-left: 10px;
+	margin-left: 3px;
+}
+
+.shift-glyphicon{
+	position: relative;
+	top: -2px;
+}
+
+
+
+.label-primary.purple{
+	//background-color: #B94CE1;
+	background-color: #B564E3;
+}
+
+.row-bg-white{
+	background: #f9f9f9;
+	min-height: 500px !important;
+}
+
+.col-bg-white{
+	background: #f9f9f9;
+	border-left: 1px solid #eee;
+	border-right: 1px solid #eee;
+}
+
+.detail-items, .detail-skills{
+	.row{
+		min-height: 42px;
+		border-top: 1px solid #fefefe;
+		border-bottom: 1px solid #eee;
+	}
+
+	.skill-name, .item-name{
+		margin-top: 10px;
+		font-weight: 600;
+		font-size: 14px;
+	}
+}
+
+
+
+
+.campaign-phase{
+	margin-bottom: 20px;
+	border-bottom: 1px solid #ddd;
+}
+
+.campaign-controls{
+	.btn{
+		border-radius: 4px 4px 0px 0px;
+	}
+}
+
+.col-travel, .col-quest, .col-skills, .col-items{
+	//height: 400px;
+	background: #f9f9f9;
+	/*border-left: 1px solid $color-grey-med;
+	border-right: 1px solid $color-grey-med;*/
+	border-left: 1px solid #ddd;
+	border-right: 1px solid #ddd;
+}
+
+.col-travel, .col-skills, .col-items{
+	.row{
+		background: #f9f9f9;
+		min-height: 42px;
+		border-top: 1px solid #fefefe;
+		border-bottom: 1px solid #eee;
+	}
+}
+
+.col-quest-details{
+	height: 400px;
+}
+
+/*-- Travel column --*/
+
+.col-travel{
+	background: url('img/travel.jpg') center no-repeat #f9f9f9;
+	overflow: auto;
+
+	.travel-image{
+		height: 40px;
+	}
+
+	.travel-event{
+		font-size: 12px;
+		margin-bottom: 2px;
+		font-weight: 600;
+	}
+
+	.travel-outcome{
+		font-size: 11px;
+		margin-bottom: 3px;
+	}
+}
+
+/*-- Quest Column --*/
+
+.col-quest, .col-quest-details{
+	text-align: center;
+	color: #ccc;
+	text-shadow: 0 0 1px #000, 0 0 10px #000;
+	
+	.quest-name{
+		font-size: 18px;
+		padding-top: 175px;
+	}
+
+	.rumor-name{
+		font-size: 18px;
+		padding-top: 160px;
+	}
+
+	.quest-winner{
+		font-size: 24px;
+	}
+
+	.quest-monsters{
+		margin-top: 10px;
+		min-height: 80px;
+		font-size: 12px;
+	}
+
+	.quest-reward{
+		font-size: 18px;
+	}
+
+	.quest-reward .quest-label{
+		font-size: 14px;
+	}
+
+	.quest-label{
+		font-size: 12px;
+	}
+
+}
+
+
+
+/*item and skills column --*/
+
+.col-skills{
+	background: url('img/skills.jpg') center no-repeat #f9f9f9;
+	overflow: auto;
+	.skill-name{
+		margin-top: 10px;
+		font-weight: 600;
+		font-size: 14px;
+	}
+}
+
+.col-items{
+	background: url('img/trade.jpg') center no-repeat #f9f9f9;
+	overflow: auto;
+	.item-name{
+		margin-top: 10px;
+		font-weight: 600;
+		font-size: 14px;
+	}
+}
+
+.save-travel-step{
+	height: 40px; 
+	width: 40px; 
+}
+
+.travel-glyphicon{
+	padding: 3px 12px 4px;
+	font-size: 16px;
+}
+
+.switchers{
+	top: -80px;
+	position: relative;
+}
+
+.campaigns-overview{
+
+	.campaign-col{
+		padding-bottom: 50px;
+	}
+
+	.hero{
+		display: block;
+		height: 200px;
+		position: relative;
+		border-left: 1px solid $color-grey-med;
+		border-right: 1px solid $color-grey-med;
+
+		color: #fff;
+		text-shadow: 0 0 1px #000, 0 0 10px #000;
+
+		.name{
+			font-size: 12px;
+			padding-top: 75px;
+		}
+
+		.class{
+			font-size: 10px;
+		}
+
+		.player{
+			font-size: 16px;
+			text-transform: uppercase;
+			position: absolute;
+			bottom: 20px;
+			text-align: center;
+		  width: 100%;
+		  padding: 0 5px;
+		  overflow: hidden;
+		}
+	}
+}
+
+.jumbotron h1{
+	color: #333!important;
+}
+
+.jumbotron, .expansion-type{
+	margin-top: 15px;
+}
+
+.form-control{
+	margin-bottom: 10px !important;
+}
+
+
+.stats-row{
+	margin-top: 15px;
+	border-bottom: 1px solid #ddd;
+	
+	.progress{
+		margin-bottom: 10px;
+	}
+}
+
+.stats-column{
+	border-right: 1px solid #ddd;
+}
+
+.campaign-row{
+	margin-top: 10px;
+	padding-bottom: 5px;
+	border-bottom: 1px solid #ddd;
+	
+	.text-margin{
+		margin-top: 5px;
+	}
+}
+
+.text-margin-5{
+	margin-top: 5px;
+}
+
+.text-margin-10{
+	margin-top: 10px;
+}
+
+
+.descent-header{
+	height: 500px;
+	//background: url('img/descentbanner.png') no-repeat center;
+	margin-bottom: -50px;
+}
+
+.descent-header-mobile{
+	height: 286px;
+	background: url('img/descentbanner_mobile.jpg') no-repeat center cover;
+}
+
+#heroes .hero{
+	background-position: center;
+}
+
+#heroes .hero:hover{
+	background-size: 105%;
+}
+
+
+
+#start-block, #rumors-block{
+	display: none;
+}
+
+.hide-x{
+	overflow-x: hidden !important;
+}
+
+.bottom-10{
+	margin-bottom: 10px !important;
+}
+
+.no-bottom{
+	margin-bottom: 0px !important;
+}
+
+
+.tooltip-div{
+	min-width: 200px;
+
+	&.row{
+		border: none !important;
+	}
+
+	.item-text{
+		border-top: 1px solid #ccc;
+		border-bottom: 1px solid #ccc;
+		padding-top: 5px; 
+		padding-bottom: 5px; 
+	}
+}
+
+#select-item, #select-passage, #select-passage-item, #select-passage-clear{
+	display: none;
+}
+
+.confirm-deco img{
+	//background: url('img/GoblinWitcher.png') no-repeat center;
+	//height: 500px;
+	width: 100%;
+}
+
+.confirm-deco-text{
+	padding-top: 70px;
+}
+
+
+
+
+
+
+
+
+/* code above this has been bootstrap checked */
+
+#wrapper{
+	// border-top: 5px solid #333;
+	width: 1200px;
+	background: $color-grey-med;
+	margin: 0px auto;
+	padding-bottom: 20px;
+}
+
+.clearfix{
+	overflow: auto;
+	clear: both;
+}
+
+/* ------------ */
+/* -- Header -- */
+/* ------------ */
+
+#header{
+	width: 1400px;
+	height: 500px;
+	background: url('img/descentbanner.png') no-repeat center;
+	margin: 0px auto;
+	margin-bottom: -50px;
+}
+
+
+/* ------------- */
+/* -- CONTENT -- */
+/* ------------- */
+
+/* -- CAMPAIGN OVERVIEW -- */
+
+#campaign{
+
+	.details-bar{
+
+		width: 100%;
+
+		.add-details{
+
+			text-decoration: none;
+			color: #fff;
+			float: left;
+
+			&.set, &.setting{
+
+				.add-label{
+					background-color: $color-blue;
+				}
+				
+			}
+
+			.add-label{
+				width: 278px;
+				height: 20px;
+				border-left: 1px solid $color-grey-med;
+				border-right: 1px solid $color-grey-med;
+				padding: 5px 10px;
+				background-color: #ccc;
+				text-align: center;
+			}
+
+		}
+		
+	}
+
+}
+
+
+.hero-mini{
+	width: 30px;
+	height: 30px;
+	margin: 5px;
+}
+
+/* skills & items*/
+.skill, .item{
+	
+	
+
+	
+	.skill-xp, .item-price{
+		float: right;
+		width: 30px;
+		height: 24px;
+		padding-top: 6px;
+		margin: 5px;
+		background-color: $color-red;
+		font-weight: 600;
+		font-size: 12px;
+		color: #fff;
+		text-align: center;
+		border-radius: 30px;
+		-moz-border-radius: 30px;
+		-webkit-border-radius: 30px;
+	}
+	.skill-xp-label{
+		font-size: 8px;
+	}
+	
+}
+
+/* -- HERO DETAIL -- */
+
+.column{
+	display: block;
+	width: 298px;
+	background: #f9f9f9;
+	float: left;
+	border-left: 1px solid $color-grey-med;
+	border-right: 1px solid $color-grey-med;
+	position: relative;
+}
+
+/* -- STATS -- */
+
+.statsbar-text{
+	color: #fff;
+	padding: 0 15px;
+}
+
+.statsbar-left{
+	display: block;
+	height: 25px;
+	float: left;
+	background-color: $color-green;
+	padding: 7px 0;
+
+	border-radius: 30px 0 0 30px;
+	-moz-border-radius: 30px 0 0 30px;
+	-webkit-border-radius: 30px 0 0 30px;
+}
+
+.statsbar-right{
+	display: block;
+	height: 25px;
+	float: right;
+	background-color: $color-red;
+	padding: 7px 0;
+
+	border-radius: 0 30px 30px 0;
+	-moz-border-radius: 0 30px 30px 0;
+	-webkit-border-radius: 0 30px 30px 0;
+	text-align: right;
+}
+
+.quest-stats{
+	margin: 0 auto;
+	width: 80%;
+
+	h2{
+		text-align: center;
+		margin: 20px 0 10px;
+	}
+}
+
+
+.inner{
+	padding: 0 30px
+}
+
+#heroes a, #overlord a{
+	text-decoration: none;
+}
+
+.hero{
+	display: block;
+	width: 300px;
+	height: 500px;
+	float: left;
+}
+
+.overlord{
+	display: block;
+	width: 1200px;
+	height: 500px;
+}
+
+.hero, .overlord{
+	color: #fff;
+	text-shadow: 0 0 1px #000, 0 0 10px #000;
+
+	// .name, .class, .xp, .player{
+	// 	text-align: center;
+	// }
+
+	.name{
+		font-size: 18px;
+		padding-top: 225px;
+	}
+
+	.class{
+		font-size: 16px;
+	}
+
+	.xp{
+		font-size: 28px;
+
+		.xp-label{
+			font-size: 20px;
+		}
+	}
+
+	.player{
+		font-size: 28px;
+		padding-top: 80px;
+		text-transform: uppercase;
+	}
+}
+
+.ally{
+	display: block;
+	width: 80px;
+	height: 80px;
+	background: url('img/bg_ally.png') no-repeat center;
+	color: #fff;
+	margin: 0 auto;
+	position: relative;
+	top: -55px;
+}
+
+.gold{
+	display: block;
+	width: 110px;
+	height: 95px;
+	background: url('img/bg_gold.png') no-repeat center;
+	color: #fff;
+	margin: 0 auto;
+	position: relative;
+	top: -55px;
+	text-align: center;
+	padding-top: 20px;
+}
+
+.gold.ally{
+	top: -55px;
+}
+
+.gold-amount{
+	font-size: 28px;
+}
+
+.gold-label{
+	font-size: 16px;
+	line-height: 6px;
+}
+
+
+
+
+.save-left-column{
+	text-align: center;
+	color: #ccc;
+	text-shadow: 0 0 1px #000, 0 0 10px #000;
+}
+
+.relic{
+	margin-bottom: 3px;
+}
+
+.campaigns-overview{
+	color: #333;
+}
+
+#campaigns-overview .campaigns-overview-campaign .timestamp{
+	margin-bottom: 10px;
+	color: #666;
+}
+
+
+
+#campaigns-overview a{
+	text-decoration: none;
+	color: #333;
+}
+
+.half-block{
+	width: 50%;
+	float: left;
+}
+
+.half-block a, .half-block img{
+	display: block;
+  float: left;
+  margin: 0;
+  padding: 0;
+  width: 200px;
+}
+
+.column-title{
+	font-weight: bold;
+}
+
+
+.relics{
+	position: absolute;
+	bottom: 0;
+}
+
+
+
+
+/* --------------------- */
+/* -- Quest Save Page -- */
+/* --------------------- */
+
+.save-left-column{
+	display: block;
+	width: 300px;
+	height: 400px;
+	background: #ddd;
+	float: left;
+	position: relative;
+}
+
+.save-back-column{
+	float: left;
+}
+
+.save-right-column{
+	display: block;
+	width: 860px;
+	min-height: 380px;
+	background: #ddd;
+	float: right;
+	position: relative;
+	padding: 10px 20px;
+}
+
+.buy-column{
+	display: block;
+	width: 280px;
+	height: 210px;
+	float: left;
+	position: relative;
+}
+
+.buy-column.even{
+	margin: 0 10px;
+}
+
+.list-checkbox{
+	width: 210px;
+	float: left;
+}
+
+.list-checkbox input{
+	margin: 10px 10px 0;
+	float: left;
+}
+
+.list-checkbox div{
+	float: left;
+}
+
+.list-checkbox .search-gold{
+	font-style: italic;
+	font-size: 12px;
+}
+
+
+
+.select-hero{
+	width: 150px;
+	float: left;
+}
+
+.select-hero-image{
+	display: block;
+	width: 148px;
+	height: 250px;
+	float: left;
+	position: relative;
+	margin: 1px;
+
+	color: #fff;
+	text-shadow: 0 0 1px #000, 0 0 10px #000;
+}
+
+.select-hero-image .hero-name{
+	text-align: center;
+	font-size: 12px;
+	padding-top: 75px;
+}
+
+.hero-select{
+	width: 300px;
+	float: left;
+}
+
+.hero-select img{
+	width: 300px;
+	height: 500px;
+}
+
+
+#travel-details-form .travel-step{
+	height: auto;
+}
+

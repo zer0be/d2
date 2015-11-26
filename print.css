@@ -1,0 +1,766 @@
+/* ------------ */
+/* -- GLOBAL -- */
+/* ------------ */
+/* line 11, content.scss */
+body .form-control {
+  font-size: 16px;
+}
+
+@media (min-width: 768px) {
+  /* line 16, content.scss */
+  .container.full {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  /* line 21, content.scss */
+  .col-travel, .col-quest, .col-skills, .col-items {
+    height: 400px;
+  }
+
+  /* line 25, content.scss */
+  body .form-control {
+    font-size: 14px;
+  }
+}
+@media (min-width: 992px) {
+  /* line 30, content.scss */
+  .container.full {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  /* line 34, content.scss */
+  .col-travel, .col-quest, .col-skills, .col-items {
+    height: 400px;
+  }
+
+  /* line 38, content.scss */
+  body .form-control {
+    font-size: 14px;
+  }
+}
+@media (min-width: 1200px) {
+  /* line 43, content.scss */
+  .container.full {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  /* line 47, content.scss */
+  .col-travel, .col-quest, .col-skills, .col-items {
+    height: 400px;
+  }
+
+  /* line 51, content.scss */
+  body .form-control {
+    font-size: 14px;
+  }
+}
+/* line 63, content.scss */
+body {
+  background: url("img/bg.jpg");
+  margin: 0;
+  padding: 0;
+  padding-top: 50px;
+}
+
+/* line 71, content.scss */
+.row.no-gutters {
+  margin-right: 0;
+  margin-left: 0;
+}
+
+/* line 76, content.scss */
+.row.no-gutters > [class^="col-"],
+.row.no-gutters > [class*=" col-"] {
+  padding-right: 0;
+  padding-left: 0;
+}
+
+/* line 81, content.scss */
+.container.grey {
+  background: white;
+}
+
+/* line 85, content.scss */
+.badge {
+  margin-top: 10px;
+}
+/* line 87, content.scss */
+.badge.red {
+  background-color: #d9534f;
+}
+/* line 90, content.scss */
+.badge.green {
+  background-color: #5cb85c;
+}
+/* line 93, content.scss */
+.badge.yellow {
+  background-color: #f0ad4e;
+}
+/* line 96, content.scss */
+.badge.blue {
+  background-color: #5bc0de;
+}
+/* line 99, content.scss */
+.badge.grey {
+  background-color: white;
+}
+
+/* line 104, content.scss */
+.label-primary.purple {
+  background-color: #B564E3;
+}
+
+/* line 109, content.scss */
+.row-bg-white {
+  background: #f9f9f9;
+  min-height: 500px !important;
+}
+
+/* line 114, content.scss */
+.col-bg-white {
+  background: #f9f9f9;
+  border-left: 1px solid #eee;
+  border-right: 1px solid #eee;
+}
+
+/* line 121, content.scss */
+.detail-items .row, .detail-skills .row {
+  min-height: 42px;
+  border-top: 1px solid #fefefe;
+  border-bottom: 1px solid #eee;
+}
+/* line 127, content.scss */
+.detail-items .skill-name, .detail-items .item-name, .detail-skills .skill-name, .detail-skills .item-name {
+  margin-top: 10px;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+/* line 137, content.scss */
+.campaign-phase {
+  margin-bottom: 20px;
+  border-bottom: 1px solid #ddd;
+}
+
+/* line 143, content.scss */
+.campaign-controls .btn {
+  border-radius: 4px 4px 0px 0px;
+}
+
+/* line 148, content.scss */
+.col-travel, .col-quest, .col-skills, .col-items {
+  background: #f9f9f9;
+  /*border-left: 1px solid $color-grey-med;
+  border-right: 1px solid $color-grey-med;*/
+  border-left: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+}
+
+/* line 158, content.scss */
+.col-travel .row, .col-skills .row, .col-items .row {
+  background: #f9f9f9;
+  min-height: 42px;
+  border-top: 1px solid #fefefe;
+  border-bottom: 1px solid #eee;
+}
+
+/* line 166, content.scss */
+.col-quest-details {
+  height: 400px;
+}
+
+/*-- Travel column --*/
+/* line 172, content.scss */
+.col-travel {
+  background: url("img/travel.jpg") center no-repeat #f9f9f9;
+  overflow: auto;
+}
+/* line 176, content.scss */
+.col-travel .travel-image {
+  height: 40px;
+}
+/* line 180, content.scss */
+.col-travel .travel-event {
+  font-size: 12px;
+  margin-bottom: 2px;
+  font-weight: 600;
+}
+/* line 186, content.scss */
+.col-travel .travel-outcome {
+  font-size: 11px;
+  margin-bottom: 3px;
+}
+
+/*-- Quest Column --*/
+/* line 194, content.scss */
+.col-quest, .col-quest-details {
+  text-align: center;
+  color: #ccc;
+  text-shadow: 0 0 1px #000, 0 0 10px #000;
+}
+/* line 199, content.scss */
+.col-quest .quest-name, .col-quest-details .quest-name {
+  font-size: 18px;
+  padding-top: 175px;
+}
+/* line 204, content.scss */
+.col-quest .rumor-name, .col-quest-details .rumor-name {
+  font-size: 18px;
+  padding-top: 150px;
+}
+/* line 209, content.scss */
+.col-quest .quest-winner, .col-quest-details .quest-winner {
+  font-size: 24px;
+}
+/* line 213, content.scss */
+.col-quest .quest-monsters, .col-quest-details .quest-monsters {
+  margin-top: 10px;
+  min-height: 80px;
+  font-size: 12px;
+}
+/* line 219, content.scss */
+.col-quest .quest-reward, .col-quest-details .quest-reward {
+  font-size: 18px;
+}
+/* line 223, content.scss */
+.col-quest .quest-reward .quest-label, .col-quest-details .quest-reward .quest-label {
+  font-size: 14px;
+}
+
+/*item and skills column --*/
+/* line 233, content.scss */
+.col-skills {
+  background: url("img/skills.jpg") center no-repeat #f9f9f9;
+  overflow: auto;
+}
+/* line 236, content.scss */
+.col-skills .skill-name {
+  margin-top: 10px;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+/* line 243, content.scss */
+.col-items {
+  background: url("img/trade.jpg") center no-repeat #f9f9f9;
+  overflow: auto;
+}
+/* line 246, content.scss */
+.col-items .item-name {
+  margin-top: 10px;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+/* line 253, content.scss */
+.save-travel-step {
+  height: 40px;
+  width: 40px;
+}
+
+/* line 258, content.scss */
+.travel-glyphicon {
+  padding: 3px 12px 4px;
+  font-size: 16px;
+}
+
+/* line 263, content.scss */
+.switchers {
+  top: -80px;
+  position: relative;
+}
+
+/* line 270, content.scss */
+.campaigns-overview .campaign-col {
+  padding-bottom: 50px;
+}
+/* line 274, content.scss */
+.campaigns-overview .hero {
+  display: block;
+  height: 200px;
+  position: relative;
+  border-left: 1px solid white;
+  border-right: 1px solid white;
+  color: #fff;
+  text-shadow: 0 0 1px #000, 0 0 10px #000;
+}
+/* line 284, content.scss */
+.campaigns-overview .hero .name {
+  font-size: 12px;
+  padding-top: 75px;
+}
+/* line 289, content.scss */
+.campaigns-overview .hero .class {
+  font-size: 10px;
+}
+/* line 293, content.scss */
+.campaigns-overview .hero .player {
+  font-size: 16px;
+  text-transform: uppercase;
+  position: absolute;
+  bottom: 20px;
+  text-align: center;
+  width: 100%;
+  padding: 0 5px;
+  overflow: hidden;
+}
+
+/* line 306, content.scss */
+.jumbotron, .expansion-type {
+  margin-top: 15px;
+}
+
+/* line 310, content.scss */
+.form-control {
+  margin-bottom: 10px !important;
+}
+
+/* line 315, content.scss */
+.stats-row {
+  margin-top: 15px;
+  border-bottom: 1px solid #ddd;
+}
+/* line 319, content.scss */
+.stats-row .progress {
+  margin-bottom: 10px;
+}
+
+/* line 324, content.scss */
+.campaign-row {
+  margin-top: 10px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #ddd;
+}
+/* line 329, content.scss */
+.campaign-row .text-margin {
+  margin-top: 5px;
+}
+
+/* line 337, content.scss */
+.descent-header {
+  height: 500px;
+  background: url("img/descentbanner.png") no-repeat center;
+  margin-bottom: -50px;
+}
+
+/* line 343, content.scss */
+.descent-header-mobile {
+  height: 286px;
+  background: url("img/descentbanner_mobile.jpg") no-repeat center cover;
+}
+
+/* line 348, content.scss */
+#heroes .hero {
+  background-position: center;
+}
+
+/* line 352, content.scss */
+#heroes .hero:hover {
+  background-size: 105%;
+}
+
+/* line 358, content.scss */
+#start-block, #rumors-block {
+  display: none;
+}
+
+/* code above this has been bootstrap checked */
+/* line 376, content.scss */
+#wrapper {
+  width: 1200px;
+  background: white;
+  margin: 0px auto;
+  padding-bottom: 20px;
+}
+
+/* line 384, content.scss */
+#wrapper.no-bg {
+  background: none;
+}
+
+/* line 388, content.scss */
+.clearfix {
+  overflow: auto;
+  clear: both;
+}
+
+/* ------------ */
+/* -- Header -- */
+/* ------------ */
+/* line 397, content.scss */
+#header {
+  width: 1400px;
+  height: 500px;
+  background: url("img/descentbanner.png") no-repeat center;
+  margin: 0px auto;
+  margin-bottom: -50px;
+}
+
+/* ------------- */
+/* -- CONTENT -- */
+/* ------------- */
+/* -- CAMPAIGN OVERVIEW -- */
+/* line 414, content.scss */
+#campaign .details-bar {
+  width: 100%;
+}
+/* line 418, content.scss */
+#campaign .details-bar .add-details {
+  text-decoration: none;
+  color: #fff;
+  float: left;
+}
+/* line 426, content.scss */
+#campaign .details-bar .add-details.set .add-label, #campaign .details-bar .add-details.setting .add-label {
+  background-color: #5bc0de;
+}
+/* line 432, content.scss */
+#campaign .details-bar .add-details .add-label {
+  width: 278px;
+  height: 20px;
+  border-left: 1px solid white;
+  border-right: 1px solid white;
+  padding: 5px 10px;
+  background-color: #ccc;
+  text-align: center;
+}
+
+/* line 449, content.scss */
+.hero-mini {
+  width: 30px;
+  height: 30px;
+  margin: 5px;
+}
+
+/* skills & items*/
+/* line 461, content.scss */
+.skill .skill-xp, .skill .item-price, .item .skill-xp, .item .item-price {
+  float: right;
+  width: 30px;
+  height: 24px;
+  padding-top: 6px;
+  margin: 5px;
+  background-color: #d9534f;
+  font-weight: 600;
+  font-size: 12px;
+  color: #fff;
+  text-align: center;
+  border-radius: 30px;
+  -moz-border-radius: 30px;
+  -webkit-border-radius: 30px;
+}
+/* line 476, content.scss */
+.skill .skill-xp-label, .item .skill-xp-label {
+  font-size: 8px;
+}
+
+/* -- HERO DETAIL -- */
+/* line 484, content.scss */
+.column {
+  display: block;
+  width: 298px;
+  background: #f9f9f9;
+  float: left;
+  border-left: 1px solid white;
+  border-right: 1px solid white;
+  position: relative;
+}
+
+/* -- STATS -- */
+/* line 496, content.scss */
+.statsbar-text {
+  color: #fff;
+  padding: 0 15px;
+}
+
+/* line 501, content.scss */
+.statsbar-left {
+  display: block;
+  height: 25px;
+  float: left;
+  background-color: #5cb85c;
+  padding: 7px 0;
+  border-radius: 30px 0 0 30px;
+  -moz-border-radius: 30px 0 0 30px;
+  -webkit-border-radius: 30px 0 0 30px;
+}
+
+/* line 513, content.scss */
+.statsbar-right {
+  display: block;
+  height: 25px;
+  float: right;
+  background-color: #d9534f;
+  padding: 7px 0;
+  border-radius: 0 30px 30px 0;
+  -moz-border-radius: 0 30px 30px 0;
+  -webkit-border-radius: 0 30px 30px 0;
+  text-align: right;
+}
+
+/* line 526, content.scss */
+.quest-stats {
+  margin: 0 auto;
+  width: 80%;
+}
+/* line 530, content.scss */
+.quest-stats h2 {
+  text-align: center;
+  margin: 20px 0 10px;
+}
+
+/* line 537, content.scss */
+.inner {
+  padding: 0 30px;
+}
+
+/* line 541, content.scss */
+#heroes a, #overlord a {
+  text-decoration: none;
+}
+
+/* line 545, content.scss */
+.hero {
+  display: block;
+  width: 300px;
+  height: 500px;
+  float: left;
+}
+
+/* line 552, content.scss */
+.overlord {
+  display: block;
+  width: 1200px;
+  height: 500px;
+}
+
+/* line 558, content.scss */
+.hero, .overlord {
+  color: #fff;
+  text-shadow: 0 0 1px #000, 0 0 10px #000;
+}
+/* line 566, content.scss */
+.hero .name, .overlord .name {
+  font-size: 18px;
+  padding-top: 225px;
+}
+/* line 571, content.scss */
+.hero .class, .overlord .class {
+  font-size: 16px;
+}
+/* line 575, content.scss */
+.hero .xp, .overlord .xp {
+  font-size: 28px;
+}
+/* line 578, content.scss */
+.hero .xp .xp-label, .overlord .xp .xp-label {
+  font-size: 20px;
+}
+/* line 583, content.scss */
+.hero .player, .overlord .player {
+  font-size: 28px;
+  padding-top: 80px;
+  text-transform: uppercase;
+}
+
+/* line 592, content.scss */
+.gold {
+  display: block;
+  width: 110px;
+  height: 95px;
+  background: url("img/bg_gold.png") no-repeat center;
+  color: #fff;
+  margin: 0 auto;
+  position: relative;
+  top: -55px;
+  text-align: center;
+  padding-top: 20px;
+}
+
+/* line 605, content.scss */
+.gold-amount {
+  font-size: 28px;
+}
+
+/* line 609, content.scss */
+.gold-label {
+  font-size: 16px;
+  line-height: 6px;
+}
+
+/* line 617, content.scss */
+.save-left-column {
+  text-align: center;
+  color: #ccc;
+  text-shadow: 0 0 1px #000, 0 0 10px #000;
+}
+
+/* line 623, content.scss */
+.relic {
+  margin-bottom: 3px;
+}
+
+/* line 627, content.scss */
+.campaigns-overview {
+  color: #333;
+}
+
+/* line 631, content.scss */
+.campaigns-overview h1 {
+  margin: 0px;
+  padding: 15px 0 0;
+}
+
+/* line 636, content.scss */
+#campaigns-overview .campaigns-overview-campaign .timestamp {
+  margin-bottom: 10px;
+  color: #666;
+}
+
+/* line 643, content.scss */
+#campaigns-overview a {
+  text-decoration: none;
+  color: #333;
+}
+
+/* line 648, content.scss */
+.half-block {
+  width: 50%;
+  float: left;
+}
+
+/* line 653, content.scss */
+.half-block a, .half-block img {
+  display: block;
+  float: left;
+  margin: 0;
+  padding: 0;
+  width: 200px;
+}
+
+/* line 661, content.scss */
+.column-title {
+  font-weight: bold;
+}
+
+/* line 666, content.scss */
+.relics {
+  position: absolute;
+  bottom: 0;
+}
+
+/* --------------------- */
+/* -- Quest Save Page -- */
+/* --------------------- */
+/* line 678, content.scss */
+.save-left-column {
+  display: block;
+  width: 300px;
+  height: 400px;
+  background: #ddd;
+  float: left;
+  position: relative;
+}
+
+/* line 687, content.scss */
+.save-back-column {
+  float: left;
+}
+
+/* line 691, content.scss */
+.save-right-column {
+  display: block;
+  width: 860px;
+  min-height: 380px;
+  background: #ddd;
+  float: right;
+  position: relative;
+  padding: 10px 20px;
+}
+
+/* line 701, content.scss */
+.buy-column {
+  display: block;
+  width: 280px;
+  height: 210px;
+  float: left;
+  position: relative;
+}
+
+/* line 709, content.scss */
+.buy-column.even {
+  margin: 0 10px;
+}
+
+/* line 713, content.scss */
+.list-checkbox {
+  width: 210px;
+  float: left;
+}
+
+/* line 718, content.scss */
+.list-checkbox input {
+  margin: 10px 10px 0;
+  float: left;
+}
+
+/* line 723, content.scss */
+.list-checkbox div {
+  float: left;
+}
+
+/* line 727, content.scss */
+.list-checkbox .search-gold {
+  font-style: italic;
+  font-size: 12px;
+}
+
+/* line 732, content.scss */
+#select-item {
+  display: none;
+}
+
+/* line 736, content.scss */
+.select-hero {
+  width: 150px;
+  float: left;
+}
+
+/* line 741, content.scss */
+.select-hero-image {
+  display: block;
+  width: 148px;
+  height: 250px;
+  float: left;
+  position: relative;
+  margin: 1px;
+  color: #fff;
+  text-shadow: 0 0 1px #000, 0 0 10px #000;
+}
+
+/* line 753, content.scss */
+.select-hero-image .hero-name {
+  text-align: center;
+  font-size: 12px;
+  padding-top: 75px;
+}
+
+/* line 759, content.scss */
+.hero-select {
+  width: 300px;
+  float: left;
+}
+
+/* line 764, content.scss */
+.hero-select img {
+  width: 300px;
+  height: 500px;
+}
+
+/* line 770, content.scss */
+#travel-details-form .travel-step {
+  height: auto;
+}

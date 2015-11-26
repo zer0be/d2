@@ -1,0 +1,106 @@
+0;No Event;No Event;No Event
+1;Moss-covered Standing Stones;You come across a collection of mosscovered standing stones.;Each hero tests Willpower and suffers 1 fatigue if he fails. If all heroes pass, each hero draws 1 Search Card.
+2;Dense Thicket;You hear weeping at the center of a dense thicket.;If you choose to investigate, each hero suffers 1 Damage and the overlord discards 1 random Overlord card.
+3;Unforgiving Slopes;You're caught on the unforgiving slopes during a fierce storm.;Each hero suffers 1 Damage and 1 Fatigue.
+4;Traveling Merchant;You come across a traveling merchant.;Each hero tests Knowledge and draws 1 Search card if he passes.
+5;Band of Refugees;You come across a band of refugees.;If you stop and help them, the overlord draws 1 Overlord card. if you refuse them, each hero suffers 1 Damage
+6;Lost;You become lost.;Hero players choose one hero to test Willpower. If he fails, each hero suffers 1 Fatigue.
+7;Smoke Smudging the Horizon;You see smoke smudging the horizon in the distance.;The overlord draws 1 Overlord card.
+8;Peaceful Glade;Unexpectedly, you find a beautiful and peaceful glade in the woods.;Each hero recovers all Damage and Fatigue.
+9;An Ettin Appears;An ettin appears from the mountains and attacks the heroes!;Each hero tests Might and suffers 1 Damage if he fails. If all heroes fail, each hero suffers 1 additional Damage.
+10;Lawless Brigands;Lawless brigands accost you.;Hero players choose one hero to test Might to scare them off. If he fails, each hero suffers 1 Damage in the battle.
+11;Webs Hang Everywhere!;Webs hang everywhere!;Each hero tests Awareness. Each hero who fails is ambushed by a spider and is Poisoned. If all heroes fail, each hero suffers 1 Damage.
+12;Something Glimmers;Something glimmers at the bottom of the pool!;Hero players choose one hero to test Awareness to dive in after it. If he passes, draw 1 Search card.
+13;Latari Elves;A band of Latari Elves is beset by minions of the overlord.;Heroes may choose to leap to their defense, and each suffer 1 Damage. If they do not, the overlord draws 2 Overlord cards.
+14;Dwarf of Dunwarr;A dwarf of Dunwarr is burying his brother. He warns you of dangers ahead.;Do not draw a Travel Event card for the next travel icon you stop at this phase.
+15;Fat Bloated Corpses;Fat, bloated corpses float in the water. As you approach, they moan and rise!;Each hero tests Willpower. Each hero who fails is overcome by zombies and is Diseased.
+16;Hidden Path;You find a hidden path and make excellent time!;Do not draw a Travel event card for the next travel icon you stop at this phase.
+17;Minions Emerge!;The overlord's minions emerge!;The overlord chooses 1 attribute. Each hero must test the chose attribute. Each hero that fails suffers 1 Damage and 1 Fatigue.
+18;Minions Emerge!;The overlord's minions emerge!;The overlord chooses 1 attribute. Each hero must test the chose attribute. Each hero that fails suffers 1 Damage and 1 Fatigue.
+19;Traveling Sage;A traveling sage gives you access to his library.;Hero players choose one hero to test Knowledge. If he passes, he may look at the overlord's hand of cards and choose 1 to discard.
+20;Spiders!;Spiders! Gods be good, spiders!;The hero with the lowest Awareness (overlord's choice in the case of a tie) is Poisoned.
+21;Pestilential Miasma;A pestilential miasma seems to rise from the water.;The hero with the lowest Might (overlord's choice in the case of a tie) is Diseased.
+22;Burning Farm;You find a farm already burning and stop to give the farmers a proper burial.;The overlord draws 1 Overlord card.
+23;Mysterious Cave;A mysterious cave mouth looms ahead.;If the heroes choose to enter, draw 1 search card and the overlord draws 1 Overlord card.
+24;Mysterious Robed Figure;A mysterious robed figure offers you a ride on his pole-bardge.;If the heroes choose to ride, each hero recovers all Fatigue, but the overlord draws 1 Overlord card.
+25;The Overlord's Spies;The overlord's spies are everywhere.;Each hero tests Knowledge. The overlord draws 1 Overlord card for each hero that fails.
+26;Landslide!;Landslide!;Each hero tests Might. Each hero that fails suffers 2 Fatigue.
+27;Last Night's Rain;After last night's rain, the rivers are running high and fast.;Each hero tests Knowledge. Each hero that fails suffers 2 Fatigue.
+28;Tree with Golden Apples;You pause briefly in an orchard, which you discover has a tree with golden apples.;Hero players choose one hero to test Willpower. If he passes, draw 1 Search Card.
+29;Arrows fly;Arrows fly from behind the boulders ahead!;Each hero tests Awareness and suffers 1 Damage if he fails. If all heroes fail, each hero suffers 1 additional Damage
+30;Tentacles;Tentacles burst from the water and attempt to pull the heroes in!;Each hero tests Might and suffers 1 fatigue if he fails. If all heroes fail, each hero suffers 1 Damage.
+32;Wrong turn;You think you took a wrong turn...;Each hero tests Knowledge and suffers 1 Fatigue if he fails. If all heroes pass, do not draw an event for the next path you travel on this phase.
+33;Ferryman;You begin to tire after the long journey. A ferryman sympathizes and offers you a ride.;You must spend 25 gold or each hero suffers 1 Fatigue.
+34;Winged Minions;Winged minions of the overlord descend to assault you from above.;One hero tests Awareness. if he fails, each hero suffers 1 Damage and 1 Fatigue.
+35;Mysterious Herald;"As you make your way towards your destination, you are approached by a mysterious herald.
+""Tread carefully, heroes,"" the cloaked strangers says. ""There are minions of evil everywhere! A terrible plot is afoot, just nearby, and it must be stopped! Come!""";"The heroes may force the overlord to immediately play a Rumor card featuring a quest of the current act.
+if the heroes choose not to do this, or if the overlord does not have any Rumor cards in his hand featuring a valid quest, treat this Travel Event cards as ""No Event.""
+After resolving this event, retun this card to the game box."
+36;The Enemy's Scouts;You encounter the enemy's scouts.;The hero with the highest Awareness may suffer 1 fatigue to look at 1 random card from the overlord's hand, or suffer 2 Damage to force the overlord to discard 1 random card.
+37;An Old Crone;You encounter an old crone who whispers a curse before disappearing back into the mists.;Each hero must test Willpower. Each hero who fails succumbs to her spell and is Burning.
+38;Mysterious Jester;A mysterious jester appears and presents an irresistible offer...;One hero tests each of his attributes (Willpower, Knowledge, Awareness, and Might). If he passes all tests, draw 1 card from the current Act's Shop Item deck.
+39;Invigorated;You feel invigorated.;The heroes choose a warrior and place this card in his play area. He may discard this card at the start of his turn. He does not suffer Fatigue to use skills this turn.
+40;Wandering Mystic;A wandering mystic blesses you.;The heroes choose a healer and place this card in his play area. He may discard this card when reviving a hero. The reviced hero recovers all Damage.
+41;Heavy Fog;You feel a heavy fog surround you. Suddenly you feel strangely tired.;Each hero tests Knowledge. Each hero who fails must place a hero token on his Hero sheet. That hero's Speed is 2 during his first turn.
+42;Discarded Scroll;You come across a discarded scroll.;The heroes choose a mage and place this card in his play area. He may discard this card after rolling defense dice to add a number of Shields to his results equal to his Knowledge.
+43;Traveling Healer;A traveling healer offers you a mysterious method of healing.;The heroes choose 1 hero to suffer 2 Damage. Another hero of their choice recovers all Damage and discards all of his Condition cards.
+44;Bandits Occupy This Forest;Bandits occupy this dark forest.;Each hero tests either Willpower or Knowledge. Each hero that fails suffers 1 Damage and 1 Fatigue. If all heroes pass they may choose one hero to draw and keep 1 Shop Item card.
+45;Ambush;You sense an ambush.;The overlord may choose up to 3 different heroes to suffer 1 Damage each. At the start of the quest, he must choose 1 monster to suffer the same amount of Damage
+46;Lost Merchant;A lost merchant asks for directions.;Each hero tests Knowledge. For each hero that passes, the heroes gain 25 gold. If all heroes pass, they may instead choose 1 hero to draw and keep 1 Shop Item card
+47;Wonder at the Riches;As you hike up the mountain path, you wonder at the riches that await.;The overlord may look at the top 3 cards of the search deck and return them to the top of the deck in any order he chooses.
+48;Mountain Path;You find the mountain path to be painfully exhausting.;The overlord chooses 1 hero to test Might. If he fails, place a hero token on his Hero sheet. He has -1 Speed until he performs a rest action.
+49;Gold Key;A strange man offers you a gold key.;The heroes choose a scout and place this card in his play area. He may discard this card this card during the shoping phase to draw 3 additional Shop Item cards.
+50;Lost Messenger;A lost messenger is selling secrets.;The heroes may choose to spend 25 gold to look at the overlord's hand of Overlord cards. They may force him to discard 1 card and draw a replacement.
+51;Wild Beast;A wild beast ambushes your party and you drop your weapons. You must resort to your bare hands.;The overlord chooses one hero to test Might. If he fails, that hero suffers Damage equal to his Might.
+52;Chest Sealed with a Rune;You find a chest sealed with a rune.;Each hero tests Knowledge. if at least 2 heroes pass, the heroes may search the Search deck for 1 Health Potion, take it, and then shuffle the Search Deck.
+53;Woman by the Edge;A woman is sitting by the edge of the water whispering incoherently. As you get closer, her words begin to fill you with dread.;Each hero tests Knowledge. Each hero who fails is Cursed.
+54;Cloaked Traveller;A cloaked traveller offers a warning.;Reveal the top card of the Overlord deck. The heroes may each suffer 1 Damage to place the card on the bottom of the deck. Otherwise, place the card on top of the deck.
+55;Rocky Ground;As you hike your way up the mountain trail, the rocky ground gives way beneath your feet.;Each hero tests Might. Each hero who fails is Stunned. If all heroes fail, each hero suffers 1 Damage.
+56;Dark Fog;A dark fog has settled over the water.;If the overlord has a number of Overlord cards equal to or less than the number of heroes, he draws 1 Overlord card
+57;Tall Tree;A tall tree offers a scouting vantage.;Hero players choose 1 hero to suffer 1 Fatigue and test Awareness. If he passes, he may look at the top 3 cards of of the Overlord deck and return them in any order he chooses.
+58;Catching a Spy;Catching a spy does not prove easy.;The overlord may choose to reveal his hand of Overlord cards. If he does, each hero suffers 2 Fatigue.
+59;The Water Appears Dark;The water appears dark and smells rather foul.;The overlord chooses 1 hero that does not have a Condition card to test an attribute of the overlord's choice. if he fails, he is Cursed.
+60;Barren Field;As you cross through a barren field with no sign of life, your party is assailed by unseen dark energy.;Each hero tests Willpower. Each hero who fails is Cursed.
+61;Evil Minions;Evil minions gain strength.;Place this card in the overlord's play area. The overlord may discard this card when activating a monster. That monster gains 2 movement points.
+62;Haggling with a Merchant;Haggling with a traveling merchant causes unfortunate delay.;The heroes may choose 1 hero to draw and keep 1 Shop Item card. If they do, the overlord draws 2 Overlord cards.
+63;Supply Drop;One of your contacts has left a supply drop for you in this area.;Each hero recovers all damage and fatigue.
+64;Rats!;Rats! Rats everywhere! Run!;Each hero with a Speed of 3 or less is Diseased. Each other hero suffers 1 fatigue.
+65;Foul Creatures;Foul creatures block the path ahead. You could turn back and find another way, but it will cost precious time.;The heroes may choose to suffer 2 damage each. If they do not, the Overlord draws 2 Overlord cards.
+66;Thick, Burning Vapor;A thick, burning vapor seeps into the room through cracks in the ground, and you're quickly enveloped.;The hero with the lowest awareness (the overlord chooses in the case of a tie) is Poisoned and Diseased.
+67;Gang of Thugs;A gang of thugs has you cornered in a building. Find a way out!;The overlord chooses one attribute. Each hero tests the chosen attribute. Each hero who fails suffers 1 damage and 1 fatigue.
+68;Feral Dogs;Feral dogs lunge at you from a nearby alley, their sharp fangs tearing into you.;Each hero tests Might. Each hero who fails is Bleeding.
+69;Crazed Old Man;A crazed old man offers you a shortcut, if you answer his questions correctly.;Each hero tests Knowledge. If 2 or more heroes pass, do not draw a City Event card for the next travel icon the heroes stop at during this phase.
+70;Swarms of Rats;Swarms of rats gather in the shadows around you. Their yellowed teeth nip at your heels as you make for the exit.;Each hero suffers 1 Damage or 1 hero suffers 3 Damage.
+71;Practitioner of Dark Runecraft;A practitioner of dark runecraft is said to live in this place.;If the heroes choose to investigate, each hero suffers 1 fatigue, and the Overlord discards 1 Overlord card of his choice.
+72;Dark and Seedy District;You become lost in a dark and seedy district. You feel eyes upon you...;The heroes choose one hero to test Awareness. If he fails, he suffers 2 Damage. Then draw another city event card for this travel icon.
+73;Stone Monolith;Your route is blocked by a massive stone monolith. You'll have to try moving it.;Each hero tests Might. if 2 or more heroes fail, each hero suffers 1 Damage and 1 Fatigue.
+74;Collapsed Ceiling;Sections of the ceiling in this building have collapsed. You have to move carefully through it.;Each hero suffers 1 Fatigue.
+75;Broken Pipe;A broken pipe spills rotting sewage onto the ground in front of you. You must now wade through it.;Each hero tests Willpower. Each hero who fails is Diseased.
+76;Shady Street Vendor;A shady street vendor offers you some enticing goods.;Each hero may test Knowledge. Each hero who passes draws 1 Search card. For each hero who fails the overlord draws 1 Overlord card.
+77;Demonic Trap;You've sprung a demonic trap! A blast of searing flame scorches one of your party.;The hero with the highest health (Overlords choice in case of tie) suffers 2 Damage.
+78;Collapsed Tunnel;A collapse in this tunnel requires you to spend time digging.;Each hero tests Might. Each hero who fails suffers 1 Fatigue. If 2 or more heroes fail, the Overlord draws 1 Overlord card.
+79;Tendrils of Shadow;From the darkness, tendrils of shadow claw at stragglers in your party.;The hero with the lowest Awareness (the Overlord chooses in case of a tie) is Bleeding.
+80;Dark Alley;You think you hear something down in a dark alley. It could be nothing, but someone might need help.;Each hero tests Awareness. If 2 or more heroes fail, the Overlord draws 1 Overlord card.
+81;Street Urchin;A street urchin guides you through the dark alleys of the city.;Do not draw a City Event card for the next travel icon the heroes stop at during this phase.
+82;Large Carriage;A large carriage hurtles towards you with terrifying speed! Dive out of the way!;Each hero test Awareness, Each hero who fails suffers 1 Fatigue and 1 Damage.
+83;Shiny Trinket;A shiny trinket sparkles, submerged in the deep, filthy water.;The heroes choose 1 hero to test Willpower. If he passes, he draws 1 Search card. If he fails, the Overlord draws 1 Overlord card.
+84;Busteling and Crowded Streets;The streets are busteling and crowded, making them very difficult to navigate.;Each hero suffers 1 Fatigue.
+85;Locked Box;You find a locked box covered in etchings of a strange, foreign script.;The heroes choose 1 hero to test Knowledge. If he passes, he draws 1 Search card. If he fails, the Overlord draws 1 Overlord card.
+86;Rat Problem;City officials have gone through great lenghts to eliminate the rat problem in this section of the city.;The Overlord places 1 Overlord card from his hand on top of the Overlord deck.
+87;Enraged Ynfernael Hulk;An enraged Ynfernael Hulk charges, and the ensuing fight leaves you battered and bloody.;Each hero suffers 2 Damage.
+88;Canteen in the Sewer;In desperate need of water, you come across a canteen floating in the sewer.;If the heroes choose to drink, they choose 1 hero to be poisoned. Otherwise, the Overlord draws 2 Overlord cards.
+89;Spy Following You;The spy following you is very careful and avoids being spotted.;The Overlord draws 1 Overlord card.
+90;Escort of Guardsmen;And escort of guardsmen joins you, guiding you through the city.;Do not draw a City card for the next travel icon the heroes stop at during this phase.
+91;Vicious Beasts;You've been cornered by vicious beasts and are forced to fight your way out.;Roll 2 red power dice. The heroes must collectivly suffer Damage equal to the amount of Damage rolled. They may split the Damage in any way.
+92;Tavern Brawl;A brawl has broken out in the local tavern.;If the heroes choose to break up the fight, each hero suffers 1 Damage. Otherwise, the Overlord draws 1 Overlord card.
+93;Shady Traveler;A shady traveler offers you directions, for a price.;If the heroes choose to spend 25 gold, do not draw a Travel Event card for the next travel icon stopped at this phase.
+94;Goblin Scout;A goblin scout is running to warn his comrades!;One hero with a Ranged weapon rolls that weapon's dice. If the total range rolled is less than 4, each hero suffers 2 Damage.
+95;Vicious Thunderstorm;A vicious thunderstorm hinders your progress.;Each hero suffers 1 Fatigue. Draw another Travel Event card for this location.
+96;Hideous Plague Worm;A hideous plague worm attacks!;The overlord chooses one hero. That hero suffers 1 Damage and is Weakened
+97;Corrupted Waters;Something foul has corrupted these waters.;Each hero tests Might. Each hero that fails gains an infection token or is Poisoned, overlord's choice.
+98;Captured Spy;A captured spy divulges many secrets.;The overlord reveals his hand. The hero players may force him to discard his entire hand of cards. The overlord draws Overlord cards equal to the number discarded.
+99;Lone Knight;A lone knight in shining silver armor blocks your path, bellowing a challenge to your strongest warrior.;"Draw cards from the current Act's Shop Item Deck until a Melee weapon is revealed.
+One hero may choose to perform an attack with a Melee weapon against a grey defense die. This hero is also targeted by an attack from the drawn Shop Item, using his normal defense pool.
+If the hero deals more Damage than he suffers, he may take the drawn Shop Item. If he suffers more Damage than he deals, discard the drawn Shop Item. In either case, return this card to the box. If the heroes choose not to do this, treat this Travel Event as ""No Event."""
+666;Mapstone;The Heroes used the Mapstone.;Once during each travel step, the heroes may use the Mapstone to skip a travel step.
+999;Skipped;Travel skipped!;The overlord did not draw a travel card for this travel step.

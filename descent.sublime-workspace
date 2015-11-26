@@ -1,0 +1,655 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"web",
+				"-webkit-border-radius:   (property)"
+			],
+			[
+				"moz-border",
+				"-moz-border-radius:   (property)"
+			],
+			[
+				"Game",
+				"gameID"
+			],
+			[
+				"ques",
+				"questsAct2"
+			],
+			[
+				"quest",
+				"questsAct1  (variable)"
+			],
+			[
+				"inter",
+				"interludeDone"
+			],
+			[
+				"font-",
+				"font-style"
+			],
+			[
+				"i",
+				"italic"
+			],
+			[
+				"fo",
+				"font-style"
+			],
+			[
+				"te",
+				"text-transform"
+			],
+			[
+				"backr",
+				"background"
+			],
+			[
+				"b",
+				"background"
+			],
+			[
+				"li",
+				"list-style-image"
+			],
+			[
+				"backg",
+				"background-size"
+			],
+			[
+				"list",
+				"list-style-image"
+			],
+			[
+				"in",
+				"inline-block"
+			],
+			[
+				"fot",
+				"font-size"
+			],
+			[
+				"list-s",
+				"list-style-type"
+			],
+			[
+				"lis",
+				"list-style-image"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "/C/xampp/htdocs/kansdistri/sites/all/themes/balance_theme/sass/config/_settings.scss",
+			"settings":
+			{
+				"buffer_size": 1568,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 400.0,
+		"selected_items":
+		[
+			[
+				"sass",
+				"Set Syntax: Sass"
+			],
+			[
+				"syntax",
+				"Set Syntax: PHP"
+			],
+			[
+				"syntax: ph",
+				"Set Syntax: PHP"
+			],
+			[
+				"inst",
+				"Package Control: Install Package"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"pack",
+				"Package Control: Install Package"
+			],
+			[
+				"pa",
+				"Package Control: Install Package"
+			],
+			[
+				"html",
+				"Set Syntax: HTML"
+			],
+			[
+				"php",
+				"Set Syntax: PHP"
+			],
+			[
+				"htm",
+				"Set Syntax: HTML"
+			],
+			[
+				"ht",
+				"Set Syntax: HTML"
+			],
+			[
+				"",
+				"Set Syntax: HTML (Erlang)"
+			],
+			[
+				"css",
+				"Set Syntax: CSS"
+			]
+		],
+		"width": 532.0
+	},
+	"console":
+	{
+		"height": 125.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/C/Users/dullaert_steven/Downloads/twitter_widget.html",
+		"/C/xampp/htdocs/descentapp/tundrra/campaign_overview_hero.php",
+		"/C/xampp/htdocs/descentapp/tundrra/gaminggroupcampaign.php",
+		"/C/xampp/htdocs/descentapp/tundrra/index.php",
+		"/c/xampp/htdocs/descentapp/tundrra/Login/create.php",
+		"/C/xampp/htdocs/descentapp/tundrra/Login/selectheroes.php",
+		"/c/xampp/htdocs/descentapp/tundrra/Login/newcampaign.php",
+		"/C/xampp/htdocs/descentapp/tundrra/content.css",
+		"/C/xampp/htdocs/descentapp/tundrra/content.scss",
+		"/C/xampp/htdocs/kansdistri/sites/all/themes/balance_theme/sass/components/_distrolicious.scss",
+		"/C/xampp/htdocs/kansdistri/sites/all/themes/balance_theme/sass/base/_typography.scss",
+		"/C/xampp/htdocs/kansdistri/sites/all/themes/balance_theme/sass/base/_classes.scss",
+		"/C/xampp/htdocs/kansdistri/sites/all/themes/balance_theme/css/balance.css",
+		"/C/xampp/htdocs/kansdistri/sites/all/themes/balance_theme/sass/base/_navigation.scss",
+		"/C/xampp/htdocs/descentapp/tundrra/descent.sublime-project",
+		"/C/xampp/htdocs/descentapp/tundrra/campaign.php",
+		"/C/xampp/htdocs/descentapp/tundrra/campaign_data.php",
+		"/C/xampp/htdocs/descentapp/tundrra/campaign_overview.php",
+		"/C/xampp/htdocs/descentapp/tundrra/campaign_overview_save.php",
+		"/C/xampp/htdocs/kansdistri/sites/all/themes/balance_theme/sass/base/_nodes.scss",
+		"/C/xampp/htdocs/kansdistri/sites/all/themes/balance_theme/sass/base/_browsehappy.scss",
+		"/C/xampp/htdocs/kansdistri/sites/all/themes/balance_theme/sass/balance.scss",
+		"/C/xampp/htdocs/kansdistri/sites/all/themes/balance_theme/Gemfile",
+		"/C/xampp/htdocs/minister-sites1/sites/all/modules/features/sixteen_general/sixteen_general.module",
+		"/C/xampp/htdocs/sass/kanselarij/content.scss",
+		"/c/xampp/htdocs/descentapp/tundrra/content.css",
+		"/C/Users/dullaert_steven/AppData/Local/Temp/Rar$DIa0.660/settings.php",
+		"/C/xampp/htdocs/descentapp/tundrra/secondedition.php",
+		"/C/xampp/htdocs/descentapp/campaign_test.php",
+		"/C/xampp/htdocs/descentapp/tundrra/includes/login.php",
+		"/C/xampp/htdocs/descentapp/tundrra/campaign_data_pt2.php",
+		"/C/xampp/htdocs/descentapp/tundrra/databasecsv/tbCamLog.csv",
+		"/C/xampp/htdocs/descentapp/tundrra/descent.sublime-workspace",
+		"/C/xampp/htdocs/descentapp/tundrra/Login/_notes/dungeondetails.php.mno",
+		"/C/xampp/htdocs/descentapp/tundrra/dungeondetail.php",
+		"/C/xampp/htdocs/descentapp/tundrra/Login/_notes/mycampaigndetail.php - Copy [2].mno",
+		"/C/xampp/htdocs/descentapp/tundrra/Login/_notes/mycampaigndetail.php - Copy.mno",
+		"/C/xampp/htdocs/descentapp/tundrra/Login/_notes/mycampaigndetail.php.mno",
+		"/C/xampp/htdocs/descentapp/tundrra/Login/_notes/mydungeondetail.php - Copy [2].mno",
+		"/C/xampp/htdocs/descentapp/tundrra/Login/_notes/mydungeondetail.php - Copy.mno",
+		"/C/xampp/htdocs/descentapp/tundrra/Login/_notes/mydungeondetail.php.mno",
+		"/C/xampp/htdocs/descentapp/tundrra/Login/_notes/REDESIGNSmycampaigndetail.php.mno",
+		"/C/xampp/htdocs/descentapp/tundrra/Login/_notes/startinggear.php.mno",
+		"/C/xampp/htdocs/descentapp/tundrra/Login/dungeondetails.php",
+		"/C/xampp/htdocs/descentapp/tundrra/_notes/campaigndetail.php - Copy.mno",
+		"/C/xampp/htdocs/descentapp/tundrra/_notes/campaigndetail.php.mno",
+		"/C/xampp/htdocs/descentapp/tundrra/_notes/dungeondetail.php.mno",
+		"/C/xampp/htdocs/descentapp/tundrra/Login/mycampaigndetail.php",
+		"/C/xampp/htdocs/descentapp/tundrra/Login/mydungeondetail.php",
+		"/C/xampp/htdocs/descentapp/tundrra/Login/REDESIGNSmycampaigndetail.php",
+		"/C/xampp/htdocs/descentapp/tundrra/Login/startinggear.php",
+		"/C/xampp/htdocs/descentapp/tundrra/databasecsv/tbDungeonList.csv",
+		"/C/xampp/htdocs/descentapp/tundrra/descent_mobile.sql",
+		"/C/xampp/htdocs/descentapp/tundrra/index_test.php",
+		"/C/xampp/htdocs/descentapp/tundrra/includes/function_logout.php",
+		"/C/xampp/htdocs/descentapp/tundrra/function_getSQLValueString.php",
+		"/C/xampp/htdocs/descentapp/tundrra/changelog.txt",
+		"/C/xampp/htdocs/descentapp/tundrra/Login/buyitem.php",
+		"/C/xampp/htdocs/descentapp/tundrra/Login/buySkill.php",
+		"/C/xampp/htdocs/descentapp/tundrra/Login/citydetail.php",
+		"/C/xampp/htdocs/descentapp/tundrra/Login/herodetail.php",
+		"/C/xampp/htdocs/descentapp/tundrra/Login/overlord.php",
+		"/C/xampp/htdocs/descentapp/tundrra/Login/sellitem.php",
+		"/C/xampp/htdocs/descentapp/tundrra/campaign_select.php",
+		"/C/xampp/htdocs/descentapp/tundrra/campaign_test.php",
+		"/C/xampp/htdocs/descentapp/tundrra/campaigndetail.php",
+		"/C/xampp/htdocs/descentapp/tundrra/databasecsv/tbHeroes.csv",
+		"/C/xampp/htdocs/descentapp/tundrra/Login/_notes/citydetail.php.mno",
+		"/C/xampp/htdocs/descentapp/tundrra/Login/_notes/herodetail.php.mno",
+		"/C/xampp/htdocs/descentapp/tundrra/Login/_notes/mycampaigns.php - Copy.mno",
+		"/C/xampp/htdocs/descentapp/tundrra/Login/_notes/mycampaigns.php.mno",
+		"/C/xampp/htdocs/descentapp/tundrra/Login/mycampaigns.php",
+		"/E/descentapp/tundrra/gaminggroupcampaign.php",
+		"/C/xampp/htdocs/descentapp/tundrra/firstedition.html",
+		"/C/xampp/htdocs/descentapp/tundrra/Login/newcampaign.php",
+		"/C/xampp/htdocs/descentapp/tundrra/Login/newgroup.php",
+		"/C/xampp/htdocs/descentapp/tundrra/Login/newcampaign - Copy.php",
+		"/C/xampp/htdocs/descentapp/tundrra/Login/chooseheroes.php",
+		"/C/xampp/htdocs/descentapp/tundrra/Login/changepw.php",
+		"/C/xampp/htdocs/descentapp/tundrra/Login/choosegroup.php",
+		"/C/xampp/htdocs/descentapp/tundrra/Login/BACKUPnewcampaign - Copy.php",
+		"/C/xampp/htdocs/descentapp/tundrra/campaignmap.php",
+		"/C/xampp/htdocs/descentapp/tundrra/cssDescentMobile.css",
+		"/C/xampp/htdocs/descentapp/tundrra/Login/login.php",
+		"/C/xampp/htdocs/descentapp/tundrra/Login/menu.php",
+		"/C/xampp/htdocs/descentapp/tundrra/Login/newplayer.php",
+		"/C/xampp/htdocs/descentapp/tundrra/Connections/dbDescent.php",
+		"/C/xampp/htdocs/descentapp/tundrra/_notes/campaign.php - Copy [2].mno",
+		"/C/xampp/htdocs/descentapp/tundrra/_mmServerScripts/mysql.php",
+		"/C/Users/dullaert_steven/Downloads/IPC/3 prod/custom_ipc_pressreleases.admin.inc",
+		"/C/Users/dullaert_steven/Downloads/IPC/2 dev/custom_ipc_pressreleases.admin.inc",
+		"/C/Users/dullaert_steven/Downloads/IPC/1 local/custom_ipc_pressreleases.admin.inc",
+		"/C/Users/dullaert_steven/Downloads/IPC/3 prod/custom_ipc_pressreleases.module",
+		"/C/Users/dullaert_steven/Downloads/IPC/2 dev/custom_ipc_pressreleases.module",
+		"/C/Users/dullaert_steven/Downloads/IPC/1 local/custom_ipc_pressreleases.module",
+		"/C/xampp/htdocs/random/content.css",
+		"/C/xampp/htdocs/descent/sites/all/themes/tcalibrate/sass/content.scss",
+		"/C/xampp/htdocs/descent/sites/all/themes/tcalibrate/sass/globals.scss",
+		"/C/xampp/htdocs/descentapp/index.php",
+		"/C/xampp/htdocs/descentapp/content.css",
+		"/C/xampp/htdocs/descentapp/heroes_test.php",
+		"/C/xampp/htdocs/sass/monarchie/content.scss",
+		"/C/xampp/htdocs/IPC/sites/all/modules/custom/custom_ipc_pressreleases/custom_ipc_pressreleases.admin.inc",
+		"/C/xampp/htdocs/minister-sites-clean/sites/default/settings.php",
+		"/C/Users/dullaert_steven/Downloads/pactculturel splash/content.css",
+		"/C/xampp/htdocs/sass/kanselarij/globals.scss",
+		"/C/Users/dullaert_steven/AppData/Roaming/Sublime Text 2/Packages/User/Preferences.sublime-settings",
+		"/C/xampp/htdocs/descent/sites/all/themes/tcalibrate/sass/positions.scss",
+		"/C/xampp/htdocs/random/index.html",
+		"/C/xampp/htdocs/descent/sites/all/themes/tcalibrate/css/content.css",
+		"/C/xampp/htdocs/descent/sites/all/themes/tcalibrate/css/globals.css",
+		"/C/xampp/htdocs/IPC/sites/all/modules/custom/custom_ipc_pressreleases/custom_ipc_pressreleases.module",
+		"/C/xampp/php/php.ini",
+		"/C/xampp/htdocs/minister-sites1/sites/all/modules/features/sixteen_twitter/sixteen_twitter.info",
+		"/C/xampp/htdocs/minister-sites1/sites/all/modules/features/sixteen_gallery/sixteen_gallery.info",
+		"/C/xampp/htdocs/minister-sites1/sites/all/modules/features/sixteen_facebook/sixteen_facebook.info",
+		"/C/Users/dullaert_steven/Desktop/PSI.belgium - milieubeleid",
+		"/C/xampp/htdocs/IPC/sites/all/modules/custom/contact_ipc/contact_ipc.pages.inc",
+		"/C/xampp/htdocs/minister-sites1/sites/all/themes/custom/balance_theme/template.php",
+		"/C/xampp/htdocs/IPC/sites/all/modules/custom/custom_ipc_mailing/custom_ipc_mailing.module",
+		"/C/xampp/phpMyAdmin/config.inc.php",
+		"/C/Users/dullaert_steven/Downloads/michel2014(6).sql",
+		"/C/xampp/htdocs/minister-sites1/sites/all/themes/custom/balance_theme/templates/system/language-selection-page-body.tpl.php",
+		"/C/xampp/htdocs/IPC/sites/all/modules/custom/contacts_management/contacts_management.module",
+		"/C/xampp/htdocs/IPC/sites/all/modules/custom/contact_groups/contact_groups.module",
+		"/C/xampp/htdocs/sass/14-18/content.scss",
+		"/C/xampp/htdocs/IPC/sites/all/modules/custom/custom_ipc_contacts_trigger/custom_ipc_contacts_trigger.module",
+		"/C/Users/dullaert_steven/Downloads/pactculturel splash/language-selection-page-body.tpl.php"
+	],
+	"find":
+	{
+		"height": 62.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+			"c:\\xampp\\htdocs\\descentapp\\tundrra",
+			"c:\\xampp\\htdocs\\descentapp\\tundrra\\Login",
+			"c:\\xampp\\htdocs\\descentapp\\tundrra",
+			"C:\\xampp\\htdocs\\descentapp\\tundrra",
+			"C:\\xampp\\htdocs\\IPC\\sites\\all\\modules",
+			"C:\\xampp\\htdocs\\IPC\\sites\\all\\modules\\custom\\custom_ipc_pressreleases",
+			"C:\\xampp\\htdocs\\IPC\\sites\\all\\modules\\custom",
+			"C:\\xampp\\htdocs\\IPC\\sites\\all\\modules\\development"
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			".l-region--navigation",
+			".l-region--navigation nav ul.menu li.leaf a",
+			"edit",
+			"$heroim",
+			"0",
+			"edit",
+			"rsTerrain",
+			"FIX ME",
+			"overlord",
+			"FIX ME",
+			"17",
+			"colum",
+			"dun_type",
+			"dun_order",
+			"dun_act",
+			"dun_expansion",
+			"dun_name",
+			"dun_id",
+			"quest_encount_1",
+			"quest_winner",
+			"quest_name",
+			"quest_ggrp_name",
+			"quest_game_id",
+			"quest_timestamp",
+			"quest_id",
+			"tbdungeonlist",
+			"tbquests",
+			"campaign_select",
+			"campaignselect",
+			"log_win",
+			"log_encount_1",
+			"log_dun_win",
+			"log_dun",
+			"log_ggrp_name",
+			"log_ggrp_id",
+			"log_grrp_id",
+			"log_timestamp",
+			"log_id",
+			"tbcamlog",
+			"tbcityshop",
+			"tbmarket",
+			"$campaignID",
+			"campaignID",
+			"colname_rsSelectedCampaign",
+			"$colname_rsSelectedCampaign",
+			"colname_rsGroupCampaign",
+			"row_rsPortrait1",
+			"totalRows_rsPortrait1",
+			"cache",
+			"hero_bust",
+			"cam_id",
+			"field list",
+			"field_list",
+			"tbCamLog",
+			"tbSkills",
+			"tbPlayerList",
+			"tbMarket",
+			"tbHeroes",
+			"tbGroup",
+			"tbGamingGroup",
+			"tbDungeonList",
+			"tbCityShop",
+			"tbCampaign",
+			"tbHeroes",
+			"tbGroup",
+			"tbGamingGroup",
+			"tbDungeonList",
+			"tbCityShop",
+			"tbCampaign",
+			"tbCamLog",
+			"tbPlayerList",
+			"field_list",
+			"tb",
+			"tbPlayerList",
+			"tbCampaign",
+			"tb",
+			"field-name-body",
+			"addemar",
+			"gill",
+			"replace-contacts",
+			"Move this contact",
+			"addemar",
+			"my/contact/lists",
+			"replace-contacts",
+			"replace",
+			"Francis Adyns",
+			"francis Adyns",
+			"                                                      ",
+			"The page you are trying to view is password protected",
+			"margin-bot",
+			"z-index",
+			".front",
+			".front #contenbottom",
+			".front #conten",
+			"<p>&nbsp;</p>",
+			"div",
+			"</p><p>",
+			"</span>",
+			"<span style=\"font-size: 12px;\">",
+			" style=\"margin-left: 53.4pt;\"",
+			"&nbsp;",
+			" style=\"margin-left: 53.4pt;\"",
+			"&nbsp;",
+			" style=\"margin-left: 53.4pt;\"",
+			" style=\"margin-left: 40px;\"",
+			"<br />&bull; ",
+			"<br />",
+			"<br />&bull; ",
+			"<a href=\"#\" ></a>",
+			"<p><a href=\"#\" ></a></p>",
+			"name",
+			"div",
+			" style=\"margin-left: 40px;\"",
+			"<br />",
+			"&nbsp;",
+			"<p>&nbsp;</p>",
+			"<p><a href=\"#\" ></a></p>",
+			"<a href=\"#\" ></a>",
+			"<p><a href=\"#\" ></a></p>",
+			"name",
+			"div",
+			" style=\"margin-left: 40px;\"",
+			"<p>&nbsp;</p>",
+			"div",
+			"&nbsp;",
+			"<br />",
+			"<p>&nbsp;</p>",
+			"<br />"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"quest_type",
+			"quest_order",
+			"quest_act",
+			"quest_expansion_id",
+			"quest_name",
+			"quest_id",
+			"progress_enc1_winner",
+			"progress_quest_winner",
+			"progress_quest_name",
+			"progress_ggrp_name",
+			"progress_game_id",
+			"progress_timestamp",
+			"progress_id",
+			"tbquests",
+			"tbquests_progress",
+			"quest_encount_1",
+			"quest_winner",
+			"quest_name",
+			"quest_ggrp_name",
+			"quest_game_id",
+			"quest_timestamp",
+			"quest_id",
+			"tbquests",
+			"tbitems_aquired",
+			"tbitems",
+			"hero_img",
+			"tbcamlog",
+			"tbskills",
+			"tbplayerlist",
+			"tbmarket",
+			"tbheroes",
+			"tbgroup",
+			"tbgaminggroup",
+			"tbdungeonlist",
+			"tbcityshop",
+			"tbcampaign",
+			"tbheroes",
+			"tbgroup",
+			"tbgaminggroup",
+			"tbdungeonlist",
+			"tbcityshop",
+			"tbcampaign",
+			"tbcamlog",
+			"tbplayerlist"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "/C/xampp/htdocs/kansdistri/sites/all/themes/balance_theme/sass/config/_settings.scss",
+					"settings":
+					{
+						"buffer_size": 1568,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								530,
+								530
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"bh_regions":
+							[
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close"
+							],
+							"syntax": "Packages/CSS/CSS.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 0.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"replace":
+	{
+		"height": 0.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"selected_items":
+		[
+			[
+				"",
+				"/C/xampp/htdocs/ipc-sublime.sublime-project"
+			]
+		],
+		"width": 380.0
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 321.0,
+	"status_bar_visible": true
+}
