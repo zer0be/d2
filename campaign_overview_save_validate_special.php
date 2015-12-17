@@ -50,6 +50,7 @@
             case "45": // Food for Worms
             case "46": // Three Heads, One Mind
             case "49":
+            case "55": // The Incident
             case "85": // Three Heads, One Mind
             case "87": // Three Heads, One Mind
             case "88": // Three Heads, One Mind

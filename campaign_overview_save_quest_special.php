@@ -85,6 +85,17 @@ echo '<div class="row">';
             </select><?php
             break;
 
+          case "55": // The Incident ?>
+            <p>How many objective tokens do the heroes have in their area?</p>
+            <select name="special_heroes" class="form-control">
+              <option value="0">None</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+              <option value="4">Four</option>
+            </select><?php
+            break;
+
           case "85": // Acolyte of Saradyn ?>
             <p>How many villager tokens do the heroes have in their play area?</p>
             <select name="special_heroes" class="form-control">
@@ -176,6 +187,14 @@ echo '<div class="row">';
 
           case "49": // Three Heads, One Mind ?>
             <p>Does the overlord have at least 1 villager token in his play area?</p>
+            <select name="special_overlord" class="form-control">
+              <option value="reward">Yes</option>
+              <option value="noreward">No</option>
+            </select><?php
+            break;
+
+          case "57": // Respected Citizen ?>
+            <p>Did the overlord win the first encounter, or was Bertram defeated?</p>
             <select name="special_overlord" class="form-control">
               <option value="reward">Yes</option>
               <option value="noreward">No</option>

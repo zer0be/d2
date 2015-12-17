@@ -36,7 +36,7 @@ $currentHeroType = NULL;
                         <div class="col-xs-2"><div class="hero-mini" style="background: url('img/speed.png') center;"></div></div>
                         <div class="skill-name col-xs-8">Speed</div>
                         <div class="col-xs-2 text-center"><a href="#" data-toggle="tooltip" title="<?php echo $tooltipSpeed; ?>"><?php
-                          if($maxSpeed == 0){ ?>
+                          if($maxSpeed == 0 || ($h['speed'] + $extraSpeed) < $maxSpeed){ ?>
                             <span class="badge <?php if($extraSpeed > 0){ echo 'green';}else{ echo 'blue'; }?>"><?php print $h['speed'] + $extraSpeed; ?></span><?php
                           } else { ?>
                             <span class="badge red"><?php print $maxSpeed; ?></span><?php
@@ -80,6 +80,7 @@ $currentHeroType = NULL;
                         <div class="skill-name col-xs-8">Awareness</div>
                         <div class="col-xs-2 text-center"><a href="#" data-toggle="tooltip" title="<?php echo $tooltipAwareness; ?>"><span class="badge <?php if($extraAwareness > 0){ echo 'green';}else{ echo 'blue'; }?>"><?php print $h['awareness']  + $extraAwareness; ?></span></a></div>
                       </div>
+                      <div class="text-center text-muted"><small>The data above might not be accurate, this is still work in progress and more complex items are not yet taken into account. (e.g. 'Rune Plate')</small></div>
                   </div> <!-- close stats -->
 
 
