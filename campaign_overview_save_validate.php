@@ -117,6 +117,11 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "travel-substep-deta
     $_SESSION['lastspecialtype'] = NULL;
   }
 
+  if(isset($_POST["travel_item"]) && $_POST["travel_item"] == ""){
+    $_SESSION['lastspecial'] = NULL;
+    $_SESSION['lastspecialtype'] = NULL;
+  }
+
   if(isset($_POST["travel_goldskp"]) && $_POST["travel_goldskp"] != ""){
     $_SESSION['travelevents'][count($_SESSION['travelevents']) - 1]['gold'] = $_POST["travel_goldskp"]; 
     $_SESSION['lastspecial'] = NULL;

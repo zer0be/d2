@@ -3,6 +3,7 @@
 // Make an array with completed quests/rumors for options
 $questsCompleted = array();
 $rumorsCompleted = array();
+$rumorsCompletedAct2 = array();
 $rumorsExpansion = array();
 
 // Which quest was by the heroes in act 1 and act 2
@@ -30,6 +31,9 @@ foreach ($campaign['quests'] as $qos){
     if (($qos['winner'] == 'Overlord Wins') && $qos['act'] == "Act 1"){
       $rumorsWonByOverlordAct1[] = $qos['quest_id'];
     }
+    if ((($qos['winner'] == 'Heroes Win') || ($qos['winner'] == 'Overlord Wins')) && $qos['act'] == "Act 2"){
+      $rumorsCompletedAct2[] = $qos['quest_id'];
+    }
   }
 }
 
@@ -45,8 +49,8 @@ if (count($questsCompleted) > 4){
   $currentAct = "Act 2";
 }
 
-if (count($questsCompleted) > 5){
-$currentActItems = "Act 2";
+if (count($questsCompleted) > 5 || count($rumorsCompletedAct2) > 0){
+  $currentActItems = "Act 2";
 }
 
 if (count($questsCompleted) > 7){
@@ -226,7 +230,7 @@ $intersection3 = array_intersect($aqs['quest_req'], $questsCompleted);
         if($aqs['quest_act'] == "Finale"){
           if(!empty($intersection2) && $aqs['quest_req_type'] == "Heroes"){
             $questOptions[] = '<option value="' . $aqs['quest_id'] . '">' . $aqs['quest_name'] . '</option>';
-          } else if(empty($intersection1) && $aqs['quest_req_type'] == "Overlord"){
+          } else if(empty($intersection2) && $aqs['quest_req_type'] == "Overlord"){
             $questOptions[] = '<option value="' . $aqs['quest_id'] . '">' . $aqs['quest_name'] . '</option>';
           }
         }

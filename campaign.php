@@ -142,6 +142,14 @@ if ((isset($_SESSION['user']) && $_SESSION['user']['new'] == 1) || !isset($_SESS
       </div>
       <div class="panel-body">
         <small>
+          <strong>December 14th, 2015</strong>
+          <ul>
+            <li>Playing a rumor that is in play is no longer required before moving to the interlude (as ruled in official faq/errata).</li>
+            <li>Fixed a bug where Act 1 instead of Act 2 items were available for purchase when a rumor was played directly after the Interlude.</li>
+            <li>The 'Lone Knight' travel encounter can now be completed without selecting an item.</li>
+            <li>Universal cards that cost more than 1xp can now be purchased without having to purchase 1xp cards first.</li>
+            <li>Fixed an issue where the Finale selection of Labyrinth of Ruin was linked to Fire and Brimstone instead of Tipping the Scales.</li>
+          </ul>
           <strong>August 27st, 2015</strong>
           <ul>
             <li>Multiple theming and UX improvements.</li>
@@ -149,16 +157,6 @@ if ((isset($_SESSION['user']) && $_SESSION['user']['new'] == 1) || !isset($_SESS
             <li>Added a new banner.</li>
           </ul>
 
-
-          <strong>August 26st, 2015</strong>
-          <ul>
-            <li>Fixed an issue where the 'Start New..' button wasn't working on mobile.</li>
-            <li>Add a missing 'Open Group' to encounter 1 of the 'Hearts of the Wild' quest.</li>
-            <li>Fixed a bug that prevented the removal of group members.</li>
-            <li>Fixed a bug where a defeated Plot Deck Agent was not returned to the player after the quest it was defeated in was deleted.</li>
-            <li>Fixed a bug where a rumor quest could not be selected again after it was deleted. (Message me if your campaign has this issue, I will fix it.)</li>
-            <li>Fixed a bug that prevented blocked monsters to become available again after a quest they were blocked in was deleted.</li>
-          </ul>
         </small>
       </div>
       <div class="panel-footer">

@@ -18,6 +18,15 @@
                     <p>If you find any issues on the website or have suggestions and/or feedback, please contact me via email at support@d2etracker.com or through the FFG Forums <a href='https://community.fantasyflightgames.com/user/239371-atom4gevampire/'>here</a>.</p>
                     <h2>Recent updates</h2>
 
+                    <h3>December 14th, 2015</h3>
+                    <ul>
+                      <li>Playing a rumor that is in play is no longer required before moving to the interlude (as ruled in official faq/errata).</li>
+                      <li>Fixed a bug where Act 1 instead of Act 2 items were available for purchase when a rumor was played directly after the Interlude.</li>
+                      <li>The 'Lone Knight' travel encounter can now be completed without selecting an item.</li>
+                      <li>Universal cards that cost more than 1xp can now be purchased without having to purchase 1xp cards first.</li>
+                      <li>Fixed an issue where the Finale selection of Labyrinth of Ruin was linked to Fire and Brimstone instead of Tipping the Scales.</li>
+                    </ul>
+
                     <h3>August 27st, 2015</h3>
                     <ul>
                       <li>Multiple theming and UX improvements.</li>

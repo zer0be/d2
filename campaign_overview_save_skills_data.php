@@ -91,13 +91,14 @@ foreach ($players as $sh){
 
 		$availableOverlordCards[$sh['id']] = array();
 		$alcstring = "";
+
 		foreach($allCards as $alc) { 
 		 	if ($alc['skill_cost'] <= $sh['xp'] && (!(in_array($alc['skill_id'], $acquiredSkills[$sh['id']])))){
 
 		 		if($alc['skill_cost'] > 1){
 		 			$alcstring = $alc['skill_class'];	
 		 		}
-		 		if($alc['skill_cost'] == 1 || (isset($aquiredCardsCounted[$alcstring]) && $aquiredCardsCounted[$alcstring] >= 2)){
+		 		if($alc['skill_cost'] == 1 || $alc['skill_class'] == "Universal" || (isset($aquiredCardsCounted[$alcstring]) && $aquiredCardsCounted[$alcstring] >= 2)){
 		 			$availableOverlordCards[$sh['id']][] = '<div class="col-sm-3"><div class="checkbox"><label><input type="checkbox" name="' . $sh['id'] . '[]" value="' . $alc['skill_id'] . '"><div>' . $alc['skill_name'] . '<br /><span class="search-gold">' . $alc['skill_cost'] . 'XP - <span class="text-muted">' . $alc['skill_class'] . '</span></span></label></div></div></div>';
 				} 	
 		 	}

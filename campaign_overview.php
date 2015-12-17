@@ -223,45 +223,22 @@
 										<div class="row">
 
 												<form action="<?php echo $editFormAction; ?>" method="post" name="start-quest-form" id="start-quest-form">
-													<div class="col-sm-8"><?php
-									        	if(!empty($rumorOptions) && $currentAct == "Interlude" && $campaign['quests'][0]['quest_type'] == "Quest"){ ?>
-															<select name="progress_quest_id" class="form-control" disabled="disabled">
-										            <option value="">Select Quest</option><?php 
-											            foreach ($questOptions as $xqo){
-											            	echo $xqo;
-											            } ?>
-										          </select><?php
-														} else { ?>
-									          	<select name="progress_quest_id" class="form-control">
-										            <option value="">Select Quest</option><?php 
-											            foreach ($questOptions as $xqo){
-											            	echo $xqo;
-											            } ?>
-										          </select><?php
-							      				} ?>
-														
+													<div class="col-sm-8">
+								          	<select name="progress_quest_id" class="form-control">
+									            <option value="">Select Quest</option><?php 
+										            foreach ($questOptions as $xqo){
+										            	echo $xqo;
+										            } ?>
+									          </select>														
 									        </div>
-									        <div class="col-sm-4"><?php
-									        	if(!empty($rumorOptions) && $currentAct == "Interlude" && $campaign['quests'][0]['quest_type'] == "Quest"){ ?>
-															<input type="submit" value="Select" disabled="disabled" class="btn btn-block btn-info form-control" /><?php
-														} else { ?>
-									          	<input type="submit" value="Select" class="btn btn-block btn-info form-control" /><?php
-							      				} ?>
-
-
+									        <div class="col-sm-4">
+									          <input type="submit" value="Select" class="btn btn-block btn-info form-control" />
 
 									          <input type="hidden" name="progress_timestamp" value="" />
 									          <input type="hidden" name="progress_game_id" value="<?php echo $gameID; ?>" />
 									          <input type="hidden" name="MM_insert" value="start-quest-form" />
 									        </div>
-								        </form><?php
-								        if(!empty($rumorOptions) && $currentAct == "Interlude" && $campaign['quests'][0]['quest_type'] == "Quest"){ ?>
-								        	<div class="col-xs-12">
-							      				<p>If one or more Act I Quest cards are still in play immediately before playing the Interlude, the heroes must choose one of them to attempt (before proceeding to the Interlude).</p>
-							      			</div><?php
-												} else { 
-
-					      				} ?>
+								        </form>
 							      </div>
 
 							      <?php if($campaign['type'] != "mini"){ 

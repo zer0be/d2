@@ -46,6 +46,7 @@ if(isset($_GET['data']) && $_GET['data'] == "y"){
 // //var_dump($_SESSION["tempItems"]);
 // // var_dump($traded);
 // echo '</pre>';
+// 
 
 // Get the gold!
 $query_rsTotalGold = sprintf("SELECT game_gold FROM tbgames WHERE game_id = %s", GetSQLValueString($gameID, "int"));
