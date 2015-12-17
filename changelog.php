@@ -18,6 +18,15 @@
                     <p>If you find any issues on the website or have suggestions and/or feedback, please contact me via email at support@d2etracker.com or through the FFG Forums <a href='https://community.fantasyflightgames.com/user/239371-atom4gevampire/'>here</a>.</p>
                     <h2>Recent updates</h2>
 
+                    <h3>December 17th, 2015</h3>
+                    <ul>
+                      <li>Hero overview page stats now correctly shows a speed that is lower than the max speed when it is forced by an item, also a small text was added to indicate this is still work in progress</li>
+                      <li>Missing special objective added for SoN - The Incident</li>
+                      <li>Missing special objective added for SoN - Respected Citizen</li>
+                      <li>Missing special objective added for SoN - Prison of Khinn</li>
+                      <li>Fixed incorrect follow-up quests to HoB - Prison of Khinn</li>
+                    </ul>
+
                     <h3>December 14th, 2015</h3>
                     <ul>
                       <li>Playing a rumor that is in play is no longer required before moving to the interlude (as ruled in official faq/errata).</li>

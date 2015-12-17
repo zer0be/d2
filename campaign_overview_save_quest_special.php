@@ -276,6 +276,15 @@ echo '<div class="row">';
               } ?>
             </select><?php
             break;
+
+          case "96": // ?>
+            <p>Who receives the The Shadow Rune?</p>
+            <select name="special_relic" class="form-control"><?php 
+              foreach ($players as $h){ ?>
+                <option value="<?php echo $h['id'] ?>"><?php echo $h['name'] ?></option><?php
+              } ?>
+            </select><?php
+            break;
         }
       }
 

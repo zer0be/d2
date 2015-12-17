@@ -207,6 +207,7 @@ foreach($_SESSION['rewards_overlord'] as $rh){
         case "87": // HoB - Siege of Skytower
         case "89": // HoB - The Baron Returns
         case "95": // HoB - Army of Dal'Zunm
+        case "96": // HoB - Prison of Khinn
           if (isset($_POST['special_relic']) && $_POST['special_relic'] != "none"){     
             $insertSQLRelic = sprintf("INSERT INTO  tbitems_aquired (aq_game_id, aq_char_id, aq_relic_id, aq_progress_id) VALUES (%s, %s, %s, %s)",
                        GetSQLValueString($gameID, "int"),

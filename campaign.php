@@ -142,6 +142,14 @@ if ((isset($_SESSION['user']) && $_SESSION['user']['new'] == 1) || !isset($_SESS
       </div>
       <div class="panel-body">
         <small>
+          <strong>December 17th, 2015</strong>
+          <ul>
+            <li>Hero overview page stats now correctly shows a speed that is lower than the max speed when it is forced by an item, also a small text was added to indicate this is still work in progress</li>
+            <li>Missing special objective added for SoN - The Incident</li>
+            <li>Missing special objective added for SoN - Respected Citizen</li>
+            <li>Missing special objective added for SoN - Prison of Khinn</li>
+            <li>Fixed incorrect follow-up quests to HoB - Prison of Khinn</li>
+          </ul>
           <strong>December 14th, 2015</strong>
           <ul>
             <li>Playing a rumor that is in play is no longer required before moving to the interlude (as ruled in official faq/errata).</li>
@@ -150,13 +158,6 @@ if ((isset($_SESSION['user']) && $_SESSION['user']['new'] == 1) || !isset($_SESS
             <li>Universal cards that cost more than 1xp can now be purchased without having to purchase 1xp cards first.</li>
             <li>Fixed an issue where the Finale selection of Labyrinth of Ruin was linked to Fire and Brimstone instead of Tipping the Scales.</li>
           </ul>
-          <strong>August 27st, 2015</strong>
-          <ul>
-            <li>Multiple theming and UX improvements.</li>
-            <li>Added the hero images for Bonds of the Wild.</li>
-            <li>Added a new banner.</li>
-          </ul>
-
         </small>
       </div>
       <div class="panel-footer">

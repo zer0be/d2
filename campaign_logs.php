@@ -531,7 +531,7 @@ $intersection3 = array_intersect($aqs['quest_req'], $questsCompleted);
           if (count($questsCompleted) == 6){
 
             if($aqs['quest_id'] == "97" || $aqs['quest_id'] == "98" || $aqs['quest_id'] == "99" || $aqs['quest_id'] == "100"){
-              if(!empty($intersection3){
+              if(!empty($intersection3)){
                 if(!empty($intersection2) && $aqs['quest_req_type'] == "Heroes"){
                   $questOptions[] = '<option value="' . $aqs['quest_id'] . '">' . $aqs['quest_name'] . '</option>';
                 } else if(empty($intersection2) && $aqs['quest_req_type'] == "Overlord"){
