@@ -41,18 +41,62 @@ function questStats($statsArray, $expansion_id){
                 <?php createProgressBar($QuestWins['HeroPerc'], "Won (Heroes)", $QuestWins['OverlordPerc'], "Won (Overlord)"); ?>         
               </div>
               <div class="col-md-12">
-                <p class="text-left text-muted">
+                <div class="row text-muted">
                   <small>
-                  <?php if(isset($sa['selected_monsters_enc1'])){
-                    echo "Monsters Enc 1: " . $sa['selected_monsters_enc1'] . "<br />";
-                  } ?>
-                  
-                  <?php if(isset($sa['selected_monsters_enc2'])){
-                    echo "Monsters Enc 2: " . $sa['selected_monsters_enc2'];
-                  } ?>
-                  
+                    <div class="col-md-5 text-left">
+                      <?php if(isset($sa['selected_monsters_enc1']['loss'])){
+                        echo $sa['selected_monsters_enc1']['loss'];
+                      } ?>
+                    </div>
+                    <div class="col-md-2 text-center">
+                      <strong>Enc 1</strong>
+                    </div>
+                    <div class="col-md-5 text-right">
+                      <?php if(isset($sa['selected_monsters_enc1']['win'])){
+                        echo $sa['selected_monsters_enc1']['win'];
+                      } ?>
+                    </div>
                   </small>
-                </p>
+                </div>
+                <p></p><?php 
+                if(isset($sa['selected_monsters_enc2']['win']) || isset($sa['selected_monsters_enc2']['loss'])){ ?>
+                  <div class="row text-muted">
+                    <small>
+                      <div class="col-md-5 text-left">
+                        <?php if(isset($sa['selected_monsters_enc2']['loss'])){
+                          echo $sa['selected_monsters_enc2']['loss'];
+                        } ?>
+                      </div>
+                      <div class="col-md-2 text-center">
+                        <strong>Enc 2</strong>
+                      </div>
+                      <div class="col-md-5 text-right">
+                        <?php if(isset($sa['selected_monsters_enc2']['win'])){
+                          echo $sa['selected_monsters_enc2']['win'];
+                        } ?>
+                      </div>
+                    </small>
+                  </div><p></p><?php
+                } if (isset($sa['selected_monsters_enc3']['win']) || isset($sa['selected_monsters_enc3']['loss'])){ ?>
+                  <div class="row text-muted">
+                    <small>
+                      <div class="col-md-5 text-left">
+                        <?php if(isset($sa['selected_monsters_enc3']['loss'])){
+                          echo $sa['selected_monsters_enc3']['loss'];
+                        } ?>
+                      </div>
+                      <div class="col-md-2 text-center">
+                        <strong>Enc 3</strong>
+                      </div>
+                      <div class="col-md-5 text-right">
+                        <?php if(isset($sa['selected_monsters_enc3']['win'])){
+                          echo $sa['selected_monsters_enc3']['win'];
+                        } ?>
+                      </div>
+                    </small>
+                  </div>
+                  <p></p><?php
+                } ?>
               </div>
             </div>
 
@@ -119,18 +163,63 @@ function questStats($statsArray, $expansion_id){
                         <?php createProgressBar($QuestWins['HeroPerc'], "Won (Heroes)", $QuestWins['OverlordPerc'], "Won (Overlord)"); ?>         
                       </div>
                       <div class="col-md-12">
-                        <p class="text-left text-muted">
+                        <div class="row text-muted">
                           <small>
-                          <?php if(isset($sa['selected_monsters_enc1'])){
-                            echo "Monsters Enc 1: " . $sa['selected_monsters_enc1'] . "<br />";
-                          } ?>
-                          
-                          <?php if(isset($sa['selected_monsters_enc2'])){
-                            echo "Monsters Enc 2: " . $sa['selected_monsters_enc2'];
-                          } ?>
-                          
+                            <div class="col-md-5 text-left">
+                              <?php if(isset($sa['selected_monsters_enc1']['loss'])){
+                                echo $sa['selected_monsters_enc1']['loss'];
+                              } ?>
+                            </div>
+                            <div class="col-md-2 text-center">
+                              <strong>Enc 1</strong>
+                            </div>
+                            <div class="col-md-5 text-right">
+                              <?php if(isset($sa['selected_monsters_enc1']['win'])){
+                                echo $sa['selected_monsters_enc1']['win'];
+                              } ?>
+                            </div>
                           </small>
-                        </p>
+                        </div>
+                        <p></p><?php 
+                        if(isset($sa['selected_monsters_enc2']['win']) || isset($sa['selected_monsters_enc2']['loss'])){ ?>
+                          <div class="row text-muted">
+                            <small>
+                              <div class="col-md-5 text-left">
+                                <?php if(isset($sa['selected_monsters_enc2']['loss'])){
+                                  echo $sa['selected_monsters_enc2']['loss'];
+                                } ?>
+                              </div>
+                              <div class="col-md-2 text-center">
+                                <strong>Enc 2</strong>
+                              </div>
+                              <div class="col-md-5 text-right">
+                                <?php if(isset($sa['selected_monsters_enc2']['win'])){
+                                  echo $sa['selected_monsters_enc2']['win'];
+                                } ?>
+                              </div>
+                            </small>
+                          </div>
+                          <p></p><?php
+                        } if (isset($sa['selected_monsters_enc3']['win']) || isset($sa['selected_monsters_enc3']['loss'])){ ?>
+                          <div class="row text-muted">
+                            <small>
+                              <div class="col-md-5 text-left">
+                                <?php if(isset($sa['selected_monsters_enc3']['loss'])){
+                                  echo $sa['selected_monsters_enc3']['loss'];
+                                } ?>
+                              </div>
+                              <div class="col-md-2 text-center">
+                                <strong>Enc 3</strong>
+                              </div>
+                              <div class="col-md-5 text-right">
+                                <?php if(isset($sa['selected_monsters_enc3']['win'])){
+                                  echo $sa['selected_monsters_enc3']['win'];
+                                } ?>
+                              </div>
+                            </small>
+                          </div>
+                          <p></p><?php
+                        } ?>
                       </div>
                     </div>
 
@@ -193,6 +282,65 @@ function questStats($statsArray, $expansion_id){
                     <div class="row"> 
                       <div class="col-md-12">
                         <?php createProgressBar($QuestWins['HeroPerc'], "Won (Heroes)", $QuestWins['OverlordPerc'], "Won (Overlord)"); ?>         
+                      </div>
+                      <div class="col-md-12">
+                        <div class="row text-muted">
+                          <small>
+                            <div class="col-md-5 text-left">
+                              <?php if(isset($sa['selected_monsters_enc1']['loss'])){
+                                echo $sa['selected_monsters_enc1']['loss'];
+                              } ?>
+                            </div>
+                            <div class="col-md-2 text-center">
+                              <strong>Enc 1</strong>
+                            </div>
+                            <div class="col-md-5 text-right">
+                              <?php if(isset($sa['selected_monsters_enc1']['win'])){
+                                echo $sa['selected_monsters_enc1']['win'];
+                              } ?>
+                            </div>
+                          </small>
+                        </div>
+                        <p></p><?php 
+                        if(isset($sa['selected_monsters_enc2']['win']) || isset($sa['selected_monsters_enc2']['loss'])){ ?>
+                          <div class="row text-muted">
+                            <small>
+                              <div class="col-md-5 text-left">
+                                <?php if(isset($sa['selected_monsters_enc2']['loss'])){
+                                  echo $sa['selected_monsters_enc2']['loss'];
+                                } ?>
+                              </div>
+                              <div class="col-md-2 text-center">
+                                <strong>Enc 2</strong>
+                              </div>
+                              <div class="col-md-5 text-right">
+                                <?php if(isset($sa['selected_monsters_enc2']['win'])){
+                                  echo $sa['selected_monsters_enc2']['win'];
+                                } ?>
+                              </div>
+                            </small>
+                          </div>
+                          <p></p><?php
+                        } if (isset($sa['selected_monsters_enc3']['win']) || isset($sa['selected_monsters_enc3']['loss'])){ ?>
+                          <div class="row text-muted">
+                            <small>
+                              <div class="col-md-5 text-left">
+                                <?php if(isset($sa['selected_monsters_enc3']['loss'])){
+                                  echo $sa['selected_monsters_enc3']['loss'];
+                                } ?>
+                              </div>
+                              <div class="col-md-2 text-center">
+                                <strong>Enc 3</strong>
+                              </div>
+                              <div class="col-md-5 text-right">
+                                <?php if(isset($sa['selected_monsters_enc3']['win'])){
+                                  echo $sa['selected_monsters_enc3']['win'];
+                                } ?>
+                              </div>
+                            </small>
+                          </div>
+                          <p></p><?php
+                        } ?>
                       </div>
                     </div>
                   </div>

@@ -129,122 +129,16 @@ do {
 } while ($row_rsMonsters = mysql_fetch_assoc($rsMonsters));
 
 
-// Get the quests
-//$query_rsAllQuests = sprintf("SELECT * FROM tbquests WHERE quest_expansion_id = %s ORDER BY quest_order ASC", GetSQLValueString(0, "int"));
-$query_rsAllQuests = sprintf("SELECT * FROM tbquests LEFT JOIN tbcampaign ON tbquests.quest_expansion_id = tbcampaign.cam_id ORDER BY quest_expansion_id ASC");
-$rsAllQuests = mysql_query($query_rsAllQuests, $dbDescent) or die(mysql_error());
-$row_rsAllQuests = mysql_fetch_assoc($rsAllQuests);
-$totalRows_rsAllQuests = mysql_num_rows($rsAllQuests);
-
-$statsArray = array();
-do {
-
-  // echo '<pre>';
-  // var_dump($row_rsAllQuests);
-  // echo '</pre>';
-
-  // Get the quests
-  // $query_rsEachQuest = sprintf("SELECT *, COUNT(*) FROM tbquests_progress WHERE progress_quest_id = %s ORDER BY COUNT(*)", GetSQLValueString($row_rsAllQuests['quest_id'], "int"));
-  // $rsEachQuest = mysql_query($query_rsEachQuest, $dbDescent) or die(mysql_error());
-  // $row_rsEachQuest = mysql_fetch_assoc($rsEachQuest);
-  // $totalRows_rsEachQuest = mysql_num_rows($rsEachQuest);
-
-  $query_rsEachQuest = sprintf("SELECT * FROM tbquests_progress WHERE progress_quest_id = %s", GetSQLValueString($row_rsAllQuests['quest_id'], "int"));
-  $rsEachQuest = mysql_query($query_rsEachQuest, $dbDescent) or die(mysql_error());
-  $row_rsEachQuest = mysql_fetch_assoc($rsEachQuest);
-  $totalRows_rsEachQuest = mysql_num_rows($rsEachQuest);
-
-  
-
-    $statsArray[$row_rsAllQuests['quest_id']] = array(
-      "quest_name" => $row_rsAllQuests['quest_name'],
-      "quest_campaign" => $row_rsAllQuests['cam_name'],
-      "expansion_id" => $row_rsAllQuests['quest_expansion_id'],
-      "hero_wins" => 0,
-      "overlord_wins" => 0,
-      "count" => 0,
-      "selected_monsters_enc1" => NULL,
-      "selected_monsters_enc2" => NULL,
-    );
+include 'stats_quests_array.php';
 
 
-
-    do {
-
-      if (isset($row_rsEachQuest['progress_quest_winner'])){
-        if ($row_rsEachQuest['progress_quest_winner'] == "Heroes Win"){
-          $statsArray[$row_rsAllQuests['quest_id']]['hero_wins'] += 1;
-          $statsArray[$row_rsAllQuests['quest_id']]['count'] += 1;
-        }
-        if ($row_rsEachQuest['progress_quest_winner'] == "Overlord Wins"){
-          $statsArray[$row_rsAllQuests['quest_id']]['overlord_wins'] += 1;
-          $statsArray[$row_rsAllQuests['quest_id']]['count'] += 1;
-        }
-
-        if ($row_rsEachQuest['progress_enc1_monsters'] != NULL){
-          $statsArray[$row_rsAllQuests['quest_id']]['selected_monsters_enc1'] = $statsArray[$row_rsAllQuests['quest_id']]['selected_monsters_enc1'] . $row_rsEachQuest['progress_enc1_monsters'] . ',';
-        }
-
-        if ($row_rsEachQuest['progress_enc2_monsters'] != NULL){
-          $statsArray[$row_rsAllQuests['quest_id']]['selected_monsters_enc2'] = $statsArray[$row_rsAllQuests['quest_id']]['selected_monsters_enc2'] . $row_rsEachQuest['progress_enc2_monsters'] . ',';
-        }
-      }
-      
-    } while ($row_rsEachQuest = mysql_fetch_assoc($rsEachQuest));
-
-    if ($statsArray[$row_rsAllQuests['quest_id']]['selected_monsters_enc1'] != NULL){
-      $topMonsters_enc1_trim = rtrim($statsArray[$row_rsAllQuests['quest_id']]['selected_monsters_enc1'], ",");
-      $topMonsters_enc1_expl = explode(',',$topMonsters_enc1_trim);
-      $topMonsters_enc1_count = array_count_values($topMonsters_enc1_expl);
-      $topMonsters_enc1 = "";
-
-      $countEnc1 = count(explode(',',$row_rsAllQuests['quest_enc1_monsters']));
-      $i = 0;    
-      foreach ($topMonsters_enc1_count as $key => $value){
-        if ($i < $countEnc1){
-          foreach ($allMonsters as $am){
-            if ($key == $am['id'])
-              $topMonsters_enc1 = $topMonsters_enc1 . $am['name'] . ", ";
-          }
-        }
-        $i++;
-      }
-
-      $topMonsters_enc1 = rtrim($topMonsters_enc1, ", ");
-      $statsArray[$row_rsAllQuests['quest_id']]['selected_monsters_enc1'] = $topMonsters_enc1;
-    }
-
-    if ($statsArray[$row_rsAllQuests['quest_id']]['selected_monsters_enc2'] != NULL){
-      $topMonsters_enc2_trim = rtrim($statsArray[$row_rsAllQuests['quest_id']]['selected_monsters_enc2'], ",");
-      $topMonsters_enc2_expl = explode(',',$topMonsters_enc2_trim);
-      $topMonsters_enc2_count = array_count_values($topMonsters_enc2_expl);
-      $topMonsters_enc2 = "";
-
-      $countEnc2 = count(explode(',',$row_rsAllQuests['quest_enc2_monsters']));
-      $i = 0;    
-      foreach ($topMonsters_enc2_count as $key => $value){
-        if ($i < $countEnc2){
-          foreach ($allMonsters as $am){
-            if ($key == $am['id'])
-              $topMonsters_enc2 = $topMonsters_enc2 . $am['name'] . ", ";
-          }
-        }
-        $i++;
-      }
-
-      $topMonsters_enc2 = rtrim($topMonsters_enc2, ", ");
-      $statsArray[$row_rsAllQuests['quest_id']]['selected_monsters_enc2'] = $topMonsters_enc2;
-    }
-
-} while ($row_rsAllQuests = mysql_fetch_assoc($rsAllQuests));
-
-
-$query_rsTopTravel = sprintf("SELECT travel_aq_event_id, travel_name, travel_id, travel_exp_id, cam_id, cam_name, COUNT(*) as count FROM tbtravel_aquired INNER JOIN tbtravel ON travel_aq_event_id = travel_id INNER JOIN tbcampaign ON travel_exp_id = cam_id GROUP BY travel_name ORDER BY count DESC");
+$query_rsTopTravel = sprintf("SELECT travel_aq_event_id, travel_name, travel_id, travel_exp_id, travel_type, cam_id, cam_name, COUNT(*) as count FROM tbtravel_aquired INNER JOIN tbtravel ON travel_aq_event_id = travel_id INNER JOIN tbcampaign ON travel_exp_id = cam_id GROUP BY travel_name ORDER BY count DESC");
 $rsTopTravel = mysql_query($query_rsTopTravel, $dbDescent) or die(mysql_error());
 $row_rsTopTravel = mysql_fetch_assoc($rsTopTravel);
 $totalRows_rsTopTravel = mysql_num_rows($rsTopTravel);
 
 $topTravel = array();
+$topTravel2 = array();
 $topTravelCount = 0;
 do{
 
@@ -253,19 +147,32 @@ do{
     $tempCam = "All";
   }
 
-  if ($row_rsTopTravel['travel_name'] != "Skipped"){
+  if ($row_rsTopTravel['travel_name'] != "Skipped" && $row_rsTopTravel['travel_name'] != "No Event"){
     $topTravel[] = array(
       "name" => $row_rsTopTravel['travel_name'],
       "cam_name" => $tempCam,
       "count" => $row_rsTopTravel['count'],
     );
+    if($row_rsTopTravel['travel_type'] != "all" && $row_rsTopTravel['travel_type'] != "item"){
+      $topTravel2[$row_rsTopTravel['travel_type']][] = array(
+        "name" => $row_rsTopTravel['travel_name'],
+        "cam_name" => $tempCam,
+        "count" => $row_rsTopTravel['count'],
+      );
+    }
+    
   }
 
-  // if ($row_rsTopTravel['travel_name'] != "No Event" && $row_rsTopTravel['travel_name'] != "Skipped"){
+  if ($row_rsTopTravel['travel_name'] != "No Event" && $row_rsTopTravel['travel_name'] != "Skipped"){
     $topTravelCount = $topTravelCount + $row_rsTopTravel['count'];
-  // }
+  }
 
 } while ($row_rsTopTravel = mysql_fetch_assoc($rsTopTravel));
+
+
+// echo '<pre>';
+// var_dump($topTravel2);
+// echo '</pre>';
 
 ?>
 
@@ -286,12 +193,22 @@ do{
 
       <div class="row">
         <div id="quests" class="col-md-6">
-          <?php include 'stats_quests_data.php'; ?>
+          <?php include 'stats_quests_data_cam.php'; ?>
         </div>
 
+        <div id="quests" class="col-md-6">
+          <?php include 'stats_quests_data.php'; ?>
+        </div> 
+
+      </div><?php
+
+      $i = 0;
+      foreach ($topTravel2 as $key => $tt2){ 
+        if ($i == 0){
+          echo '<div class="row">';
+        }
+        $i++; ?>
         <div class="col-md-6">
-
-
           <div class="row">
             <div class="col-md-12">&nbsp;</div>
           </div>
@@ -299,27 +216,31 @@ do{
             <div class="col-sm-12">
               <div class="panel panel-default">
                 <div class="panel-heading">
-                  <h2 class="panel-title">Most Encountered Travel Steps</h2>
+                  <h2 class="panel-title"><?php echo ucwords($key) . " Travel Steps"; ?></h2>
                 </div>
 
                 <div class="panel-body"><?php
-                  foreach ($topTravel as $tt) { ?>
+                  $topTravelCount2 = 0;
+                  foreach ($tt2 as $ttx) {
+                    $topTravelCount2 += $ttx['count'];
+                  }
+                  foreach ($tt2 as $ttx) { ?>
                     <div class="row stats-row">
                       <div class="col-xs-12"><?php
-                        $TravelPerc = ($tt['count'] / $topTravelCount) * 100; ?>
+                        $TravelPerc2 = ($ttx['count'] / $topTravelCount2) * 100; ?>
 
                         <div class="row"> 
                           <div class="col-md-6"> 
-                            <p><strong><?php echo $tt['name']; ?></strong></p>
+                            <p><strong><?php echo $ttx['name']; ?></strong></p>
                           </div>
                           <div class="col-md-6 text-right"> 
-                            <?php getCampaignLabel($tt['cam_name'], "normal"); ?>
+                            <?php getCampaignLabel($ttx['cam_name'], "normal"); ?>
                           </div>
                         </div>
                         <div class="row"> 
                           <div class="col-md-12">    
                             <div class="progress">
-                              <?php createProgressBar($TravelPerc, "of all Travel Steps", 0, ""); ?>  
+                              <?php createProgressBar($TravelPerc2, "of " . ucwords($key) . " Travel Steps", 0, ""); ?>  
                             </div>
                           </div>
                         </div>
@@ -330,9 +251,13 @@ do{
               </div> 
             </div>
           </div>
-        </div>
+        </div><?php
+        if ($i == 2){
+          echo '</div>';
+          $i = 0;
+        }
+      } ?>
 
-      </div>
     </div>
   </body>
 </html>
