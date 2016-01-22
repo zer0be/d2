@@ -146,9 +146,14 @@ echo '<div class="row">';
             <p>Select Overlord cards to return. <br /><span class="text-muted">(Ignored if the Heroes win.)</span></p>
             <div class="well">
               <div class="row"><?php
-                foreach ($acquiredOptions[$overlordID] as $aqo){
-                  echo $aqo;
-                } ?>
+                if(isset($acquiredOptions[$overlordID])){
+                  foreach ($acquiredOptions[$overlordID] as $aqo){
+                    echo $aqo;
+                  }
+                } else {
+                  echo 'The overlord has no cards to return.';
+                }
+                 ?>
               </div>
             </div><?php
             break;
