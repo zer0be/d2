@@ -82,14 +82,21 @@ foreach ($encounters as $enc){
               $monsterreplace = $am['name'];
             } else if ($mods[3] == "open"){
               $monsterreplace = "an open group";
+            } else if ($mods[3] == 999){
+              $monsterreplace = "not present";
             }
           }
 
           if ($replace == 1){
             if ($me == $mods[1]){
               $specialCheck[$mekey] = $mods[3];
-              $specialMessage[] = '<p>* ' . $monstername . ' has been replaced with ' . $monsterreplace . ' because the heroes won ' . $questname . '.</p>';
+              if ($monsterreplace == "not present"){
+                $specialMessage[] = '<p>* ' . $monstername . ' is not present because the heroes won ' . $questname . '.</p>';
+              } else {
+                $specialMessage[] = '<p>* ' . $monstername . ' has been replaced with ' . $monsterreplace . ' because the heroes won ' . $questname . '.</p>';
+              }
             }
+
           }
 
         }
