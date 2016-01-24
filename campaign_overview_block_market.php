@@ -5,7 +5,7 @@
 			<div class="btn btn-default btn-block" role="button" disabled="disabled">
 				Items
 			</div><?php 
-		} else if ($qs['winner'] != NULL && $qs['spendxp_set'] == 1 && $qs['items_set'] == 0  && $owner == 1){ ?>
+		} else if ($qs['winner'] != NULL && $qs['items_set'] == 0  && $owner == 1){ ?>
 			<a class="btn btn-primary btn-block" role="button" href="campaign_overview_save.php?urlGamingID=<?php echo $gameID_obscured; ?>&part=it">
 				<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Add Items
 			</a><?php 

@@ -4,7 +4,7 @@
 			<div class="btn btn-default btn-block" role="button" disabled="disabled">
 				Skills
 			</div><?php 
-		} else if ($qs['winner'] != NULL && $qs['spendxp_set'] == 0 && $owner == 1){ ?>
+		} else if ($qs['winner'] != NULL && $qs['items_set'] == 1 && $qs['spendxp_set'] == 0 && $owner == 1){ ?>
 			<a class="btn btn-primary btn-block" role="button" href="campaign_overview_save.php?urlGamingID=<?php echo $gameID_obscured; ?>&part=xp&page=skills">
 				<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Add Skills
 			</a><?php 
