@@ -4,3 +4,9 @@
 404.shtml
 500.shtml
 cgi-bin/.htaccess
+items.csv
+items_relics.csv
+skills.csv
+travel.csv
+Connections/dbDescent.php
+common.php
