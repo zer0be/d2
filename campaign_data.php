@@ -665,7 +665,7 @@ do {
 
       } 
 
-      // if an item got traded, a duplicate is created. This is to make sure that it doesn't get displayed in the step it is created in
+      // if an item got traded, a duplicate is created. This code is to make sure that it doesn't get displayed in the step it is created in
       if($row_rsQuestItemsData['aq_item_gottraded'] != 0 && $row_rsQuestItemsData['aq_progress_id'] == $row_rsQuestData['progress_id']){
 
       } else {
@@ -789,12 +789,22 @@ if (isset($_SERVER['QUERY_STRING'])) {
 }
 
 if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "start-quest-form")) {
-  if($_POST['progress_quest_id'] != ""){
-    $type = 'Quest';
+  $postQuestID = "";
+  if (isset($_POST['selectquest'])){
+    if (strpos($_POST['selectquest'],'quest') !== false) {
+      $type = 'Quest';
+      $postQuestID = str_replace("quest","",$_POST['selectquest']);
+    } else {
+      $type = 'Rumor';
+      $postQuestID = str_replace("rumor","",$_POST['selectquest']);
+    }
+  } 
+
+  if($postQuestID != "" && $type == 'Quest'){
     $insertSQL = sprintf("INSERT INTO tbquests_progress (progress_timestamp, progress_game_id,progress_quest_id, progress_quest_type) VALUES (%s, %s, %s, %s)",
                          GetSQLValueString($_POST['progress_timestamp'], "date"),
                          GetSQLValueString($_POST['progress_game_id'], "int"),
-                         GetSQLValueString($_POST['progress_quest_id'], "int"),
+                         GetSQLValueString($postQuestID, "int"),
                          GetSQLValueString($type, "text"));
 
     mysql_select_db($database_dbDescent, $dbDescent);
@@ -861,17 +871,11 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "start-quest-form"))
     }
     header(sprintf("Location: %s", $insertGoTo));
     die("Redirecting to self"); 
-  }
-}
-
-
-if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "start-rumor-form")) {
-  if($_POST['progress_quest_id'] != ""){
-    $type = 'Rumor';
+  } else if($postQuestID != "" && $type == 'Rumor'){
     $insertSQLr = sprintf("INSERT INTO tbquests_progress (progress_timestamp, progress_game_id, progress_quest_id, progress_quest_type) VALUES (%s, %s, %s, %s)",
                          GetSQLValueString($_POST['progress_timestamp'], "date"),
                          GetSQLValueString($_POST['progress_game_id'], "int"),
-                         GetSQLValueString($_POST['progress_quest_id'], "int"),
+                         GetSQLValueString($postQuestID, "int"),
                          GetSQLValueString($type, "text"));
 
     mysql_select_db($database_dbDescent, $dbDescent);
@@ -882,7 +886,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "start-rumor-form"))
                         GetSQLValueString(1, "int"),
                         GetSQLValueString($ResultID, "int"),
                         GetSQLValueString($gameID, "int"),
-                        GetSQLValueString($_POST['progress_quest_id'], "int"));
+                        GetSQLValueString($postQuestID, "int"));
 
     mysql_select_db($database_dbDescent, $dbDescent);
     $Resultrrc = mysql_query($insertSQLrrc, $dbDescent) or die(mysql_error());
@@ -915,6 +919,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "start-rumor-form"))
     die("Redirecting to self"); 
   }
 }
+
 
 // Add rumor cards, if its a quest increase threat with 1
 if (isset($_POST["MM_insert"]) && ($_POST["MM_insert"] == "add-rumor-form")) {

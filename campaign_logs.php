@@ -6,6 +6,8 @@ $rumorsCompleted = array();
 $rumorsCompletedAct2 = array();
 $rumorsExpansion = array();
 
+
+
 // Which quest was by the heroes in act 1 and act 2
 $questsWonByHeroesAct1 = array();
 $questsWonByHeroesAct2 = array();
@@ -40,22 +42,27 @@ foreach ($campaign['quests'] as $qos){
 // Where are we in the Campaign?
 $currentAct = "Act 1";
 $currentActItems = "Act 1";
+$questAct = "Act I";
 
 if (count($questsCompleted) == 4){
   $currentAct = "Interlude";
+  $questAct = "Act I";
 }
 
 if (count($questsCompleted) > 4){
   $currentAct = "Act 2";
+  $questAct = "Act II";
 }
 
 if (count($questsCompleted) > 5 || count($rumorsCompletedAct2) > 0){
   $currentActItems = "Act 2";
+  $questAct = "Act II";
 }
 
 if (count($questsCompleted) > 7){
   $currentAct = "Finale";
   $currentActItems = "Act 2";
+  $questAct = "Act II";
 }
 
 
@@ -68,6 +75,132 @@ if (count($questsCompleted) > 7){
 // echo '<pre>';
 // var_dump ($campaign['quests']);
 // echo '</pre>';
+// 
+
+function setQuestMessage($type, $questid, $required, $act, $diffquest){
+  global $AvailableQuests;
+  global $questsCompleted;
+  $questMessage = "";
+
+  if($type == "act-available"){
+    $questMessage .= "Available because this quest is an " . $act . " quest.";
+  }
+
+  if($type == "introduction-available"){
+    $questMessage .= "Available after the Introduction quest.";
+  }
+
+  if($type == "more-hero-wins-heroes"){
+    $questMessage .= "Available because the Heroes won more than two " . $act . " quests.";
+  }
+  if($type == "more-hero-wins-overlord"){
+     $questMessage .= "Unavailable because the Overlord lost more than two " . $act . " quests.";
+  }
+  if($type == "more-overlord-wins-heroes"){
+    $questMessage .= "Available because the Overlord won more than two " . $act . " quests.";
+  }
+  if($type == "more-overlord-wins-overlord"){
+    $questMessage .= "Unavailable because the Heroes lost more than two " . $act . " quests.";
+  }
+
+  if($type == "heroes-won"){
+    $questMessage .= "Available because the Heroes won ";
+  }
+  if($type == "heroes-lost"){
+    $questMessage .= "Unavailable because the Heroes lost ";
+  }
+  
+  if($type == "overlord-won"){
+    $questMessage .= "Available because the Overlord won ";
+  }
+  if($type == "overlord-lost"){
+    $questMessage .= "Unavailable because the Overlord lost ";
+  }
+
+  if($type == "heroes-won" || $type == "heroes-lost" || $type == "overlord-won" || $type == "overlord-lost"){
+    foreach ($required as $reqs){
+      if (in_array($reqs, $questsCompleted)){
+        $questMessage .= "'<strong>" . $AvailableQuests[$reqs]['quest_name'] . "</strong>'" . ".";
+      }
+    }
+  }
+
+  if($type == "heroes-attempt"){
+    $questMessage .= "Unavailable because the Heroes didn't attempt ";
+  }
+  if($type == "overlord-attempt"){
+    $questMessage .= "Available because the Heroes didn't attempt ";
+  }
+
+  if($type == "heroes-attempt" || $type == "overlord-attempt"){
+    foreach ($required as $reqs){
+      if (!in_array($reqs, $questsCompleted)){
+        $questMessage .= "'<strong>" . $AvailableQuests[$reqs]['quest_name'] . "</strong>'" . ".";
+      }
+    }
+  }
+
+  if($type == "available-after"){
+    $questMessage .= "Available after ";
+    $i = count($required);
+    foreach ($required as $reqs){
+      $questMessage .= "'<strong>" . $AvailableQuests[$reqs]['quest_name'] . "</strong>'";
+      if($i > 2){
+        $questMessage .= ", ";
+      } else if($i == 2){
+        $questMessage .= " or ";
+      } else {
+        $questMessage .= ".";
+      }   
+      $i--;
+    }
+
+  }
+
+  if($type == "available-because"){
+    $questMessage .= "Available because ";
+    $i = count($required);
+    foreach ($required as $reqs){
+      $questMessage .= "'<strong>" . $AvailableQuests[$reqs]['quest_name'] . "</strong>'";
+      if($i > 2){
+        $questMessage .= ", ";
+      } else if($i == 2){
+        $questMessage .= " or ";
+      } else {
+        $questMessage .= " was played.";
+      }   
+      $i--;
+    }
+  }
+
+  if($type == "unavailable-because"){
+    $questMessage .= "Unavailable because ";
+    $i = count($required);
+    foreach ($required as $reqs){
+      $questMessage .= "'<strong>" . $AvailableQuests[$reqs]['quest_name'] . "</strong>'";
+      if($i > 2){
+        $questMessage .= ", ";
+      } else if($i == 2){
+        $questMessage .= " or ";
+      } else {
+        $questMessage .= " was not played.";
+      }   
+      $i--;
+    }
+  }
+
+  if($type == "other-quest"){
+    $questMessage .= "Unavailable because " . "'<strong>" . $AvailableQuests[$diffquest]['quest_name'] . "</strong>'" ." was played.";
+  }
+  if($type == "other-quest-not"){
+    $questMessage .= "Unavailable because " . "'<strong>" . $AvailableQuests[$diffquest]['quest_name'] . "</strong>'" ." was not played.";
+  }
+
+  $AvailableQuests[$questid]['quest_status']['message'] = $questMessage;
+
+}
+
+include 'campaign_rumors.php';
 
 
 
@@ -81,17 +214,68 @@ $totalRows_rsAvQuestList = mysql_num_rows($rsAvQuestList);
 
 $AvailableQuests = array();
 do {
-  $AvailableQuests[] = array(
+
+  $shortl = $row_rsAvQuestList['quest_name'];
+  $shortl = strtolower($shortl);
+  $shortl = str_replace(" ","_",$shortl);
+  $shortl = preg_replace("/[^A-Za-z0-9_]/","",$shortl);
+
+  $AvailableQuests[intval($row_rsAvQuestList['quest_id'])] = array(
     "quest_id" => intval($row_rsAvQuestList['quest_id']),
+    "quest_type" => "quest",
     "quest_name" => $row_rsAvQuestList['quest_name'],
     "quest_act" => $row_rsAvQuestList['quest_act'],
     "quest_req_type" => $row_rsAvQuestList['quest_req_type'],
     "quest_req" => explode(",", $row_rsAvQuestList['quest_req']),
-    );
+    "quest_img" => $shortl . ".jpg",
+    "quest_description" => $row_rsAvQuestList['quest_description'],
+    "quest_status" => array(
+      "available" => 0,
+      "message" => '',
+    ),
+  );
 
 } while ($row_rsAvQuestList = mysql_fetch_assoc($rsAvQuestList));
 
+
+// Available Rumor Quests
+
+$query_rsAvRumorList = sprintf("SELECT * FROM tbquests LEFT JOIN tbcampaign ON quest_expansion_id = cam_id WHERE quest_expansion_id IN ($selExpansions) AND quest_expansion_id != %s AND cam_type != %s AND cam_type != %s ORDER BY quest_order ASC", GetSQLValueString($row_rsGroupCampaign['game_camp_id'], "int"), GetSQLValueString("full", "text"), GetSQLValueString("book", "text"));
+$rsAvRumorList = mysql_query($query_rsAvRumorList, $dbDescent) or die(mysql_error());
+$row_rsAvRumorList = mysql_fetch_assoc($rsAvRumorList);
+$totalRows_rsAvRumorList = mysql_num_rows($rsAvRumorList);
+
+//$availableRumors = array();
+
+do {
+
+  $shortl = $row_rsAvRumorList['quest_name'];
+  $shortl = strtolower($shortl);
+  $shortl = str_replace(" ","_",$shortl);
+  $shortl = preg_replace("/[^A-Za-z0-9_]/","",$shortl);
+
+  $AvailableQuests[intval($row_rsAvRumorList['quest_id'])] = array(
+    "quest_id" => intval($row_rsAvRumorList['quest_id']),
+    "quest_type" => "rumor",
+    "quest_name" => $row_rsAvRumorList['quest_name'],
+    "quest_act" => $row_rsAvRumorList['quest_act'],
+    "quest_req_type" => $row_rsAvRumorList['quest_req_type'],
+    "quest_req" => explode(",", $row_rsAvRumorList['quest_req']),
+    "quest_img" => $shortl . ".jpg",
+    "quest_description" => $row_rsAvRumorList['quest_description'],
+    "quest_status" => array(
+      "available" => 0,
+      "message" => '',
+    ),
+  );
+
+} while ($row_rsAvRumorList = mysql_fetch_assoc($rsAvRumorList));
+
+
 $questOptions = array();
+
+$questSelect = array();
+$questSelectWhy = array();
 
 
 foreach ($AvailableQuests as $aqs) {
@@ -99,665 +283,141 @@ foreach ($AvailableQuests as $aqs) {
 $intersection1 = array_intersect($aqs['quest_req'], $questsWonByHeroesAct1);
 $intersection2 = array_intersect($aqs['quest_req'], $questsWonByHeroesAct2);
 $intersection3 = array_intersect($aqs['quest_req'], $questsCompleted);
-  // ----------------------- //
-  // --- THE SHADOW RUNE --- //
-  // ----------------------- //
-  if ($selCampaign == 0){
-    // filter out completed quests
-    if(!(in_array($aqs['quest_id'], $questsCompleted))){ 
 
-      if ($currentAct == "Act 1"){
-
-        if($aqs['quest_act'] == "Act 1"){
-          // In 'The Shadow Rune' all Act 1 quest can be selected freely
-          $questOptions[] = '<option value="' . $aqs['quest_id'] . '">' . $aqs['quest_name'] . '</option>';
-        }
-
-      } else if ($currentAct == "Interlude"){
-
-        if($aqs['quest_act'] == "Interlude"){
-          // In 'The Shadow Rune', if the heroes win at least 2 quests, they play 'The Shadow Vault' (16), otherwise they play 'The Overlord Revealed' (17)
-          if (count($questsWonByHeroesAct1) >= 2 && $aqs['quest_req_type'] == "Heroes"){
-            $questOptions[] = '<option value="' . $aqs['quest_id'] . '">' . $aqs['quest_name'] . '</option>';
-          } else if (count($questsWonByHeroesAct1) < 2 && $aqs['quest_req_type'] == "Overlord"){
-            $questOptions[] = '<option value="' . $aqs['quest_id'] . '">' . $aqs['quest_name'] . '</option>';
-          }
-        }
-
-      } else if ($currentAct == "Act 2"){
-
-        if($aqs['quest_act'] == "Act 2"){
-          // In 'The Shadow Rune' the Act 2 quests the heroes can select are the 'Hero' follow up ones of the ones they won during Act 1 
-          // + the 'Overlord' follow up quest for those they did not attempt
-          if(!empty($intersection1) && $aqs['quest_req_type'] == "Heroes"){
-            $questOptions[] = '<option value="' . $aqs['quest_id'] . '">' . $aqs['quest_name'] . '</option>';
-          } else if(empty($intersection1) && $aqs['quest_req_type'] == "Overlord"){
-            $questOptions[] = '<option value="' . $aqs['quest_id'] . '">' . $aqs['quest_name'] . '</option>';
-          }
-        }
-
-      } else if ($currentAct == "Finale"){
-
-        if($aqs['quest_act'] == "Finale"){
-          if (count($questsWonByHeroesAct2) >= 2 && $aqs['quest_req_type'] == "Heroes"){
-            $questOptions[] = '<option value="' . $aqs['quest_id'] . '">' . $aqs['quest_name'] . '</option>';
-          } else if (count($questsWonByHeroesAct2) < 2 && $aqs['quest_req_type'] == "Overlord"){
-            $questOptions[] = '<option value="' . $aqs['quest_id'] . '">' . $aqs['quest_name'] . '</option>';
-          }
-        }
-
-      }
-
-    }  // in array end
-
-  } // end selCampaign
+$intersectionH = array_intersect($aqs['quest_req'], $rumorsWonByHeroesAct1);
+$intersectionO = array_intersect($aqs['quest_req'], $rumorsWonByOverlordAct1);
+$intersectionAll = array_intersect($aqs['quest_req'], $rumorsCompleted);
 
 
-  // ------------------------- //
-  // --- LABYRINTH OF RUIN --- //
-  // ------------------------- //
 
-  if ($selCampaign == 2){
-    // filter out completed quests
-    if(!(in_array($aqs['quest_id'], $questsCompleted))){ 
+  // New System //
 
-      if ($currentAct == "Act 1"){
+  if(!(in_array($aqs['quest_id'], $questsCompleted)) && !(in_array($aqs['quest_id'], $rumorsCompleted))){
 
-        if (count($questsCompleted) == 1){
-          // In 'The Labyrinth of Ruin' the players have 2 quests to chose from after the Introduction quest, quests 26 and 27
-          if($aqs['quest_id'] == "26" || $aqs['quest_id'] == "27"){
-            $questOptions[] = '<option value="' . $aqs['quest_id'] . '">' . $aqs['quest_name'] . '</option>';
-          }
-        }
-
-        if(!empty($intersection3)){
+    if($aqs['quest_type'] == "quest"){
 
 
-        // In 'The Labyrinth of Ruin' there are two 'branches' of quests, of which each has 2 unique quests
+      // --- THE SHADOW RUNE --- //
+      include 'campaign_logs_tsr.php';
 
-          if (count($questsCompleted) == 2){
+      // --- LABYRINTH OF RUIN --- //
+      include 'campaign_logs_lor.php';
 
-            if($aqs['quest_req_type'] == "Unique1"){
-              $questOptions[] = '<option value="' . $aqs['quest_id'] . '">' . $aqs['quest_name'] . '</option>';
-            }
+      // --- SHADOW OF NEREKHALL --- //
+      include 'campaign_logs_son.php';
 
-          }
+      // --- HEIRS OF BLOOD --- //
+      include 'campaign_logs_hob.php';
 
-          if (count($questsCompleted) == 3){
+      // --- LAIR OF THE WYRM --- //
+      include 'campaign_logs_lotw.php';
 
-            if($aqs['quest_req_type'] == "Unique2"){
-              $questOptions[] = '<option value="' . $aqs['quest_id'] . '">' . $aqs['quest_name'] . '</option>';
-            }
+      // --- THE TROLLFENS --- //
+      include 'campaign_logs_tf.php';
 
-          }
+      // --- THE TROLLFENS --- //
+      include 'campaign_logs_mor.php';
+
+    } else {
+
+      // -------------------- //
+      // --- RUMOR QUESTS --- //
+      // -------------------- //
+
+      if ($currentAct == "Act 1" || $currentAct == "Interlude"){
+        if(in_array($aqs['quest_id'], $rumorQuestsAv)){
+
+          $AvailableQuests[$aqs['quest_id']]['quest_status']['available'] = 1;
+          $AvailableQuests[$aqs['quest_id']]['quest_status']['message'] = "Available because the card for this Rumor Quest is in play.";
+
+        } else if(in_array($aqs['quest_id'], $rumorQuestsBl)){
+
+          $AvailableQuests[$aqs['quest_id']]['quest_status']['available'] = 0;
+          $AvailableQuests[$aqs['quest_id']]['quest_status']['message'] = "Unavailable because a different card from this expansion has been played.";
+
+        } else {
+
+          $AvailableQuests[$aqs['quest_id']]['quest_status']['available'] = 0;
+          $AvailableQuests[$aqs['quest_id']]['quest_status']['message'] = "Unavailable because the card for this Rumor Quest is not in play.";
 
         }
 
-        // In 'The Labyrinth of Ruin' there are also 2 shared quests between the two branches
-        if (count($questsCompleted) == 2){
-          
-          if($aqs['quest_id'] == 32){
-            $questOptions[] = '<option value="' . $aqs['quest_id'] . '">' . $aqs['quest_name'] . '</option>';
-          }
-
-        }
-
-        if (count($questsCompleted) == 3){
-          if($aqs['quest_id'] == 33){
-            $questOptions[] = '<option value="' . $aqs['quest_id'] . '">' . $aqs['quest_name'] . '</option>';
-          }
-
-        }
-
-      } else if ($currentAct == "Interlude"){
-
-        if($aqs['quest_act'] == "Interlude"){
-          // In 'The Labyrinth of Ruin', The winner of the third Act 1 quest selects the interlude quest
-          $questOptions[] = '<option value="' . $aqs['quest_id'] . '">' . $aqs['quest_name'] . '</option>';
-        }
-
-      } else if ($currentAct == "Act 2"){
-
-        if($aqs['quest_act'] == "Act 2"){
-
-          // In 'The Labyrinth of Ruin' all Act 2 quest can be selected freely
-          $questOptions[] = '<option value="' . $aqs['quest_id'] . '">' . $aqs['quest_name'] . '</option>';
-
-        }
-
-      } else if ($currentAct == "Finale"){
-
-        if($aqs['quest_act'] == "Finale"){
-          if(!empty($intersection2) && $aqs['quest_req_type'] == "Heroes"){
-            $questOptions[] = '<option value="' . $aqs['quest_id'] . '">' . $aqs['quest_name'] . '</option>';
-          } else if(empty($intersection2) && $aqs['quest_req_type'] == "Overlord"){
-            $questOptions[] = '<option value="' . $aqs['quest_id'] . '">' . $aqs['quest_name'] . '</option>';
-          }
-        }
-
-      }
-
-    }  // in array end
-
-  } // end selCampaign
-
-  // --------------------------- //
-  // --- Shadow of Nerekhall --- //
-  // --------------------------- //
-
-  if ($selCampaign == 4){
-    // filter out completed quests
-    if(!(in_array($aqs['quest_id'], $questsCompleted))){ 
-
-      if ($currentAct == "Act 1"){
-
-        if($aqs['quest_act'] == "Act 1"){
-          // In 'Shadow of Nerekhall' all Act 1 quest can be selected freely
-          $questOptions[] = '<option value="' . $aqs['quest_id'] . '">' . $aqs['quest_name'] . '</option>';
-        }
-
-      } else if ($currentAct == "Interlude"){
-
-        if($aqs['quest_act'] == "Interlude"){
-          // In 'Shadow of Nerekhall', if the heroes win at least 2 quests, they play 'The True Enemy' (16), otherwise they play 'The Overlord Revealed' (17)
-          if (count($questsWonByHeroesAct1) >= 2 && $aqs['quest_req_type'] == "Heroes"){
-            $questOptions[] = '<option value="' . $aqs['quest_id'] . '">' . $aqs['quest_name'] . '</option>';
-          } else if (count($questsWonByHeroesAct1) < 2 && $aqs['quest_req_type'] == "Overlord"){
-            $questOptions[] = '<option value="' . $aqs['quest_id'] . '">' . $aqs['quest_name'] . '</option>';
-          }
-        }
-
-      } else if ($currentAct == "Act 2"){
-
-        if($aqs['quest_act'] == "Act 2"){
-
-          if (count($questsCompleted) == 5){
-
-            if($aqs['quest_req_type'] == "Unique1"){
-              $questOptions[] = '<option value="' . $aqs['quest_id'] . '">' . $aqs['quest_name'] . '</option>';
-            }
-
-          }
-
-          if (count($questsCompleted) == 6){
-
-            if($aqs['quest_req_type'] == "Unique2"){
-              $questOptions[] = '<option value="' . $aqs['quest_id'] . '">' . $aqs['quest_name'] . '</option>';
-            }
-
-          }
-
-          if (count($questsCompleted) == 7){
-
-            if($aqs['quest_req_type'] == "Unique3"){
-              $questOptions[] = '<option value="' . $aqs['quest_id'] . '">' . $aqs['quest_name'] . '</option>';
-            }
-
-          }
-        }
-
-      } else if ($currentAct == "Finale"){
-
-        if($aqs['quest_act'] == "Finale"){
-          if(!empty($intersection2) && $aqs['quest_req_type'] == "Heroes"){
-            $questOptions[] = '<option value="' . $aqs['quest_id'] . '">' . $aqs['quest_name'] . '</option>';
-          } else if(empty($intersection1) && $aqs['quest_req_type'] == "Overlord"){
-            $questOptions[] = '<option value="' . $aqs['quest_id'] . '">' . $aqs['quest_name'] . '</option>';
-          }
-        }
-
-      }
-
-    }  // in array end
-
-  } // end selCampaign
-
-  // ----------------------- //
-  // --- Lair of the Wyrm --- //
-  // ----------------------- //
-
-  if ($selCampaign == 1){
-    // filter out completed quests
-    if(!(in_array($aqs['quest_id'], $questsCompleted))){ 
-
-      if ($currentAct == "Act 1"){
-
-        if (count($questsCompleted) == 1){
-          if($aqs['quest_id'] == "20"){
-            $questOptions[] = '<option value="' . $aqs['quest_id'] . '">' . $aqs['quest_name'] . '</option>';
-          }
-        }
-
-        if (count($questsCompleted) == 2){
-          if($aqs['quest_id'] == "21"){
-            $questOptions[] = '<option value="' . $aqs['quest_id'] . '">' . $aqs['quest_name'] . '</option>';
-          }
-        }
-
-        if (count($questsCompleted) == 3){
-          if($aqs['quest_id'] == "22"){
-            $questOptions[] = '<option value="' . $aqs['quest_id'] . '">' . $aqs['quest_name'] . '</option>';
-          }
-        }
-
-      } else {
-
-        if($aqs['quest_act'] == "Act 2"){
-          if(count($questsWonByHeroesAct1) > 2){
-            if($aqs['quest_id'] == "23"){
-              $questOptions[] = '<option value="' . $aqs['quest_id'] . '">' . $aqs['quest_name'] . '</option>';
-            }
-          } else {
-            if($aqs['quest_id'] == "24"){
-              $questOptions[] = '<option value="' . $aqs['quest_id'] . '">' . $aqs['quest_name'] . '</option>';
-            }
-          }
-
-        }
-
-      } 
-
-    }  // in array end
-
-  } // end selCampaign
-
-  // ----------------------- //
-  // --- Lair of the Wyrm --- //
-  // ----------------------- //
-
-  if ($selCampaign == 3){
-    // filter out completed quests
-    if(!(in_array($aqs['quest_id'], $questsCompleted))){ 
-
-      if ($currentAct == "Act 1"){
-
-        if (count($questsCompleted) == 1){
-          if($aqs['quest_id'] == "44"){
-            $questOptions[] = '<option value="' . $aqs['quest_id'] . '">' . $aqs['quest_name'] . '</option>';
-          }
-        }
-
-        if (count($questsCompleted) == 2){
-          if($aqs['quest_id'] == "45"){
-            $questOptions[] = '<option value="' . $aqs['quest_id'] . '">' . $aqs['quest_name'] . '</option>';
-          }
-        }
-
-        if (count($questsCompleted) == 3){
-          if($aqs['quest_id'] == "46"){
-            $questOptions[] = '<option value="' . $aqs['quest_id'] . '">' . $aqs['quest_name'] . '</option>';
-          }
-        }
-
-      } else {
-
-        if($aqs['quest_act'] == "Act 2"){
-          if(count($questsWonByHeroesAct1) > 2){
-            if($aqs['quest_id'] == "48"){
-              $questOptions[] = '<option value="' . $aqs['quest_id'] . '">' . $aqs['quest_name'] . '</option>';
-            }
-          } else {
-            if($aqs['quest_id'] == "47"){
-              $questOptions[] = '<option value="' . $aqs['quest_id'] . '">' . $aqs['quest_name'] . '</option>';
-            }
-          }
-
-        }
-
-      } 
-
-    }  // in array end
-
-  } // end selCampaign
-
-  // ----------------------- //
-  // --- Manor of Ravens --- //
-  // ----------------------- //
-
-  if ($selCampaign == 5){
-    // filter out completed quests
-    if(!(in_array($aqs['quest_id'], $questsCompleted))){ 
-
-      if ($currentAct == "Act 1"){
-
-        if (count($questsCompleted) == 1){
-          if($aqs['quest_id'] == "68"){
-            $questOptions[] = '<option value="' . $aqs['quest_id'] . '">' . $aqs['quest_name'] . '</option>';
-          }
-        }
-
-        if (count($questsCompleted) == 2){
-          if($aqs['quest_id'] == "69"){
-            $questOptions[] = '<option value="' . $aqs['quest_id'] . '">' . $aqs['quest_name'] . '</option>';
-          }
-        }
-
-        if (count($questsCompleted) == 3){
-          if($aqs['quest_id'] == "70"){
-            $questOptions[] = '<option value="' . $aqs['quest_id'] . '">' . $aqs['quest_name'] . '</option>';
-          }
-        }
-
-      } else {
-
-        if($aqs['quest_act'] == "Act 2"){
-          if(!empty($intersection1) && count($questsWonByHeroesAct1) > 2){
-            $questOptions[] = '<option value="' . $aqs['quest_id'] . '">' . $aqs['quest_name'] . '</option>';
-          } else if(empty($intersection1) && count($questsWonByHeroesAct1) < 2 ){
-            $questOptions[] = '<option value="' . $aqs['quest_id'] . '">' . $aqs['quest_name'] . '</option>';
-          }
-
-        }
-
-      } 
-
-    }  // in array end
-
-  } // end selCampaign
-
-  // ---------------------- //
-  // --- HEIRS OF BLOOD --- //
-  // ---------------------- //
-
-  if ($selCampaign == 29){
-    // filter out completed quests
-    if(!(in_array($aqs['quest_id'], $questsCompleted))){ 
-
-      if ($currentAct == "Act 1"){
-
-        if (count($questsCompleted) == 1){
-          if($aqs['quest_id'] == "86" || $aqs['quest_id'] == "87"){
-            $questOptions[] = '<option value="' . $aqs['quest_id'] . '">' . $aqs['quest_name'] . '</option>';
-          }
-        }
-
-        if(!empty($intersection3)){
-
-
-        // In 'The Labyrinth of Ruin' there are two 'branches' of quests, of which each has 2 unique quests
-
-          if (count($questsCompleted) == 2){
-
-            if($aqs['quest_req_type'] == "Unique1"){
-              $questOptions[] = '<option value="' . $aqs['quest_id'] . '">' . $aqs['quest_name'] . '</option>';
-            }
-
-          }
-
-          if (count($questsCompleted) == 3){
-
-            if(!empty($intersection1) && $aqs['quest_req_type'] == "Heroes"){
-              $questOptions[] = '<option value="' . $aqs['quest_id'] . '">' . $aqs['quest_name'] . '</option>';
-            } else if(empty($intersection1) && $aqs['quest_req_type'] == "Overlord"){
-              $questOptions[] = '<option value="' . $aqs['quest_id'] . '">' . $aqs['quest_name'] . '</option>';
-            }
-
-          }
-
-        }
-
-        // In 'The Labyrinth of Ruin' there are also 2 shared quests between the two branches
-        if (count($questsCompleted) == 2){
-          
-          if($aqs['quest_id'] == 89){
-            $questOptions[] = '<option value="' . $aqs['quest_id'] . '">' . $aqs['quest_name'] . '</option>';
-          }
-
-        }
-
-      } else if ($currentAct == "Interlude"){
-
-        if($aqs['quest_act'] == "Interlude"){
-          // In 'The Labyrinth of Ruin', The winner of the third Act 1 quest selects the interlude quest
-          $questOptions[] = '<option value="' . $aqs['quest_id'] . '">' . $aqs['quest_name'] . '</option>';
-        }
-
-      } else if ($currentAct == "Act 2"){
-
-        if($aqs['quest_act'] == "Act 2"){
-
-          if (count($questsCompleted) == 5){
-
-            if($aqs['quest_id'] == "95" || $aqs['quest_id'] == "96"){
-              if(!empty($intersection1) && $aqs['quest_req_type'] == "Heroes"){
-                $questOptions[] = '<option value="' . $aqs['quest_id'] . '">' . $aqs['quest_name'] . '</option>';
-              } else if(empty($intersection1) && $aqs['quest_req_type'] == "Overlord"){
-                $questOptions[] = '<option value="' . $aqs['quest_id'] . '">' . $aqs['quest_name'] . '</option>';
+      } else if ($currentAct == "Act 2") {
+        
+          if($aqs['quest_act'] == "Act 2"){
+
+            //$rumorOptions[] = '<option value="' . $avr['quest_id'] . '">' . $avr['quest_name'] . '</option>';
+            if(!empty($intersectionH) && $aqs['quest_req_type'] == "Heroes"){
+              $AvailableQuests[$aqs['quest_id']]['quest_status']['available'] = 1;
+              $AvailableQuests[$aqs['quest_id']]['quest_status']['message'] = "Available because the Heroes won ";
+              foreach ($aqs['quest_req'] as $reqs){
+                if (in_array($reqs, $rumorsCompleted)){
+                  $AvailableQuests[$aqs['quest_id']]['quest_status']['message'] .= $AvailableQuests[$reqs]['quest_name'] . ".";
+                }     
               }
-            }
-
-          }
-
-          if (count($questsCompleted) == 6){
-
-            if($aqs['quest_id'] == "97" || $aqs['quest_id'] == "98" || $aqs['quest_id'] == "99" || $aqs['quest_id'] == "100"){
-              if(!empty($intersection3)){
-                if(!empty($intersection2) && $aqs['quest_req_type'] == "Heroes"){
-                  $questOptions[] = '<option value="' . $aqs['quest_id'] . '">' . $aqs['quest_name'] . '</option>';
-                } else if(empty($intersection2) && $aqs['quest_req_type'] == "Overlord"){
-                  $questOptions[] = '<option value="' . $aqs['quest_id'] . '">' . $aqs['quest_name'] . '</option>';
-                }
+            } else if(empty($intersectionH) && $aqs['quest_req_type'] == "Heroes"){
+              $AvailableQuests[$aqs['quest_id']]['quest_status']['available'] = 0;
+              $AvailableQuests[$aqs['quest_id']]['quest_status']['message'] = "Unavailable because the Heroes lost ";
+              foreach ($aqs['quest_req'] as $reqs){
+                if (in_array($reqs, $rumorsCompleted)){
+                  $AvailableQuests[$aqs['quest_id']]['quest_status']['message'] .= $AvailableQuests[$reqs]['quest_name'] . ".";
+                }     
               }
-            }
-
+            } else if(!empty($intersectionO) && $aqs['quest_req_type'] == "Overlord"){
+              $AvailableQuests[$aqs['quest_id']]['quest_status']['available'] = 1;
+              $AvailableQuests[$aqs['quest_id']]['quest_status']['message'] = "Available because the Overlord won ";
+              foreach ($aqs['quest_req'] as $reqs){
+                if (in_array($reqs, $rumorsCompleted)){
+                  $AvailableQuests[$aqs['quest_id']]['quest_status']['message'] .= $AvailableQuests[$reqs]['quest_name'] . ".";
+                }     
+              }
+            } else if(empty($intersectionO) && $aqs['quest_req_type'] == "Overlord"){
+              $AvailableQuests[$aqs['quest_id']]['quest_status']['available'] = 0;
+              $AvailableQuests[$aqs['quest_id']]['quest_status']['message'] = "Unavailable because the Overlord lost ";
+              foreach ($aqs['quest_req'] as $reqs){
+                if (in_array($reqs, $rumorsCompleted)){
+                  $AvailableQuests[$aqs['quest_id']]['quest_status']['message'] .= $AvailableQuests[$reqs]['quest_name'] . ".";
+                }     
+              }
+            } else if(!empty($intersectionAll) && $aqs['quest_req_type'] == "All"){
+              $AvailableQuests[$aqs['quest_id']]['quest_status']['available'] = 1;
+              $AvailableQuests[$aqs['quest_id']]['quest_status']['message'] = "Available because it is the follow up to ";
+              foreach ($aqs['quest_req'] as $reqs){
+                if (in_array($reqs, $rumorsCompleted)){
+                  $AvailableQuests[$aqs['quest_id']]['quest_status']['message'] .= $AvailableQuests[$reqs]['quest_name'] . ".";
+                }     
+              }
+            } 
           }
-
-          if (count($questsCompleted) == 7){
-            if($aqs['quest_id'] == "101" || $aqs['quest_id'] == "102"){
-              $questOptions[] = '<option value="' . $aqs['quest_id'] . '">' . $aqs['quest_name'] . '</option>';
-            }
-          }
-
-        }
-
-      } else if ($currentAct == "Finale"){
-
-        if($aqs['quest_act'] == "Finale"){
-          $questOptions[] = '<option value="' . $aqs['quest_id'] . '">' . $aqs['quest_name'] . '</option>';
-        }
 
       }
+      
+    }
 
-    }  // in array end
+  } else {
+    if($aqs['quest_type'] == "quest"){
+      $AvailableQuests[$aqs['quest_id']]['quest_status']['available'] = 0;
+      $AvailableQuests[$aqs['quest_id']]['quest_status']['message'] = "This quest has already been completed.";
+    } else {
+      $AvailableQuests[$aqs['quest_id']]['quest_status']['available'] = 0;
+      $AvailableQuests[$aqs['quest_id']]['quest_status']['message'] = "This rumor has already been completed.";
+    }
+    
 
-  } // end selCampaign
-
+  }
 
 } // foreach end
 
-// Available Rumor Cards
 
-$query_rsAvRumorCards = sprintf("SELECT * FROM tbrumors LEFT JOIN tbcampaign ON rumor_exp_id = cam_id WHERE rumor_exp_id IN ($selExpansions) AND rumor_exp_id != %s ORDER BY rumor_name ASC", GetSQLValueString($row_rsGroupCampaign['game_camp_id'], "int"));
-$rsAvRumorCards = mysql_query($query_rsAvRumorCards, $dbDescent) or die(mysql_error());
-$row_rsAvRumorCards = mysql_fetch_assoc($rsAvRumorCards);
-$totalRows_rsAvRumorCards = mysql_num_rows($rsAvRumorCards);
-
-$availableRumorCards = array();
-$rumorsInPlayData = array();
-$rumorsDoneData = array();
-$blockedRumors = array();
-
-do {
-  $availableRumorCards[] = array(
-    "rumor_id" => intval($row_rsAvRumorCards['rumor_id']),
-    "rumor_name" => $row_rsAvRumorCards['rumor_name'],
-    "rumor_quest_id" => $row_rsAvRumorCards['rumor_quest_id'],
-    "rumor_exp_id" => $row_rsAvRumorCards['rumor_exp_id'],
-    "rumor_act" => $row_rsAvRumorCards['rumor_act'],
-    "rumor_type" => $row_rsAvRumorCards['rumor_type'],
-    "rumor_step" => $row_rsAvRumorCards['rumor_step'],
-  );
-
-  if(in_array($row_rsAvRumorCards['rumor_id'], $rumorsInPlay)){
-    $rumorsInPlayData[] = array(
-      "rumor_id" => intval($row_rsAvRumorCards['rumor_id']),
-      "rumor_name" => $row_rsAvRumorCards['rumor_name'],
-      "rumor_quest_id" => $row_rsAvRumorCards['rumor_quest_id'],
-      "rumor_exp_id" => $row_rsAvRumorCards['rumor_exp_id'],
-      "rumor_act" => $row_rsAvRumorCards['rumor_act'],
-      "rumor_type" => $row_rsAvRumorCards['rumor_type'],
-    );
-  }
-
-  if(in_array($row_rsAvRumorCards['rumor_id'], $rumorsDone)){
-    $rumorsDoneData[] = array(
-      "rumor_id" => intval($row_rsAvRumorCards['rumor_id']),
-      "rumor_name" => $row_rsAvRumorCards['rumor_name'],
-      "rumor_quest_id" => $row_rsAvRumorCards['rumor_quest_id'],
-      "rumor_exp_id" => $row_rsAvRumorCards['rumor_exp_id'],
-      "rumor_act" => $row_rsAvRumorCards['rumor_act'],
-      "rumor_type" => $row_rsAvRumorCards['rumor_type'],
-    );
-  }
-
-  $tempBlocked = explode(",", $row_rsAvRumorCards['rumor_blocks']);
-
-  if(in_array($row_rsAvRumorCards['rumor_id'], $rumorsInPlay) || in_array($row_rsAvRumorCards['rumor_id'], $rumorsDone)){
-    foreach ($tempBlocked as $tb){
-      if ($tb != NULL){
-        $blockedRumors[] = $tb; 
-      }
-    }
-  }
-
-} while ($row_rsAvRumorCards = mysql_fetch_assoc($rsAvRumorCards));
 
 // echo '<pre>';
-// var_dump($availableRumorCards);
+// var_dump($AvailableQuests);
 // echo '</pre>';
 
 // echo '<pre>';
-// var_dump($blockedRumors);
+// var_dump($campaign['quests']);
 // echo '</pre>';
 
-foreach ($availableRumorCards as $avc) {
-  if(!(in_array($avc['rumor_id'], $rumorsInPlay)) && !(in_array($avc['rumor_id'], $rumorsDone))){
-    if(!(in_array($avc['rumor_id'], $blockedRumors))){
-      if ($currentAct == $avc['rumor_act'] || ($currentAct == "Act 1" &&  $avc['rumor_act'] == "Interlude") || $avc['rumor_act'] == "All"){
-        // if($campaign['quests'][0]['items_set'] == 1 && $campaign['quests'][0]['spendxp_set'] == 1 && $avc['rumor_step'] == "Start"){
-        //   $rumorCardOptions[] = '<option value="' . $avc['rumor_id'] . '">' . $avc['rumor_name'] . '</option>';
+// var_dump($rumorsCompleted);
 
-        // } else 
-        if($campaign['quests'][0]['winner'] != NULL){
-          //if items arent set and the rumor targets the items step
-          if ($campaign['quests'][0]['items_set'] != 1 && $avc['rumor_step'] == "Items"){
-            $rumorCardOptions[] = '<option value="' . $avc['rumor_id'] . '">' . $avc['rumor_name'] . '</option>';
-          }
-          //
-          if ($avc['rumor_step'] == "Start" && $currentAct != "Interlude"){
-            $rumorCardOptions[] = '<option value="' . $avc['rumor_id'] . '">' . $avc['rumor_name'] . '</option>';
-          }
-          // if (($campaign['quests'][0]['items_set'] != 1 && $campaign['quests'][0]['spendxp_set'] != 1) && ($avc['rumor_step'] == "Start")){
-          //   $rumorCardOptions[] = '<option value="' . $avc['rumor_id'] . '">' . $avc['rumor_name'] . '</option>';
-          // }
-          // if (($campaign['quests'][0]['items_set'] != 1 || $campaign['quests'][0]['spendxp_set'] != 1) && $avc['rumor_type'] == "Quest"){
-          //   $rumorCardOptions[] = '<option value="' . $avc['rumor_id'] . '">' . $avc['rumor_name'] . '</option>';
-          // }
-
-        } else {
-          if ($avc['rumor_step'] == "Details"){
-            if($campaign['quests'][0]['travel_set'] == 1 && $campaign['quests'][0]['act'] != "Introduction"){
-              $rumorCardOptions[] = '<option value="' . $avc['rumor_id'] . '">' . $avc['rumor_name'] . '</option>';
-            }
-          }
-          
-          else if($campaign['quests'][0]['act'] != "Introduction" && $campaign['quests'][0]['travel_set'] == 0 && $avc['rumor_step'] == "Travel"){
-            $rumorCardOptions[] = '<option value="' . $avc['rumor_id'] . '">' . $avc['rumor_name'] . '</option>';
-          }
-        }
-      }
-    }
-  }
-}
-
-// Available Rumor Quests
-
-$query_rsAvRumorList = sprintf("SELECT * FROM tbquests LEFT JOIN tbcampaign ON quest_expansion_id = cam_id WHERE quest_expansion_id != %s AND cam_type != %s ORDER BY quest_order ASC", GetSQLValueString($row_rsGroupCampaign['game_camp_id'], "int"), GetSQLValueString("full", "text"));
-$rsAvRumorList = mysql_query($query_rsAvRumorList, $dbDescent) or die(mysql_error());
-$row_rsAvRumorList = mysql_fetch_assoc($rsAvRumorList);
-$totalRows_rsAvRumorList = mysql_num_rows($rsAvRumorList);
-
-$availableRumors = array();
-
-do {
-  $availableRumors[] = array(
-    "quest_id" => intval($row_rsAvRumorList['quest_id']),
-    "quest_name" => $row_rsAvRumorList['quest_name'],
-    "quest_expansion_id" => $row_rsAvRumorList['quest_expansion_id'],
-    "quest_act" => $row_rsAvRumorList['quest_act'],
-    "quest_req_type" => $row_rsAvRumorList['quest_req_type'],
-    "quest_req" => explode(",", $row_rsAvRumorList['quest_req']),
-    );
-} while ($row_rsAvRumorList = mysql_fetch_assoc($rsAvRumorList));
-
-if ($currentAct == "Act 1" || $currentAct == "Interlude"){
-  foreach ($availableRumorCards as $avc){
-    if(in_array($avc['rumor_id'], $rumorsInPlay)){
-      foreach ($availableRumors as $avr) {
-        if ($avr['quest_id'] == $avc['rumor_quest_id']){
-          $rumorOptions[] = '<option value="' . $avr['quest_id'] . '">' . $avr['quest_name'] . '</option>';
-        }
-      }
-    }
-  }
-} else if ($currentAct == "Act 2") {
-  $query_rsRumorsAdvanced = sprintf("SELECT * FROM tbrumors_played INNER JOIN tbrumors ON played_rumor_id = rumor_id WHERE played_game_id = %s AND played_rumor_quest_id is not null", 
-                    GetSQLValueString($gameID, "int"));
-  $rsRumorsAdvanced = mysql_query($query_rsRumorsAdvanced, $dbDescent) or die(mysql_error());
-  $row_rsRumorsAdvanced = mysql_fetch_assoc($rsRumorsAdvanced);
-
-  do{
-    if(!in_array($row_rsRumorsAdvanced['rumor_quest_id'], $rumorsCompleted)){
-      $rumorsWonByOverlordAct1[] = $row_rsRumorsAdvanced['rumor_quest_id'];
-      $rumorsCompleted[] = $row_rsRumorsAdvanced['rumor_quest_id'];
-    }
-
-  } while ($row_rsRumorsAdvanced = mysql_fetch_assoc($rsRumorsAdvanced));
-
-  foreach ($availableRumors as $avr) {
-    $intersection1 = array_intersect($avr['quest_req'], $rumorsWonByHeroesAct1);
-    $intersectionO = array_intersect($avr['quest_req'], $rumorsWonByOverlordAct1);
-    $intersectionAll = array_intersect($avr['quest_req'], $rumorsCompleted);
-
-
-    if($avr['quest_act'] == "Act 2"){
-
-      //$rumorOptions[] = '<option value="' . $avr['quest_id'] . '">' . $avr['quest_name'] . '</option>';
-      
-      if(!empty($intersection1) && $avr['quest_req_type'] == "Heroes"){
-        $rumorOptions[] = '<option value="' . $avr['quest_id'] . '">' . $avr['quest_name'] . '</option>';
-      } else if(!empty($intersectionO) && $avr['quest_req_type'] == "Overlord"){
-        $rumorOptions[] = '<option value="' . $avr['quest_id'] . '">' . $avr['quest_name'] . '</option>';
-      } else if(!empty($intersectionAll) && $avr['quest_req_type'] == "All"){
-        $rumorOptions[] = '<option value="' . $avr['quest_id'] . '">' . $avr['quest_name'] . '</option>';
-      } 
-    }
-
-  }
-
-  
-}
-
-
-
-
-
-
-// foreach ($availableRumors as $avr) {
-//   if(in_array($avr['quest_id'], $rumorsInPlay)){
-//     if ($currentAct == "Act 1"){
-//       if($avr['quest_act'] == "Act 1"){
-//         if(!(in_array($avr['quest_expansion_id'], $rumorsExpansion))){
-//           $rumorOptions[] = '<option value="' . $avr['quest_id'] . '">' . $avr['quest_name'] . '</option>';
-//         }
-//       } 
-//     } 
-//     else if ($currentAct == "Act 1"){
-//       if($avr['quest_act'] == "Finale"){
-//         $rumorOptions[] = '<option value="' . $avr['quest_id'] . '">' . $avr['quest_name'] . '</option>';
-//       } 
-//     }
-//   }
-// }
-                  
 ?>
