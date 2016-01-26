@@ -70,6 +70,12 @@ if (isset($_GET['urlGgrp'])) {
   $urlGgrp = $_GET['urlGgrp'];
 }
 
+if (isset($_GET['letter'])) {
+  $currentletter = $_GET['letter'];
+} else {
+  $currentletter = "A";
+}
+
 mysql_select_db($database_dbDescent, $dbDescent);
 
 
@@ -157,10 +163,15 @@ do {
 
 $groupName = array_unique($groupName);
 
+$usedLetters = array();
+foreach ($groupName as $gn){ 
+  $firstletter = substr($gn, 0, 1);
+  $firstletter = strtoupper($firstletter);
+  $usedLetters[] = $firstletter;
+}
+$usedLetters = array_unique($usedLetters);
 
-
-
-
+$abc = array("0-9-?","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z");
 
 ?>
 
@@ -188,7 +199,21 @@ $groupName = array_unique($groupName);
       <div><?php
         if ($view == "all"){ ?>
           <h1 class="gaming-group">All Campaigns</h1>
-          <p class="top-lead lead text-muted">An overview of all gaming groups and their campaigns.</p><?php
+          <p class="top-lead lead text-muted">An overview of all gaming groups and their campaigns.</p>
+          <nav>
+            <ul class="pagination pagination-sm"><?php
+              foreach ($abc as $letter){
+                echo '<li ';
+                if ($letter == $currentletter){
+                  echo 'class="active"';
+                }
+                if (!in_array($letter, $usedLetters) && $letter != "0-9-?"){
+                  echo 'class="disabled"';
+                }
+                echo '><a href="mycampaigns.php?view=all&letter='. $letter . '">' . $letter . '</a></li>';
+              } ?>
+            </ul>
+          </nav><?php
         } else if ($view == "group"){ ?>
           <h1 class="gaming-group"><?php echo $groupName[0] ?>'s Campaigns</h1>
           <p class="top-lead lead text-muted">An overview of the campaigns played by <?php echo $groupName[0] ?>.</p><?php
@@ -201,134 +226,138 @@ $groupName = array_unique($groupName);
       <div class="row">&nbsp;</div>
 
       <?php
-      foreach ($groupName as $gn){ ?>
-        <div class="row campaigns-overview">
-          <div class="col-xs-12">
-            <div class="panel panel-default">
-              <div class="panel-heading">
-                <h2 class="panel-title"><?php echo $gn; ?></h2>
-              </div>
-              <div class="panel-body">
-                <div class="row hidden-xs">
-                  <div class="col-sm-5">
-                    <div class="row">
-                      <div class="col-sm-6">
-                        <strong>Heroes</strong>
-                      </div>
-                      <div class="col-sm-6">
-                        <strong>Campaign</strong>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-sm-2">
-                    <div class="row">
-                      <div class="col-sm-6">
-                        <strong>Started</strong>
-                      </div>
-                      <div class="col-sm-6">
-                        <strong>Updated</strong>
-                      </div>
-
-                    </div>
-                  </div>
-                  
-                  <div class="col-sm-5">
-                    <div class="row">
-                      <div class="col-sm-2 text-center">
-                          <strong>Quests</strong>
-                        </div>
-                      <div class="col-sm-10">
-                        <strong>Expansions</strong>
-                      </div>
-                    </div>
-                  </div>
+      foreach ($groupName as $gn){ 
+        $firstletter = substr($gn, 0, 1);
+        $firstletter = strtoupper($firstletter);
+        if($view != "all" || $firstletter == $currentletter || ($currentletter == "0-9-?" && !in_array($firstletter, $abc))){ ?>
+          <div class="row campaigns-overview">
+            <div class="col-xs-12">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h2 class="panel-title"><?php echo $gn; ?></h2>
                 </div>
+                <div class="panel-body">
+                  <div class="row hidden-xs">
+                    <div class="col-sm-5">
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <strong>Heroes</strong>
+                        </div>
+                        <div class="col-sm-6">
+                          <strong>Campaign</strong>
+                        </div>
+                      </div>
+                    </div>
 
-
-
-                <?php
-
-                  foreach ($getCampaigns as $gc){
-                    if ($gc['grp_name'] == $gn){?>
-
-                      <div class="row campaign-row">
-                        <div class="col-sm-5">
-                          <div class="row">
-                            <div class="col-sm-6"><?php
-                              foreach ($gc['players'] as $h){ ?>
-                                <img src="img/heroes/mini_<?php print $h['img'];?>" /><?php
-                              } //close foreach
-
-                              for ($x = count($gc['players']); $x < 5; $x++){ ?>
-                                <img src="img/heroes/mini_nohero.jpg" /><?php 
-                              } ?>
-                            </div>
-
-                            <div class="col-sm-6 text-margin">
-                              <a href="campaign_overview.php?urlGamingID=<?php echo ($gc['game_id'] * 43021); ?>"><strong><?php echo $gc['campaign']; ?></strong></a>
-                            </div>
-                          </div>
+                    <div class="col-sm-2">
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <strong>Started</strong>
+                        </div>
+                        <div class="col-sm-6">
+                          <strong>Updated</strong>
                         </div>
 
-                        <div class="col-sm-2 text-margin">
-                          <div class="row hidden-xs">
-
-                            <div class="col-sm-6"><?php 
-                                $grpTimestamp = strtotime($gc['date']); 
-                                $grpDate = date('d/m/Y', $grpTimestamp);
-                                $grpTime = date('h:m:s', $grpTimestamp);
-                                echo $grpDate; ?>
-                            </div>
-
-                            <div class="col-sm-6"><?php 
-                              $grpTimestamp = strtotime($gc['last_date']); 
-                              $grpDate2 = date('d/m/Y', $grpTimestamp);
-                              $grpTime2 = date('h:m:s', $grpTimestamp);
-                              echo $grpDate2; ?>
-                            </div>
-
+                      </div>
+                    </div>
+                    
+                    <div class="col-sm-5">
+                      <div class="row">
+                        <div class="col-sm-2 text-center">
+                            <strong>Quests</strong>
                           </div>
-                          <span class="visible-xs-inline">
-                            <strong>Started: </strong><?php echo $grpDate; ?><br />
-                            <strong>Updated: </strong><?php echo $grpDate2; ?>
-                          </span>
-
+                        <div class="col-sm-10">
+                          <strong>Expansions</strong>
                         </div>
+                      </div>
+                    </div>
+                  </div>
 
-                        <div class="col-sm-5">
-                          <span class="visible-xs-inline"><strong>Quests: </strong><?php echo $gc['quest_amount']; ?></span>
-                          <div class="row">
-                            <div class="col-sm-2 text-margin text-center hidden-xs">
-                              <?php echo $gc['quest_amount']; ?>
-                            </div>
-                            <div class="col-sm-8">
-                              <small>
-                                <?php foreach ($gc['expansions'] as $exp){
-                                  getCampaignLabel($exp, "mini");
-                                  echo ' ';
+
+
+                  <?php
+
+                    foreach ($getCampaigns as $gc){
+                      if ($gc['grp_name'] == $gn){?>
+
+                        <div class="row campaign-row">
+                          <div class="col-sm-5">
+                            <div class="row">
+                              <div class="col-sm-6"><?php
+                                foreach ($gc['players'] as $h){ ?>
+                                  <img src="img/heroes/mini_<?php print $h['img'];?>" /><?php
+                                } //close foreach
+
+                                for ($x = count($gc['players']); $x < 5; $x++){ ?>
+                                  <img src="img/heroes/mini_nohero.jpg" /><?php 
                                 } ?>
-                              </small>
-                            </div>
+                              </div>
 
-                            <div class="col-sm-2 text-margin text-center"><?php
-                              if ($view == "mine"){ ?>
-                                <a title="Delete Campaign" href="mycampaigns_delete.php?urlGamingID=<?php echo $gc['game_id']; ?>"><span class="glyphicon glyphicon-remove-sign text-muted" aria-hidden="true"></span></a><?php
-                              } ?>
+                              <div class="col-sm-6 text-margin">
+                                <a href="campaign_overview.php?urlGamingID=<?php echo ($gc['game_id'] * 43021); ?>"><strong><?php echo $gc['campaign']; ?></strong></a>
+                              </div>
                             </div>
                           </div>
-                        </div>
+
+                          <div class="col-sm-2 text-margin">
+                            <div class="row hidden-xs">
+
+                              <div class="col-sm-6"><?php 
+                                  $grpTimestamp = strtotime($gc['date']); 
+                                  $grpDate = date('d/m/Y', $grpTimestamp);
+                                  $grpTime = date('h:m:s', $grpTimestamp);
+                                  echo $grpDate; ?>
+                              </div>
+
+                              <div class="col-sm-6"><?php 
+                                $grpTimestamp = strtotime($gc['last_date']); 
+                                $grpDate2 = date('d/m/Y', $grpTimestamp);
+                                $grpTime2 = date('h:m:s', $grpTimestamp);
+                                echo $grpDate2; ?>
+                              </div>
+
+                            </div>
+                            <span class="visible-xs-inline">
+                              <strong>Started: </strong><?php echo $grpDate; ?><br />
+                              <strong>Updated: </strong><?php echo $grpDate2; ?>
+                            </span>
+
+                          </div>
+
+                          <div class="col-sm-5">
+                            <span class="visible-xs-inline"><strong>Quests: </strong><?php echo $gc['quest_amount']; ?></span>
+                            <div class="row">
+                              <div class="col-sm-2 text-margin text-center hidden-xs">
+                                <?php echo $gc['quest_amount']; ?>
+                              </div>
+                              <div class="col-sm-8">
+                                <small>
+                                  <?php foreach ($gc['expansions'] as $exp){
+                                    getCampaignLabel($exp, "mini");
+                                    echo ' ';
+                                  } ?>
+                                </small>
+                              </div>
+
+                              <div class="col-sm-2 text-margin text-center"><?php
+                                if ($view == "mine"){ ?>
+                                  <a title="Delete Campaign" href="mycampaigns_delete.php?urlGamingID=<?php echo $gc['game_id']; ?>"><span class="glyphicon glyphicon-remove-sign text-muted" aria-hidden="true"></span></a><?php
+                                } ?>
+                              </div>
+                            </div>
+                          </div>
 
 
-                      </div><?php
+                        </div><?php
 
-                    }
-                  } ?>
+                      }
+                    } ?>
 
+                </div>
               </div>
             </div>
-          </div>
-        </div><?php
+          </div><?php
+        }
       } ?>
       </div>  
     </div>
