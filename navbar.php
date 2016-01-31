@@ -54,6 +54,7 @@
             <li><a href="stats_items.php">Item Stats</a></li>
             <li><a href="stats_search.php">Search Stats</a></li>
             <li><a href="stats_monsters.php">Monster Stats</a></li>
+            <li><a href="stats_travel.php">Travel Stats</a></li>
           </ul>
         </li>
       </ul><?php

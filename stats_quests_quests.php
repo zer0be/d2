@@ -108,9 +108,7 @@ function questStats($statsArray, $expansion_id){
 
   }
 
-}
-
-?>
+} ?>
 <div class="row">&nbsp;</div>
 
 <div class="panel panel-default">
@@ -232,23 +230,19 @@ function questStats($statsArray, $expansion_id){
         </div>
                 
         <div role="tabpanel" class="tab-pane fade" id="tsr"><?php
-          questStats($statsArray, 0);
-          ?>
+          questStats($statsArray, 0); ?>
         </div>
 
         <div role="tabpanel" class="tab-pane fade" id="lor"><?php
-          questStats($statsArray, 2);
-          ?>
+          questStats($statsArray, 2); ?>
         </div>
                 
         <div role="tabpanel" class="tab-pane fade" id="son"><?php
-          questStats($statsArray, 4);
-          ?>
+          questStats($statsArray, 4); ?>
         </div>
 
         <div role="tabpanel" class="tab-pane fade" id="hob"><?php
-          questStats($statsArray, 29);
-          ?>
+          questStats($statsArray, 29); ?>
         </div>
                 
         <div role="tabpanel" class="tab-pane fade" id="other"><?php
@@ -344,18 +338,12 @@ function questStats($statsArray, $expansion_id){
                       </div>
                     </div>
                   </div>
-                </div>
-
-
-
-                <?php
+                </div><?php
               }
             }  
           } ?>
         </div>
-
       </div>
     </div>
-
   </div>
 </div> 

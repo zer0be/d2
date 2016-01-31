@@ -57,8 +57,6 @@ function getCampaignLabel($var, $view){
   }
 
   echo '<span class="label ' . $camClass . '">' . $acronym . '</span>';
-  // $return = '<span class="label ' . $camClass . '">' . $acronym . '</span>';
-  // return $return;
 
 }
 
