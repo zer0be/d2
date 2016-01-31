@@ -22,7 +22,6 @@ include 'includes/function_createProgressBar.php';
     include 'head.php'; ?>
 	</head>
 	<body>
-		<!-- <div id="toolbar"></div> -->
 		<?php 
 			include 'navbar.php';
 			include 'banner.php'; 

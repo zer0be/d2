@@ -1,8 +1,5 @@
 <?php
 
-
-
-
 //-----------------------//
 //remove me after include//
 //-----------------------//
@@ -38,7 +35,6 @@ if ($row_rsGroupList["grp_startedby"] != $_SESSION['user']['id']) {
   header("Location: mygroups.php");
   die("Redirecting to mygroups.php");
 }
-
 
 do {
 

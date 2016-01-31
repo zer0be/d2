@@ -4,6 +4,7 @@ if (!isset($_SESSION)) {
   session_start();
 }
 
+// check if the user needs to be logged in to see this.
 include 'includes/protected_page.php';
 
 ?>

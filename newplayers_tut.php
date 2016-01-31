@@ -19,6 +19,8 @@ if (!isset($_SESSION)) {
 include 'includes/function_logout.php';
 include 'includes/function_getSQLValueString.php';
 
+mysql_select_db($database_dbDescent, $dbDescent);
+
 $editFormAction = $_SERVER['PHP_SELF'];
 
 if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "formAddPlayer")) {
@@ -31,8 +33,6 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "formAddPlayer")) {
   $Result1 = mysql_query($insertSQL, $dbDescent) or die(mysql_error());
   //header("Location: index.php");
 }
-
-mysql_select_db($database_dbDescent, $dbDescent);
 
 $query_rsGroupList = sprintf("SELECT * FROM tbgroup WHERE grp_startedby = %s", GetSQLValueString($_SESSION['user']['id'], "int"));
 $rsGroupList = mysql_query($query_rsGroupList, $dbDescent) or die(mysql_error());
