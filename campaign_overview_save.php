@@ -70,6 +70,7 @@ $_SESSION['verify_values'] = array(
   "search_cards" => NULL,
   "threat" => array(),
   "yesno" => array("yes","no"),
+  "time" => array(0,30,60,90,120,150,180,240,300,360,999),
 );
 
 

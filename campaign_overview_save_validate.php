@@ -235,6 +235,12 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "quest-details-form"
     $noError = 0; 
   }
 
+  if (isset($_POST['progress_quest_time']) && !in_array($_POST['progress_quest_time'], $_SESSION['verify_values']['time'])){
+    $_SESSION["errorcode"][] = "Illegal value submitted for 'Quest time' selection.";
+    $noError = 0; 
+
+  }
+
   if (!isset($_POST['progress_quest_winner']) || !in_array($_POST['progress_quest_winner'], $_SESSION['verify_values']['winner'])){
     $_SESSION["errorcode"][] = "Illegal value submitted for 'Quest Winner' selection.";
     $noError = 0; 
@@ -397,7 +403,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "quest-details-form"
 
 
   if ($UniqueS == 1 && $SearchItem == 1 && $SecretRoomItem == 1 && $duplicateItem == 1){
-      $insertSQL = sprintf("UPDATE tbquests_progress SET progress_quest_winner = %s, progress_enc1_winner = %s, progress_enc2_winner = %s, progress_enc1_monsters = %s, progress_enc2_monsters = %s, progress_enc3_monsters = %s, progress_relic_char = %s WHERE progress_quest_id = %s AND progress_game_id = %s",
+      $insertSQL = sprintf("UPDATE tbquests_progress SET progress_quest_winner = %s, progress_enc1_winner = %s, progress_enc2_winner = %s, progress_enc1_monsters = %s, progress_enc2_monsters = %s, progress_enc3_monsters = %s, progress_relic_char = %s, progress_quest_time = %s WHERE progress_quest_id = %s AND progress_game_id = %s",
                            GetSQLValueString($_POST['progress_quest_winner'], "text"),
                            GetSQLValueString($_POST['progress_enc1_winner'], "text"),
                            GetSQLValueString($_POST['progress_enc2_winner'], "text"),
@@ -405,6 +411,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "quest-details-form"
                            GetSQLValueString($val_encounter2Monsters, "text"),
                            GetSQLValueString($val_encounter3Monsters, "text"),
                            GetSQLValueString($val_relicRecipiant, "int"),
+                           GetSQLValueString($_POST['progress_quest_time'], "int"),
                            GetSQLValueString($qID, "int"),
                            GetSQLValueString($gameID, "int"));
 

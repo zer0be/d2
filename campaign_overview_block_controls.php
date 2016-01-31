@@ -74,18 +74,14 @@ if ($owner == 1){
               <div class="col-sm-4">
                 <input type="submit" value="Start selected quest" class="btn btn-block btn-info form-control" />
               </div>
-            </div>
-
-
-
-            <?php
+            </div><?php
 
             $minicampaigns = array(1,3,5);
 
             $ir = 0;
             foreach ($AvailableQuests as $aqs){ 
               // Show only the quest for this act
-              if ($aqs['quest_act'] == $currentAct || (in_array($selCampaign,$minicampaigns) && ($aqs['quest_act'] == "Act 2" && $currentAct == "Interlude" )) ){
+              if ($aqs['quest_act'] == $currentAct || (in_array($selCampaign,$minicampaigns) && ($aqs['quest_act'] == "Act 2" && $currentAct == "Interlude" )) || ($aqs['quest_type'] == "rumor" && $aqs['quest_status']['available'] == 1 && $currentAct == "Interlude")  ){
 
                 // Check if the image for the quest exists, if not, use default
                 $filename = "img/quests/" . $aqs['quest_img'];
@@ -112,8 +108,6 @@ if ($owner == 1){
                 } 
                 $ir++; ?>
 
-                    
-
                       <div class="col-md-4" <?php echo $opacity; ?> >
 
                         <div class="row no-gutters" style="background: #f9f9f9; border: 1px solid #ddd;">
@@ -127,8 +121,82 @@ if ($owner == 1){
                                 <small><?php echo $aqs['quest_status']['message']; ?></small>
                               </p>
                             </small>
-                            <small class="text-muted"><span class="glyphicon glyphicon-time" aria-hidden="true"></span> 30 min - 1 hour</small>
-                            <p><small><?php print $aqs['quest_description']; ?></small></p>
+                            <small class="text-muted">
+                              <span class="glyphicon glyphicon-time" aria-hidden="true"></span><?php
+                              echo " ";
+                              foreach ($statsArray as $sta){
+                                if($sta['quest_name'] == $aqs['quest_name']){
+                                  $timeNames = array(
+                                    "0" => "Unknown",
+                                    "30" => "30 minutes",
+                                    "60" => "1 hour",
+                                    "90" => "1 hour and 30 min",
+                                    "120" => "2 hours",
+                                    "150" => "2 hours and 30 min",
+                                    "180" => "3 hours",
+                                    "210" => "3 hours and 30 min",
+                                    "240" => "4 hours",
+                                    "270" => "4 hours and 30 min",
+                                    "300" => "5 hours",
+                                    "330" => "5 hours and 30 min",
+                                    "360" => "6 hours",
+                                    "999" => "more than 6 hours",
+                                  );
+
+                                  unset($sta['time']['0']);
+                                  arsort($sta['time']);
+
+                                  // Other option for showing time indication
+                                  // 
+                                  // foreach ($sta['time'] as $key => $time){
+                                  //   echo $timeNames[$key] . " - ";
+                                  // }
+
+                                  $avgAll = 0;
+                                  $timeCount = 0;
+                                  foreach ($sta['time'] as $key => $time){
+                                    if($time != 0){
+                                      $avgAll += $key * $time;
+                                      $timeCount += $time;
+                                    }
+                                  }
+                                  echo "Avg. playtime: ";
+                                  if($timeCount != 0){
+                                    $average = $avgAll / $timeCount; 
+                                    $average = $average / 30;
+                                    $avgNr = round($average) * 30;
+                                    if ($avgNr > 360){
+                                      echo $timeNames[999];
+                                    } else {
+                                      echo $timeNames[$avgNr];
+                                    }
+                                  } else {
+                                    echo "Unknown";
+                                  }
+
+                                  // Other option for showing time indication
+                                  // 
+                                  // $timeSlice = array_slice($sta['time'], 0, 2, true);
+                                  // $timeSlice = array_filter($timeSlice);
+                                  // if (!empty($timeSlice)){
+                                  //   $t = 0;
+                                  //   foreach ($timeNames as $tnkey => $tn){
+                                  //     if (array_key_exists($tnkey, $timeSlice)){
+                                  //       echo $tn;
+                                  //       if($t == 0){
+                                  //         echo " to ";
+                                  //         $t++;
+                                  //       }
+                                  //     }
+                                  //   }
+                                  // } else {
+                                  //   echo "Unknown";
+                                  // }
+                                  
+                                }
+                              } ?>
+                            </small>
+                            <p style="height: 120px;"><small><?php print $aqs['quest_description']; ?></small></p>
                             <div class="row"><?php 
                               foreach ($statsArray as $sta){
                                 if($sta['quest_name'] == $aqs['quest_name']){
@@ -140,8 +208,6 @@ if ($owner == 1){
                                 <?php createProgressBar($QuestWins['HeroPerc'], "Won (Heroes)", $QuestWins['OverlordPerc'], "Won (Overlord)"); ?>         
                               </div>
                             </div><?php 
-                                          
-                            //echo $aqs['quest_id'] . " Delete Me!!!!";
                                         
                             if($aqs['quest_status']['available'] != 1){ ?>
                               <div class="radio disabled btn btn-default">
@@ -167,9 +233,6 @@ if ($owner == 1){
                           
                         </div>
 
-
-                        
-                      
                       </div><?php
 
                 if($ir == 3){
@@ -188,34 +251,6 @@ if ($owner == 1){
             } ?>
                 
           </form>
-        </div>
-        <div class="col-sm-12"> 
-          <div class="well"><?php
-            if ($enableQuests == 1){ 
-              if($campaign['type'] != "mini"){ 
-                if ($currentAct == "Act 2"){ ?>
-                  <strong>Start advanced quest</strong><?php
-                } else { ?>
-                  <strong>Start new rumor quest</strong><?php
-                } ?>
-
-                <div class="row">
-                  <form action="<?php echo $editFormAction; ?>" method="post" name="start-rumor-form" id="start-rumor-form">
-                    <div class="col-sm-4"><?php
-                      // REMEMBER TO INCORPORATE THIS CHECK IN NEW SYSTEM
-                      if($currentAct == "Interlude" && $campaign['quests'][0]['quest_type'] == "Rumor"){ ?>
-                        <input type="submit" value="Select" disabled="disabled" class=" btn btn-block btn-info form-control" /><?php
-                      } else { ?>
-                        <input type="submit" value="Select" class=" btn btn-block btn-info form-control" /><?php
-                      } ?>
-                    </div>
-                  </form>
-                </div><?php
-              }
-            } else { ?>
-              <p class="text-muted">All steps of the previous quest or rumor need to be saved before starting a new quest or rumor.</p><?php 
-            } ?>
-          </div>
         </div>
 
       </div>

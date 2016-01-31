@@ -14,8 +14,6 @@ if (isset($_GET['urlCharID'])) {
   $charID = $_GET['urlCharID'];
 }
 
-
-
 if (isset($_SESSION['user']['username'])){
   $currentUser = $_SESSION['user']['username'];
 } else {
@@ -62,9 +60,6 @@ if ($totalRows_rsRumorPlayed > 0){
     
   } while ($row_rsRumorPlayed = mysql_fetch_assoc($rsRumorPlayed));
 }
-
-//var_dump($row_rsGroupCampaign);
-
 
 // ------------- //
 // -- PLAYERS -- //
@@ -118,12 +113,9 @@ do {
   $row_rsItemsData = mysql_fetch_assoc($rsItemsData);
   $totalRows_rsItemsData = mysql_num_rows($rsItemsData);
 
-  
-
   $itemsX = array();
   do {  
 
-      //var_dump($row_rsItemsData);
       if(isset($row_rsItemsData['item_name'])){
         $itemNameTemp = $row_rsItemsData['item_name'];
       } else {
@@ -139,7 +131,6 @@ do {
         );
       }
 
-      //var_dump($itemsX);
   } while ($row_rsItemsData = mysql_fetch_assoc($rsItemsData));
 
   $players[] = array(
@@ -172,42 +163,6 @@ do {
 
 } while ($row_rsCharData = mysql_fetch_assoc($rsCharData));
 
-// $skills = array();
-// do {  
-//       $skills[] = array(
-//         "char_id" => $row_rsSkillsData['spendxp_char_id'],
-//         "name" => $row_rsSkillsData['skill_name'],
-//         "xp" => $row_rsSkillsData['skill_cost'],
-//       );
-// } while ($row_rsSkillsData = mysql_fetch_assoc($rsSkillsData));
-
-// echo '<pre>';
-// var_dump($skills);
-// echo '</pre>';
-
-
-// FIX ME WTF
-// $xx = 0;
-// foreach ($skills as $pska){
-
-//   //var_dump($psk['skills']);
-//   foreach ($players as $psk){
-//     if ($pska['char_id'] == $psk['id']){
-//   //     //echo $pska['name'];
-      
-//        $psk['skills'][] = array(
-//          "name" => $pska['name'],
-//          "xp" => $pska['xp'],
-//        );
-//     }
-//   }
-  
-// }
-
-// echo '<pre>';
-// var_dump($players);
-// echo '</pre>';
-
 // Select Monsters
 $query_rsMonsters = sprintf("SELECT * FROM tbmonsters WHERE monster_exp_id IN ($selExpansions) ORDER BY monster_name ASC");
 $rsMonsters = mysql_query($query_rsMonsters, $dbDescent) or die(mysql_error());
@@ -219,17 +174,11 @@ $D2Monsters = array();
 $monsterLimits = array();
 
 do {
-  // echo '<pre>';
-  // var_dump($row_rsMonsters);
-  // echo '</pre>';
   
   if ($row_rsMonsters['monster_limits'] != "1"){
     $monsterLimitsexp = explode(";", $row_rsMonsters['monster_limits']);
     foreach ($monsterLimitsexp as $mle){
       $monsterLimitsTemp = explode(",", $mle);
-      // echo '<pre>';
-      // var_dump($monsterLimitsTemp);
-      // echo '</pre>';
       $monsterLimits[$monsterLimitsTemp[0]] = array(
         "minions" => $monsterLimitsTemp[1],
         "masters" => $monsterLimitsTemp[2]
@@ -254,10 +203,6 @@ do {
   }
 
 } while ($row_rsMonsters = mysql_fetch_assoc($rsMonsters));
-
-// echo '<pre>';
-// var_dump($monsters);
-// echo '</pre>';
 
 
 $allMonsters = array();
@@ -392,9 +337,6 @@ do {
       $monstersEnc1Expl[$m1exi] = explode(',', $m1ex);
       $m1exi++;
     }
-    // echo '<pre>';
-    // var_dump($monstersEnc1Expl);
-    // echo '</pre>';
     $monstersEnc1 = $monstersEnc1Expl[0];
   } else {
     $monstersEnc1 = explode(',', $row_rsQuestData['progress_enc1_monsters']);
@@ -417,9 +359,6 @@ do {
       $monstersEnc2Expl[$m2exi] = explode(',', $m2ex);
       $m2exi++;
     }
-    // echo '<pre>';
-    // var_dump($monstersEnc1Expl);
-    // echo '</pre>';
     $monstersEnc2 = $monstersEnc2Expl[0];
   } else {
     if ($row_rsQuestData['quest_enc2_monsters'] != NULL){
@@ -750,24 +689,11 @@ $iq++;
 } while ($row_rsQuestData = mysql_fetch_assoc($rsQuestData));
 
 
-// $questsAct1 = 0;
-// $questsAct2 = 0;
-// $interludeDone = 0;
 $wonForInterlude = 0;
 $wonForFinale = 0;
-//$currentAct = "Act 1";
 $canChoose = array();
 $cantChoose = array();
 $olquests = array();
-
-
-// if ($questsAct1 == 3 && $interludeDone == 0){
-//   $currentAct = "Interlude";
-// } else if ($questsAct1 == 3 && $interludeDone == 1 && $questsAct2 < 3){
-//   $currentAct = "Act 2";
-// } else if ($questsAct2 == 3){
-//   $currentAct = "Finale";
-// }
 
 include 'campaign_logs.php';
 
@@ -776,10 +702,6 @@ foreach ($players as $h){
     $overlordID = $h['id'];
   }
 }
-
- // echo '<pre>';
- //  var_dump($campaign);
- //    echo '</pre>';
 
 // Save Quests
 
@@ -960,11 +882,5 @@ if (isset($_POST["MM_insert"]) && ($_POST["MM_insert"] == "add-rumor-form")) {
     die("Redirecting to self"); 
   }
 }
-
-/*
-echo '<pre>';
-var_dump ($campaign);
-echo '</pre>';
-*/
 
 ?>

@@ -14,8 +14,11 @@ $questsWonByHeroesAct2 = array();
 $rumorsWonByHeroesAct1 = array();
 $rumorsWonByOverlordAct1 = array();
 
+// loop through the quests played in this game
 foreach ($campaign['quests'] as $qos){
+  // if the expansion of the quest is in the selected expansion and its a quest, or its a setup (for the minicampaigns)
   if (($qos['quest_exp_id'] == $selCampaign) && ($qos['quest_type'] == "Quest" || $qos['quest_type'] == "Setup")){
+    // list it as played
     $questsCompleted[] = intval($qos['quest_id']);
 
     if (($qos['winner'] == 'Heroes Win') && ($qos['act'] == "Act 1" || $qos['act'] == "Interlude")){
@@ -38,6 +41,7 @@ foreach ($campaign['quests'] as $qos){
     }
   }
 }
+
 
 // Where are we in the Campaign?
 $currentAct = "Act 1";
@@ -65,17 +69,6 @@ if (count($questsCompleted) > 7){
   $questAct = "Act II";
 }
 
-
-// echo $selCampaign;
-// echo '<br/>';
-// echo $currentAct;
-// echo '<pre>';
-// var_dump ($questsCompleted);
-// echo '</pre>';
-// echo '<pre>';
-// var_dump ($campaign['quests']);
-// echo '</pre>';
-// 
 
 function setQuestMessage($type, $questid, $required, $act, $diffquest){
   global $AvailableQuests;
@@ -200,18 +193,17 @@ function setQuestMessage($type, $questid, $required, $act, $diffquest){
 
 }
 
-include 'campaign_rumors.php';
 
+include 'campaign_logs_rumors.php';
 
-
-// Available Quests
+// Get the available quests, available as in 'these are in the story the game has been started with'
 
 $query_rsAvQuestList = sprintf("SELECT * FROM tbquests WHERE quest_expansion_id = %s ORDER BY quest_order ASC", GetSQLValueString($selCampaign, "int"));
 $rsAvQuestList = mysql_query($query_rsAvQuestList, $dbDescent) or die(mysql_error());
 $row_rsAvQuestList = mysql_fetch_assoc($rsAvQuestList);
 $totalRows_rsAvQuestList = mysql_num_rows($rsAvQuestList);
 
-
+// Store these in an array, as type quest
 $AvailableQuests = array();
 do {
 
@@ -238,15 +230,14 @@ do {
 } while ($row_rsAvQuestList = mysql_fetch_assoc($rsAvQuestList));
 
 
-// Available Rumor Quests
+// Get the available rumors, available as in 'these are in the expansions the game has been started with'
 
 $query_rsAvRumorList = sprintf("SELECT * FROM tbquests LEFT JOIN tbcampaign ON quest_expansion_id = cam_id WHERE quest_expansion_id IN ($selExpansions) AND quest_expansion_id != %s AND cam_type != %s AND cam_type != %s ORDER BY quest_order ASC", GetSQLValueString($row_rsGroupCampaign['game_camp_id'], "int"), GetSQLValueString("full", "text"), GetSQLValueString("book", "text"));
 $rsAvRumorList = mysql_query($query_rsAvRumorList, $dbDescent) or die(mysql_error());
 $row_rsAvRumorList = mysql_fetch_assoc($rsAvRumorList);
 $totalRows_rsAvRumorList = mysql_num_rows($rsAvRumorList);
 
-//$availableRumors = array();
-
+// Store these in the same array, as type rumor
 do {
 
   $shortl = $row_rsAvRumorList['quest_name'];
@@ -272,81 +263,94 @@ do {
 } while ($row_rsAvRumorList = mysql_fetch_assoc($rsAvRumorList));
 
 
-$questOptions = array();
-
 $questSelect = array();
 $questSelectWhy = array();
 
 
 foreach ($AvailableQuests as $aqs) {
 
-$intersection1 = array_intersect($aqs['quest_req'], $questsWonByHeroesAct1);
-$intersection2 = array_intersect($aqs['quest_req'], $questsWonByHeroesAct2);
-$intersection3 = array_intersect($aqs['quest_req'], $questsCompleted);
+  // Create some intersections - FIX ME: I should rename this to something clearer
+  $intersection1 = array_intersect($aqs['quest_req'], $questsWonByHeroesAct1);
+  $intersection2 = array_intersect($aqs['quest_req'], $questsWonByHeroesAct2);
+  $intersection3 = array_intersect($aqs['quest_req'], $questsCompleted);
 
-$intersectionH = array_intersect($aqs['quest_req'], $rumorsWonByHeroesAct1);
-$intersectionO = array_intersect($aqs['quest_req'], $rumorsWonByOverlordAct1);
-$intersectionAll = array_intersect($aqs['quest_req'], $rumorsCompleted);
+  $intersectionH = array_intersect($aqs['quest_req'], $rumorsWonByHeroesAct1);
+  $intersectionO = array_intersect($aqs['quest_req'], $rumorsWonByOverlordAct1);
+  $intersectionAll = array_intersect($aqs['quest_req'], $rumorsCompleted);
 
 
 
-  // New System //
-
+  // if the quest or rumor has not been completed
   if(!(in_array($aqs['quest_id'], $questsCompleted)) && !(in_array($aqs['quest_id'], $rumorsCompleted))){
 
+    // If its a quest, go through the relevant campaign log
     if($aqs['quest_type'] == "quest"){
 
-
-      // --- THE SHADOW RUNE --- //
-      include 'campaign_logs_tsr.php';
-
-      // --- LABYRINTH OF RUIN --- //
-      include 'campaign_logs_lor.php';
-
-      // --- SHADOW OF NEREKHALL --- //
-      include 'campaign_logs_son.php';
-
-      // --- HEIRS OF BLOOD --- //
-      include 'campaign_logs_hob.php';
-
-      // --- LAIR OF THE WYRM --- //
-      include 'campaign_logs_lotw.php';
-
-      // --- THE TROLLFENS --- //
-      include 'campaign_logs_tf.php';
-
-      // --- THE TROLLFENS --- //
-      include 'campaign_logs_mor.php';
-
+      switch($selCampaign){
+        case 0:
+          // --- THE SHADOW RUNE --- //
+          include 'campaign_logs_tsr.php';
+          break;
+        case 1:
+          // --- LAIR OF THE WYRM --- //
+          include 'campaign_logs_lotw.php';
+          break;
+        case 2:
+          // --- LABYRINTH OF RUIN --- //
+          include 'campaign_logs_lor.php';
+          break;
+        case 3:
+          // --- THE TROLLFENS --- //
+          include 'campaign_logs_tf.php';
+          break;
+        case 4:
+          // --- SHADOW OF NEREKHALL --- //
+          include 'campaign_logs_son.php';
+          break;
+        case 5:
+          // --- MANOR OF RAVENS --- //
+          include 'campaign_logs_mor.php';
+          break;
+        case 29:
+          // --- HEIRS OF BLOOD --- //
+          include 'campaign_logs_hob.php';
+          break;  
+      }
+      
     } else {
 
       // -------------------- //
       // --- RUMOR QUESTS --- //
       // -------------------- //
 
+      // if the current act is act 1 or the interlude
       if ($currentAct == "Act 1" || $currentAct == "Interlude"){
+        
+        // if the rumor is available
         if(in_array($aqs['quest_id'], $rumorQuestsAv)){
 
           $AvailableQuests[$aqs['quest_id']]['quest_status']['available'] = 1;
           $AvailableQuests[$aqs['quest_id']]['quest_status']['message'] = "Available because the card for this Rumor Quest is in play.";
 
+        // else if the rumor is blocked
         } else if(in_array($aqs['quest_id'], $rumorQuestsBl)){
 
-          $AvailableQuests[$aqs['quest_id']]['quest_status']['available'] = 0;
           $AvailableQuests[$aqs['quest_id']]['quest_status']['message'] = "Unavailable because a different card from this expansion has been played.";
 
+        // else they need to put it in play
         } else {
 
-          $AvailableQuests[$aqs['quest_id']]['quest_status']['available'] = 0;
           $AvailableQuests[$aqs['quest_id']]['quest_status']['message'] = "Unavailable because the card for this Rumor Quest is not in play.";
 
         }
 
+      // if act 2
       } else if ($currentAct == "Act 2") {
         
+          // if the rumor is an advanced (act 2) rumor
           if($aqs['quest_act'] == "Act 2"){
 
-            //$rumorOptions[] = '<option value="' . $avr['quest_id'] . '">' . $avr['quest_name'] . '</option>';
+            // if the heroes won and the rumor requires the previous quest to be won by heroes
             if(!empty($intersectionH) && $aqs['quest_req_type'] == "Heroes"){
               $AvailableQuests[$aqs['quest_id']]['quest_status']['available'] = 1;
               $AvailableQuests[$aqs['quest_id']]['quest_status']['message'] = "Available because the Heroes won ";
@@ -355,6 +359,7 @@ $intersectionAll = array_intersect($aqs['quest_req'], $rumorsCompleted);
                   $AvailableQuests[$aqs['quest_id']]['quest_status']['message'] .= $AvailableQuests[$reqs]['quest_name'] . ".";
                 }     
               }
+            // if the overlord won and the rumor requires the previous quest to be won by heroes
             } else if(empty($intersectionH) && $aqs['quest_req_type'] == "Heroes"){
               $AvailableQuests[$aqs['quest_id']]['quest_status']['available'] = 0;
               $AvailableQuests[$aqs['quest_id']]['quest_status']['message'] = "Unavailable because the Heroes lost ";
@@ -363,6 +368,7 @@ $intersectionAll = array_intersect($aqs['quest_req'], $rumorsCompleted);
                   $AvailableQuests[$aqs['quest_id']]['quest_status']['message'] .= $AvailableQuests[$reqs]['quest_name'] . ".";
                 }     
               }
+            // if the overlord won and the rumor requires the previous quest to be won by the overlord
             } else if(!empty($intersectionO) && $aqs['quest_req_type'] == "Overlord"){
               $AvailableQuests[$aqs['quest_id']]['quest_status']['available'] = 1;
               $AvailableQuests[$aqs['quest_id']]['quest_status']['message'] = "Available because the Overlord won ";
@@ -371,6 +377,7 @@ $intersectionAll = array_intersect($aqs['quest_req'], $rumorsCompleted);
                   $AvailableQuests[$aqs['quest_id']]['quest_status']['message'] .= $AvailableQuests[$reqs]['quest_name'] . ".";
                 }     
               }
+            // if the heroes won and the rumor requires the previous quest to be won by the overlord
             } else if(empty($intersectionO) && $aqs['quest_req_type'] == "Overlord"){
               $AvailableQuests[$aqs['quest_id']]['quest_status']['available'] = 0;
               $AvailableQuests[$aqs['quest_id']]['quest_status']['message'] = "Unavailable because the Overlord lost ";
@@ -379,6 +386,7 @@ $intersectionAll = array_intersect($aqs['quest_req'], $rumorsCompleted);
                   $AvailableQuests[$aqs['quest_id']]['quest_status']['message'] .= $AvailableQuests[$reqs]['quest_name'] . ".";
                 }     
               }
+            // if the rumor requires no specific winner
             } else if(!empty($intersectionAll) && $aqs['quest_req_type'] == "All"){
               $AvailableQuests[$aqs['quest_id']]['quest_status']['available'] = 1;
               $AvailableQuests[$aqs['quest_id']]['quest_status']['message'] = "Available because it is the follow up to ";
@@ -394,6 +402,7 @@ $intersectionAll = array_intersect($aqs['quest_req'], $rumorsCompleted);
       
     }
 
+  // if the quest or rumor has been completed
   } else {
     if($aqs['quest_type'] == "quest"){
       $AvailableQuests[$aqs['quest_id']]['quest_status']['available'] = 0;
@@ -406,18 +415,6 @@ $intersectionAll = array_intersect($aqs['quest_req'], $rumorsCompleted);
 
   }
 
-} // foreach end
-
-
-
-// echo '<pre>';
-// var_dump($AvailableQuests);
-// echo '</pre>';
-
-// echo '<pre>';
-// var_dump($campaign['quests']);
-// echo '</pre>';
-
-// var_dump($rumorsCompleted);
+} // end foreach ($AvailableQuests as $aqs)
 
 ?>

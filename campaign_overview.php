@@ -1,59 +1,26 @@
 <?php
 
-	//-----------------------//
-	//remove me after include//
-	//-----------------------//
+//-----------------------//
+//remove me after include//
+//-----------------------//
 
-	//include the db
-	require_once('Connections/dbDescent.php'); 
+//include the db
+require_once('Connections/dbDescent.php'); 
 
-	//initialize the session
-	if (!isset($_SESSION)) {
-	  session_start();
-	}
-
-	//include functions
-	include 'includes/function_logout.php';
-	include 'includes/function_getSQLValueString.php';
-	include 'includes/function_createProgressBar.php';
-
-	//include campaign data
-	include 'campaign_data.php';
-	include 'stats_quests_array.php';
-
-	function calcQuestWins($overlord, $heroes){
-  $total = $overlord + $heroes;
-
-  if ($overlord != 0){
-    $OverlordPerc = ($overlord / $total) * 100;
-    $olText = 'Overlord: ' . $overlord . ' Win(s)';
-  } 
-
-  if ($heroes != 0){
-    $HeroPerc = ($heroes / $total) * 100;
-    $hText = 'Heroes: ' . $heroes . ' Win(s)';
-  } 
-
-  if ($heroes == 0){
-    $HeroPerc = 0;
-    $hText = 'Heroes: ' . $heroes . ' Win(s)';
-  }
-
-  if ($overlord == 0){
-     $OverlordPerc = 0;
-    $olText = 'Overlord: ' . $overlord .' Win(s)';
-  }
-
-  $QuestWins = array(
-    "OverlordPerc" => $OverlordPerc,
-    "OverlordText" => $olText,
-    "HeroPerc" => $HeroPerc,
-    "HeroText" => $hText,
-  );
-
-  return $QuestWins;
+//initialize the session
+if (!isset($_SESSION)) {
+  session_start();
 }
 
+//include functions
+include 'includes/function_logout.php';
+include 'includes/function_getSQLValueString.php';
+include 'includes/function_createProgressBar.php';
+
+//include campaign data
+include 'campaign_data.php';
+
+include 'stats_quests_array.php';
 	
 ?>
 
@@ -90,11 +57,7 @@
 		});
 		</script>
 	</head>
-	<body>
-		<?php 
-		 // echo '<pre>';
-		 // var_dump($players);
-		 // echo '</pre>';
+	<body><?php 
 		
 		include 'navbar.php';
 
@@ -192,10 +155,6 @@
 		
 					include 'campaign_overview_block_controls.php';
 					
-
-
-
-
 					// loop through quests
 					$del = 1;
 					foreach ($campaign['quests'] as $qs){ ?>

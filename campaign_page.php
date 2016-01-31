@@ -44,10 +44,6 @@ if (isset($_GET['campaign']) && in_array($_GET['campaign'], $campaignsIdArray)) 
 
 
 
-// include 'stats_quests_array.php';
-
-
-
 $query_rsCampaignInfo = sprintf("SELECT * FROM tbcampaign WHERE cam_id = %s", GetSQLValueString($campaignUrlID, "int"));
 $rsCampaignInfo = mysql_query($query_rsCampaignInfo, $dbDescent) or die(mysql_error());
 $row_rsCampaignInfo = mysql_fetch_assoc($rsCampaignInfo);
@@ -98,31 +94,35 @@ do{
 	    "req_type" => $row_rsCampaignQuests['quest_req_type'],
 	    "req" => explode(",", $row_rsCampaignQuests['quest_req']),
 	    "img" => $shortl . ".jpg",
-	    "description" => "",
+	    "description" => $row_rsCampaignQuests['quest_description'],
 	  );
 	}
 } while ($row_rsCampaignQuests = mysql_fetch_assoc($rsCampaignQuests));
 
 
-// Select Monsters
-$query_rsMonsters = sprintf("SELECT * FROM tbmonsters WHERE monster_exp_id = %s ORDER BY monster_name ASC", GetSQLValueString($campaignUrlID, "int"));
-$rsMonsters = mysql_query($query_rsMonsters, $dbDescent) or die(mysql_error());
-$row_rsMonsters = mysql_fetch_assoc($rsMonsters);
-$totalRows_rsMonsters = mysql_num_rows($rsMonsters);
+// Include monster data
 
-do {
+include 'stats_monsters_data.php';
 
-  $campaignInfoArray['monsters'][] = array(
-    "id" => $row_rsMonsters['monster_id'],
-    "name" => $row_rsMonsters['monster_name'],
-    "type" => $row_rsMonsters['monster_type'],
-    "traits" => explode(',', $row_rsMonsters['monster_traits']),
-    "description" => "",
-  );
+// $query_rsMonsters = sprintf("SELECT * FROM tbmonsters WHERE monster_exp_id = %s ORDER BY monster_name ASC", GetSQLValueString($campaignUrlID, "int"));
+// $rsMonsters = mysql_query($query_rsMonsters, $dbDescent) or die(mysql_error());
+// $row_rsMonsters = mysql_fetch_assoc($rsMonsters);
+// $totalRows_rsMonsters = mysql_num_rows($rsMonsters);
 
-} while ($row_rsMonsters = mysql_fetch_assoc($rsMonsters));
+// do {
+
+//   $campaignInfoArray['monsters'][] = array(
+//     "id" => $row_rsMonsters['monster_id'],
+//     "name" => $row_rsMonsters['monster_name'],
+//     "type" => $row_rsMonsters['monster_type'],
+//     "traits" => explode(',', $row_rsMonsters['monster_traits']),
+//     "description" => "",
+//   );
+
+// } while ($row_rsMonsters = mysql_fetch_assoc($rsMonsters));
 
 
+include 'stats_quests_array.php';
 
 ?>
 
@@ -228,10 +228,10 @@ do {
 
       <h2>Quests</h2><?php
       $ir = 0;
-      foreach ($campaignInfoArray['quests'] as $qia){ 
+      foreach ($campaignInfoArray['quests'] as $quest){ 
 
         // Check if the image for the quest exists, if not, use default
-        $filename = "img/quests/" . $qia['img'];
+        $filename = "img/quests/" . $quest['img'];
         if (!file_exists($filename)) {
           $filename = "img/quests/default.jpg";
         }
@@ -242,8 +242,6 @@ do {
         } 
         $ir++; ?>
 
-            
-
               <div class="col-md-3">
 
                 <div class="row no-gutters" style="background: #f9f9f9; border: 1px solid #ddd;">
@@ -251,22 +249,22 @@ do {
                     <div style="background: url('<?php print $filename; ?>') no-repeat center; background-size: 160% auto; height: 224px;"></div>
                   </div>
                   <div class="col-sm-8" style="padding: 0 15px;">
-                    <h2 class="h4"><?php print $qia['name']; ?></h2>
+                    <h2 class="h4"><?php print $quest['name']; ?></h2>
                     <small>
                       <p>
-                        <small><?php echo $qia['act']; ?></small>
+                        <small><?php echo $quest['act']; ?></small>
                       </p>
                     </small>
-                    <p><small><?php print $qia['description']; ?></small></p>
+                    <p><small><?php print $quest['description']; ?></small></p>
                     <div class="row"><?php 
-                      // foreach ($statsArray as $sta){
-                      //   if($sta['quest_name'] == $qia['name']){
-                      //     $QuestWins = calcQuestWins($sta['overlord_wins'], $sta['hero_wins']);
-                      //   }
-                      // } ?>
+                      foreach ($statsArray as $sta){
+                        if($sta['quest_name'] == $quest['name']){
+                          $QuestWins = calcQuestWins($sta['overlord_wins'], $sta['hero_wins']);
+                        }
+                      } ?>
                       
-                      <div class="col-md-12">
-                        <?php //createProgressBar($QuestWins['HeroPerc'], "<small>Won (Heroes)</small>", $QuestWins['OverlordPerc'], "<small>Won (Overlord)</small>"); ?>      
+                      <div class="col-md-12"><?php 
+                        createProgressBar($QuestWins['HeroPerc'], "<small>Won (Heroes)</small>", $QuestWins['OverlordPerc'], "<small>Won (Overlord)</small>"); ?>      
                       </div>
                     </div>
 
@@ -296,67 +294,74 @@ do {
 
 
       $ir = 0;
-      foreach ($campaignInfoArray['monsters'] as $monster){ 
+      foreach ($allMonsters as $monster){
+        if($monster['expansion_id'] == $campaignUrlID){
 
-        // Check if the image for the quest exists, if not, use default
-        // $filename = "img/quests/" . $monster['img'];
-        // if (!file_exists($filename)) {
-          $filename = "img/quests/default.jpg";
-        //}
+          // Check if the image for the quest exists, if not, use default
+          // $filename = "img/quests/" . $monster['img'];
+          // if (!file_exists($filename)) {
+            $filename = "img/quests/default.jpg";
+          //}
 
-        if($ir == 0){ ?>
-          <div class="row no-gutters" style="margin-bottom: 30px;">
-            <div class="col-xs-12"><?php
-        } 
-        $ir++; ?>
+          if($ir == 0){ ?>
+            <div class="row no-gutters" style="margin-bottom: 30px;">
+              <div class="col-xs-12"><?php
+          } 
+          $ir++; ?>
 
-            
+                <div class="col-md-3">
 
-              <div class="col-md-3">
-
-                <div class="row no-gutters" style="background: #f9f9f9; border: 1px solid #ddd;">
-                  <div class="col-sm-4">
-                    <div style="background: url('<?php print $filename; ?>') no-repeat center; background-size: 160% auto; height: 224px;"></div>
-                  </div>
-                  <div class="col-sm-8" style="padding: 0 15px;">
-                    <h2 class="h4"><?php print $monster['name']; ?></h2>
-                    <small>
-                      <p>
-                        <small><?php 
-                        foreach ($monster['traits'] as $trait){
-                        	if ($trait != 'all'){
-                        		echo $trait . ' ';
-                        	}
-                        } ?>
-                      	</small>
-                      </p>
-                    </small>
-                    <p><small><?php print $monster['description']; ?></small></p>
-                    <div class="row"><?php 
-                      // foreach ($statsArray as $sta){
-                      //   if($sta['quest_name'] == $qia['name']){
-                      //     $QuestWins = calcQuestWins($sta['overlord_wins'], $sta['hero_wins']);
-                      //   }
-                      // } ?>
-                      
-                      <div class="col-md-12">
-                        <?php //createProgressBar($QuestWins['HeroPerc'], "<small>Won (Heroes)</small>", $QuestWins['OverlordPerc'], "<small>Won (Overlord)</small>"); ?>      
-                      </div>
+                  <div class="row no-gutters" style="background: #f9f9f9; border: 1px solid #ddd;">
+                    <div class="col-sm-4">
+                      <div style="background: url('<?php print $filename; ?>') no-repeat center; background-size: 160% auto; height: 224px;"></div>
                     </div>
+                    <div class="col-sm-8" style="padding: 0 15px;">
+                      <h2 class="h4"><?php print $monster['name']; ?></h2>
+                      <small>
+                        <p><?php 
+                          foreach ($monster['traits'] as $trait){
+                          	if ($trait != 'all'){
+                          		echo '<span class="label label-default">' . $trait . '</span> ';
+                          	}
+                          } ?>
+                        </p>
+                      </small>
+                      <p><small><?php print $monster['description']; ?></small></p>
+                      <small>
+                        <p><?php 
+                          foreach ($monster['conditions'] as $condition){
+                            if (in_array($condition, $conditions)){
+                              echo '<span class="label label-default">' . $condition . '</span> ';
+                            }
+                          } ?>
+                        </p>
+                      </small>
+                      
+                      <div class="row"> 
+                        <div class="col-md-12">
+                          <div class="progress">
+                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="<?php echo round($MonsterUsedPercentage[$monster['id']]);?>" aria-valuemin="0" aria-valuemax="100" style="width: <?php echo round($MonsterUsedPercentage[$monster['id']]);?>%;">
+                              <span class="sr-only"><?php echo round($MonsterUsedPercentage[$monster['id']]);?>%</span>
+                              <?php echo round($MonsterUsedPercentage[$monster['id']]);?>% of Encounters
+                            </div>
+                          </div>
+                        </div>
+                      </div>
 
+                    </div>
+                    
                   </div>
+
+
                   
-                </div>
-
-
                 
-              
-              </div><?php
+                </div><?php
 
-        if($ir == 4){
-          echo '</div>';
-          echo '</div>';
-          $ir = 0;
+          if($ir == 4){
+            echo '</div>';
+            echo '</div>';
+            $ir = 0;
+          }
         }
 
 	    } // foreach 

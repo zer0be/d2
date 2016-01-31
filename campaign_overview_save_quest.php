@@ -130,18 +130,18 @@ foreach ($players as $h){
 			if ($qs['travel_set'] != 0 || $qs['act'] == "Introduction"){ ?>
 				<h3>Quest Duration</h3>
 				<p class="text-muted">An estimate of how long you spent playing this quest.</p>
-				<select name="progress_quest_winner" class="form-control">
-					<option value="">Unknown</option>
-					<option value="30" <?php if(isset($_SESSION['old_post']['progress_quest_winner']) && $_SESSION['old_post']['progress_quest_winner'] == "Overlord Wins"){ echo 'selected="selected"';} ?> >About 30 minutes</option>
-					<option value="60" <?php if(isset($_SESSION['old_post']['progress_quest_winner']) && $_SESSION['old_post']['progress_quest_winner'] == "Overlord Wins"){ echo 'selected="selected"';} ?> >About 1 hour</option>
-					<option value="90" <?php if(isset($_SESSION['old_post']['progress_quest_winner']) && $_SESSION['old_post']['progress_quest_winner'] == "Overlord Wins"){ echo 'selected="selected"';} ?> >About 1 hour and 30 minutes</option>
-					<option value="120" <?php if(isset($_SESSION['old_post']['progress_quest_winner']) && $_SESSION['old_post']['progress_quest_winner'] == "Overlord Wins"){ echo 'selected="selected"';} ?> >About 2 hours</option>
-					<option value="150" <?php if(isset($_SESSION['old_post']['progress_quest_winner']) && $_SESSION['old_post']['progress_quest_winner'] == "Overlord Wins"){ echo 'selected="selected"';} ?> >About 2 hours and 30 minutes</option>
-					<option value="180" <?php if(isset($_SESSION['old_post']['progress_quest_winner']) && $_SESSION['old_post']['progress_quest_winner'] == "Overlord Wins"){ echo 'selected="selected"';} ?> >About 3 hours</option>
-					<option value="240" <?php if(isset($_SESSION['old_post']['progress_quest_winner']) && $_SESSION['old_post']['progress_quest_winner'] == "Overlord Wins"){ echo 'selected="selected"';} ?> >About 4 hours</option>
-					<option value="300" <?php if(isset($_SESSION['old_post']['progress_quest_winner']) && $_SESSION['old_post']['progress_quest_winner'] == "Overlord Wins"){ echo 'selected="selected"';} ?> >About 5 hours</option>
-					<option value="360" <?php if(isset($_SESSION['old_post']['progress_quest_winner']) && $_SESSION['old_post']['progress_quest_winner'] == "Overlord Wins"){ echo 'selected="selected"';} ?> >About 6 hours</option>
-					<option value="999" <?php if(isset($_SESSION['old_post']['progress_quest_winner']) && $_SESSION['old_post']['progress_quest_winner'] == "Overlord Wins"){ echo 'selected="selected"';} ?> >More than 6 Hours</option>
+				<select name="progress_quest_time" class="form-control">
+					<option value="0">Unknown</option>
+					<option value="30" <?php if(isset($_SESSION['old_post']['progress_quest_time']) && $_SESSION['old_post']['progress_quest_time'] == "30"){ echo 'selected="selected"';} ?> >About 30 minutes</option>
+					<option value="60" <?php if(isset($_SESSION['old_post']['progress_quest_time']) && $_SESSION['old_post']['progress_quest_time'] == "60"){ echo 'selected="selected"';} ?> >About 1 hour</option>
+					<option value="90" <?php if(isset($_SESSION['old_post']['progress_quest_time']) && $_SESSION['old_post']['progress_quest_time'] == "90"){ echo 'selected="selected"';} ?> >About 1 hour and 30 minutes</option>
+					<option value="120" <?php if(isset($_SESSION['old_post']['progress_quest_time']) && $_SESSION['old_post']['progress_quest_time'] == "120"){ echo 'selected="selected"';} ?> >About 2 hours</option>
+					<option value="150" <?php if(isset($_SESSION['old_post']['progress_quest_time']) && $_SESSION['old_post']['progress_quest_time'] == "150"){ echo 'selected="selected"';} ?> >About 2 hours and 30 minutes</option>
+					<option value="180" <?php if(isset($_SESSION['old_post']['progress_quest_time']) && $_SESSION['old_post']['progress_quest_time'] == "180"){ echo 'selected="selected"';} ?> >About 3 hours</option>
+					<option value="240" <?php if(isset($_SESSION['old_post']['progress_quest_time']) && $_SESSION['old_post']['progress_quest_time'] == "240"){ echo 'selected="selected"';} ?> >About 4 hours</option>
+					<option value="300" <?php if(isset($_SESSION['old_post']['progress_quest_time']) && $_SESSION['old_post']['progress_quest_time'] == "300"){ echo 'selected="selected"';} ?> >About 5 hours</option>
+					<option value="360" <?php if(isset($_SESSION['old_post']['progress_quest_time']) && $_SESSION['old_post']['progress_quest_time'] == "360"){ echo 'selected="selected"';} ?> >About 6 hours</option>
+					<option value="999" <?php if(isset($_SESSION['old_post']['progress_quest_time']) && $_SESSION['old_post']['progress_quest_time'] == "999"){ echo 'selected="selected"';} ?> >More than 6 Hours</option>
 
 				</select><?php
 
