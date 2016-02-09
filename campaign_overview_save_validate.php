@@ -6,6 +6,9 @@ require_once('Connections/dbDescent.php');
 include 'includes/protected_page.php';
 include 'includes/function_getSQLValueString.php';
 
+// FIX ME: Load mini campaigns from database?
+$miniCampaigns = array(1,3,5);
+
 mysql_select_db($database_dbDescent, $dbDescent);
 
 if (!isset($_SESSION)) {
@@ -372,7 +375,17 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "quest-details-form"
     $val_relicRecipiant = $oID;
   }
 
-  // What search item was selected?
+  // Which random shop item was received in a mini campaign?
+  $RandomItem = 1;
+  if ($_POST['progress_quest_winner'] == "Heroes Win"){
+    if(isset($_POST['random_item']) && $_POST['random_item'] == "empty"){
+      $RandomItem = 0;
+    } else {
+      $val_randomItemId = $_POST['random_item'];
+    }
+  }
+
+  // What Treasure chest (search) item was selected?
   $SearchItem = 1;
   if (isset($_POST['search_id']) && in_array(6, $_POST['search_id'])){
     if ($_POST['search_item'] == "empty") {
@@ -394,15 +407,47 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "quest-details-form"
     }
   }
 
+  $checkDuplicate = array();
   $duplicateItem = 1;
-  if (isset($val_SecretRoomItemId) && isset($val_searchItemId)){
-    if($val_SecretRoomItemId == $val_searchItemId){
-      $duplicateItem = 0;
-    }
+
+  if(isset($val_randomItemId)){
+    $checkDuplicate[] = $val_randomItemId;
+  }
+  if (isset($val_SecretRoomItemId)){
+    $checkDuplicate[] = $val_SecretRoomItemId;
+  }
+  if (isset($val_searchItemId)){
+    $checkDuplicate[] = $val_searchItemId;
+  }
+
+  $checkDuplicateUnique = array_unique($checkDuplicate);
+  if(count($checkDuplicate) != count($checkDuplicateUnique)){
+    $duplicateItem = 0;
   }
 
 
-  if ($UniqueS == 1 && $SearchItem == 1 && $SecretRoomItem == 1 && $duplicateItem == 1){
+  // if (isset($val_SecretRoomItemId) && isset($val_searchItemId)){
+  //   if($val_SecretRoomItemId == $val_searchItemId){
+  //     $duplicateItem = 0;
+  //   }
+  // }
+  // 
+  
+  // default values
+  $val_searchGold = 0;
+  $val_totalThreat = 1;
+  $val_questGold = 0;
+  $val_allySkill = NULL;
+  if ($_SESSION['quest_type'] == "Quest") {
+    $defaultXP = 1;
+  } else {
+    $defaultXP = 0;
+  } 
+
+  $val_xpHeroes = $val_xpOverlord = $defaultXP;
+
+
+  if ($UniqueS == 1 && $RandomItem == 1 && $SearchItem == 1 && $SecretRoomItem == 1 && $duplicateItem == 1){
       $insertSQL = sprintf("UPDATE tbquests_progress SET progress_quest_winner = %s, progress_enc1_winner = %s, progress_enc2_winner = %s, progress_enc1_monsters = %s, progress_enc2_monsters = %s, progress_enc3_monsters = %s, progress_relic_char = %s, progress_quest_time = %s WHERE progress_quest_id = %s AND progress_game_id = %s",
                            GetSQLValueString($_POST['progress_quest_winner'], "text"),
                            GetSQLValueString($_POST['progress_enc1_winner'], "text"),
@@ -417,11 +462,106 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "quest-details-form"
 
       // Add a new entry to the items_aquired table, so the relic is added to the inventory of the selected player
       if (isset($_POST['progress_relic_recipiant'])){
-        $insertSQL2 = sprintf("INSERT INTO tbitems_aquired (aq_relic_id, aq_progress_id, aq_char_id, aq_game_id) VALUES (%s, %s, %s, %s)",
+        $relicSteal = 0;
+        $awardxp = 0;
+        if(in_array($_SESSION['validate']['expID'], $miniCampaigns)){
+          $heroRelics = array();
+          $OLRelics = array();
+          // Go through the items each player has
+          foreach($_SESSION['players'] as $relPlayer){
+            foreach($relPlayer['items'] as $ritems){
+              // if its a relic
+              if ($ritems['relic_id'] != NULL){
+                // and the player is the overlord, add it to the OL array, otherwise add it to the heroes array
+                if($relPlayer['id'] == $oID){
+                  $OLRelics[] = $ritems['relic_id'];
+                } else {
+                  $heroRelics[] = $ritems['relic_id'];
+                }
+              }
+            }
+          }
+          // if the person receiving te relic is the overlord
+          if($val_relicRecipiant == $oID){
+            //check if he already has the relic, award him 1xp
+            if(in_array($_SESSION['relic_id'], $OLRelics)){
+              $val_xpOverlord += 1;
+              $awardxp = 1;
+
+            // else, if the heroes have the relic, trade it
+            } else if(in_array($_SESSION['relic_id'], $heroRelics)) {
+              $relicSteal = 1;
+              $insertSQLSteal = sprintf("UPDATE tbitems_aquired SET aq_trade_char_id = %s, aq_trade_progress_id = %s WHERE aq_game_id = %s AND aq_relic_id = %s AND aq_trade_char_id is null",
+                                GetSQLValueString($oID, "int"),
+                                GetSQLValueString($pID, "int"),
+                                GetSQLValueString($gameID, "int"),
+                                GetSQLValueString($_SESSION['relic_id'], "int"));
+
+              $insertSQLSteal2 = sprintf("INSERT INTO tbitems_aquired (aq_game_id, aq_char_id, aq_relic_id, aq_item_gottraded, aq_progress_id) VALUES (%s, %s, %s, %s, %s)",
+                                      GetSQLValueString($gameID, "int"),
+                                      GetSQLValueString($oID, "int"),
+                                      GetSQLValueString($_SESSION['relic_id'], "int"),
+                                      GetSQLValueString(1, "int"),
+                                      GetSQLValueString($pID, "int"));
+
+            // else just give the relic
+            } else {
+              $insertSQL2 = sprintf("INSERT INTO tbitems_aquired (aq_relic_id, aq_progress_id, aq_char_id, aq_game_id) VALUES (%s, %s, %s, %s)",
                              GetSQLValueString($_SESSION['relic_id'], "int"),
                              GetSQLValueString($pID, "int"),
                              GetSQLValueString($val_relicRecipiant, "int"),
                              GetSQLValueString($gameID, "int"));
+            }
+
+          // else, if its a hero
+          } else {
+            // check if the heroes already have the relic, award heroes 1xp
+            if(in_array($_SESSION['relic_id'], $heroRelics)){
+              $val_xpHeroes += 1;
+              $awardxp = 1;
+
+            // else, if the heroes have the relic, trade it
+            } else if(in_array($_SESSION['relic_id'], $OLRelics)) {
+              $relicSteal = 1;
+              $insertSQLSteal = sprintf("UPDATE tbitems_aquired SET aq_trade_char_id = %s, aq_trade_progress_id = %s WHERE aq_game_id = %s AND aq_relic_id = %s AND aq_trade_char_id is null",
+                                GetSQLValueString($oID, "int"),
+                                GetSQLValueString($pID, "int"),
+                                GetSQLValueString($gameID, "int"),
+                                GetSQLValueString($_SESSION['relic_id'], "int"));
+
+              $insertSQLSteal2 = sprintf("INSERT INTO tbitems_aquired (aq_game_id, aq_char_id, aq_relic_id, aq_item_gottraded, aq_progress_id) VALUES (%s, %s, %s, %s, %s)",
+                                      GetSQLValueString($gameID, "int"),
+                                      GetSQLValueString($oID, "int"),
+                                      GetSQLValueString($_SESSION['relic_id'], "int"),
+                                      GetSQLValueString(1, "int"),
+                                      GetSQLValueString($pID, "int"));
+
+            // else just give the relic
+            } else {
+              $insertSQL2 = sprintf("INSERT INTO tbitems_aquired (aq_relic_id, aq_progress_id, aq_char_id, aq_game_id) VALUES (%s, %s, %s, %s)",
+                             GetSQLValueString($_SESSION['relic_id'], "int"),
+                             GetSQLValueString($pID, "int"),
+                             GetSQLValueString($val_relicRecipiant, "int"),
+                             GetSQLValueString($gameID, "int"));
+            }
+          }
+
+        } else {
+          $insertSQL2 = sprintf("INSERT INTO tbitems_aquired (aq_relic_id, aq_progress_id, aq_char_id, aq_game_id) VALUES (%s, %s, %s, %s)",
+                             GetSQLValueString($_SESSION['relic_id'], "int"),
+                             GetSQLValueString($pID, "int"),
+                             GetSQLValueString($val_relicRecipiant, "int"),
+                             GetSQLValueString($gameID, "int"));
+        } 
+      }
+
+      if ($_POST['progress_quest_winner'] == "Heroes Win" && isset($_POST['random_item']) && $_POST['random_item'] != "empty"){
+        $insertSQLRandomShop = sprintf("INSERT INTO tbitems_aquired (aq_item_id, aq_progress_id, aq_char_id, aq_game_id, aq_item_price_ovrd) VALUES (%s, %s, %s, %s, %s)",
+                             GetSQLValueString($_POST['random_item'], "int"),
+                             GetSQLValueString($pID, "int"),
+                             GetSQLValueString($_POST['random_player'], "int"),
+                             GetSQLValueString($gameID, "int"),
+                             GetSQLValueString(0, "int"));
       }
 
       if (isset($_POST['search_item']) && $_POST['search_item'] != "empty"){
@@ -442,17 +582,6 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "quest-details-form"
                              GetSQLValueString(0, "int"));
       }
       
-
-      
-      $val_searchGold = 0;
-      $val_totalThreat = 1;
-      $val_questGold = 0;
-      $val_allySkill = NULL;
-      if ($_SESSION['quest_type'] == "Quest") {
-        $defaultXP = 1;
-      } else {
-        $defaultXP = 0;
-      } 
 
       // Get the gold value of all searchcards and update the stats for it.
       if(!empty($_POST['search_id'])) {
@@ -518,7 +647,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "quest-details-form"
 
       // -- Rewards -- //
 
-      $val_xpHeroes = $val_xpOverlord = $defaultXP;
+      
 
       if($_POST['progress_quest_winner'] == "Heroes Win"){
         foreach($_SESSION['rewards_heroes'] as $rh){
@@ -547,6 +676,9 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "quest-details-form"
     
       if($_POST['progress_quest_winner'] == "Overlord Wins"){
         $val_totalThreat += 1;
+        if(in_array($_SESSION['validate']['expID'], $miniCampaigns)){
+          $val_xpOverlord += 1;
+        }
         foreach($_SESSION['rewards_overlord'] as $ro){
           switch ($ro[0]) {
             case "xp":
@@ -608,7 +740,18 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "quest-details-form"
       $Result1 = mysql_query($insertSQL, $dbDescent) or die(mysql_error());
 
       if (isset($_POST['progress_relic_recipiant'])){
-        $Result2 = mysql_query($insertSQL2, $dbDescent) or die(mysql_error());
+        if($awardxp == 0 && $relicSteal == 0){
+          $Result2 = mysql_query($insertSQL2, $dbDescent) or die(mysql_error());
+        }
+
+        if($relicSteal == 1){
+          $ResultSteal = mysql_query($insertSQLSteal, $dbDescent) or die(mysql_error());
+          $ResultSteal2 = mysql_query($insertSQLSteal2, $dbDescent) or die(mysql_error());
+        }
+      }
+
+      if ($_POST['progress_quest_winner'] == "Heroes Win" && isset($_POST['random_item']) && $_POST['random_item'] != "empty"){
+        $ResultRandomShop = mysql_query($insertSQLRandomShop, $dbDescent) or die(mysql_error());
       }
 
       if (isset($_POST['search_item']) && $_POST['search_item'] != "empty"){
@@ -636,6 +779,9 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "quest-details-form"
     if ($UniqueS == 0){
       $_SESSION["errorcode"][] = "The selection contains duplicate monsters.";
     }
+    if ($RandomItem == 0){
+      $_SESSION["errorcode"][] = "No Random Shop item selected.";
+    }
     if ($SearchItem == 0){
       $_SESSION["errorcode"][] = "No Treasure Chest item selected.";
     }
@@ -643,7 +789,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "quest-details-form"
       $_SESSION["errorcode"][] = "No Secret Room item selected.";
     }
     if ($duplicateItem == 0){
-      $_SESSION["errorcode"][] = "The selected Treasure Chest item and Secret Room item was the same.";
+      $_SESSION["errorcode"][] = "One or more item fields (Treasure Chest, Secret Room,..) contained the same item.";
     }
 
     $insertGoTo = "campaign_overview_save.php?urlGamingID=" . $gameID_obscured . "&part=q";
@@ -883,6 +1029,18 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "buy-details-form"))
   if(isset($_POST["bought_override"]) && $_POST["bought_override"] != 999){
     $overridePrice = $_POST["bought_override"];
   }
+
+  $discount = 0;
+  if(isset($_POST["bought_discount"])){
+    $discount = 25;
+  }
+
+  if ($overridePrice == NULL && $discount != 0){
+    $overridePrice = $row_rsGetItem['item_default_price'] - $discount;
+  } else if ($overridePrice != NULL && $discount != 0){
+    $overridePrice = $overridePrice - $discount;
+  }
+
 
   $temp = $_SESSION["shopItems"];
 
@@ -1440,8 +1598,9 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "quest-delete-form")
   }
 
   foreach ($_SESSION['delete_phase']['spendxpSold'] as $uxps){
-    $insertSQLUXPs = sprintf("UPDATE tbskills_aquired SET spendxp_sold_progress_id = %s WHERE spendxp_game_id = %s AND spendxp_id = %s",
+    $insertSQLUXPs = sprintf("UPDATE tbskills_aquired SET spendxp_sold_progress_id = %s, spendxp_sold = %s WHERE spendxp_game_id = %s AND spendxp_id = %s",
                         GetSQLValueString(NULL, "int"),
+                        GetSQLValueString(0, "int"),
                         GetSQLValueString($gameID, "int"),
                         GetSQLValueString($uxps['id'], "int"));
   
@@ -1545,7 +1704,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "quest-delete-form")
     }
      else if ($ruu['rumor_resolved'] == 3){
       $insertSQLRum = sprintf("UPDATE tbrumors_played SET played_resolved = %s, played_resolved_progress_id = NULL WHERE played_id = %s AND played_game_id = %s",
-                        GetSQLValueString(2, "int"),
+                        GetSQLValueString(0, "int"),
                         GetSQLValueString($ruu['id'], "int"),
                         GetSQLValueString($gameID, "int"));
   
@@ -1594,6 +1753,12 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "quest-delete-form")
   
   $ResultSQLremove = mysql_query($insertSQLremove, $dbDescent) or die(mysql_error());
 
+
+  $insertSQLAdvRew = sprintf("UPDATE tbgames SET game_rumor_rew_used = %s WHERE game_id = %s",
+     GetSQLValueString($_SESSION['delete_phase']['rumorRewardsUsed'], "text"),
+     GetSQLValueString($gameID, "int"));
+
+  $ResultAdvRew = mysql_query($insertSQLAdvRew, $dbDescent) or die(mysql_error());
 
 
 

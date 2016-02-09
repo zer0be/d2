@@ -12,6 +12,7 @@ $rumorsExpansion = array();
 $questsWonByHeroesAct1 = array();
 $questsWonByHeroesAct2 = array();
 $rumorsWonByHeroesAct1 = array();
+$rumorsWonByHeroesAct2 = array();
 $rumorsWonByOverlordAct1 = array();
 
 // loop through the quests played in this game
@@ -32,6 +33,9 @@ foreach ($campaign['quests'] as $qos){
     $rumorsExpansion[] = $qos['quest_exp_id'];
     if (($qos['winner'] == 'Heroes Win') && $qos['act'] == "Act 1"){
       $rumorsWonByHeroesAct1[] = $qos['quest_id'];
+    }
+    if (($qos['winner'] == 'Heroes Win') && $qos['act'] == "Act 2"){
+      $rumorsWonByHeroesAct2[] = $qos['quest_id'];
     }
     if (($qos['winner'] == 'Overlord Wins') && $qos['act'] == "Act 1"){
       $rumorsWonByOverlordAct1[] = $qos['quest_id'];

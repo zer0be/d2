@@ -21,7 +21,6 @@ if(isset($monsters_usable)){
   }
 }
 
-
 $encounters = array();
 $encounters[] = array(
   "traits" => $qs['traits_enc1'],
@@ -114,18 +113,18 @@ foreach ($encounters as $enc){
   }
   $echoTraits = rtrim($echoTraits, ", ");
   echo '<p class="text-muted"><strong>Traits:</strong> ' . ucwords($echoTraits) . '</p>';
-  
-  			
+    			
   foreach ($specialCheck as $menc){	
     // Create an array to store all available monsters
     $checkDouble = array();
     // If the group is a simple open group
-  	if ($menc == "open"){ ?>
+  	if ($menc == "open"){ 
+      ?>
   		<select name="progress_enc<?php echo $mi; ?>_monsters[]" class="form-control"><?php
         // Loop through all monsters
-  			foreach ($allMonsters as $am){ 		 
+  			foreach ($allMonsters as $am){
   			 	$intersection = array_intersect($am['traits'], $enc['traits']);
-  			 	if ((!empty($intersection) && (!in_array($am['id'], $enc['monsters']))) || in_array($am['id'], $currentlyAdded)){
+  			 	if ( (!empty($intersection) && !in_array($am['id'], $enc['monsters'])) || in_array($am['id'], $currentlyAdded)){
             echo $am['option'];
             $_SESSION['verify_values']['monsters_enc' . $mi][] = $am['id'];
             $checkDouble[] = $am['id'];

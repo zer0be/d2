@@ -262,6 +262,7 @@ $campaign = array(
     "camp_id" => $selCampaign,
     "gold" => $row_rsGroupCampaign['game_gold'],
     "threat" => $row_rsGroupCampaign['game_threat'],
+    "adv_rew" => $row_rsGroupCampaign['game_rumor_rew_used'],
     "quests" => array(),
 );
 
@@ -723,6 +724,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "start-quest-form"))
   } 
 
   if($postQuestID != "" && $type == 'Quest'){
+    // Insert timestamp, gameid, quest id, and the type into the db
     $insertSQL = sprintf("INSERT INTO tbquests_progress (progress_timestamp, progress_game_id,progress_quest_id, progress_quest_type) VALUES (%s, %s, %s, %s)",
                          GetSQLValueString($_POST['progress_timestamp'], "date"),
                          GetSQLValueString($_POST['progress_game_id'], "int"),
@@ -733,6 +735,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "start-quest-form"))
     $Result1 = mysql_query($insertSQL, $dbDescent) or die(mysql_error());
     $ResultID = mysql_insert_id();
 
+    // Set all played rumor cards that don't have a quest (so stuff that targets travel steps and stuff) to completed
     $insertSQLrc = sprintf("UPDATE tbrumors_played SET played_resolved = %s, played_resolved_progress_id = %s WHERE played_game_id = %s AND played_rumor_quest_id is null",
                         GetSQLValueString(1, "int"),
                         GetSQLValueString($ResultID, "int"),
@@ -741,23 +744,26 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "start-quest-form"))
     mysql_select_db($database_dbDescent, $dbDescent);
     $Resultrc = mysql_query($insertSQLrc, $dbDescent) or die(mysql_error());
 
+    // if the current act is the interlude
     if ($currentAct == "Interlude"){
+      
+      // select from rumors played
       $query_rsRumorsUnplayed = sprintf("SELECT * FROM tbrumors_played INNER JOIN tbrumors ON played_rumor_id = rumor_id WHERE played_game_id = %s AND played_resolved = %s AND played_rumor_quest_id is not null", 
                         GetSQLValueString($gameID, "int"),
-                        GetSQLValueString(2, "int"));
+                        GetSQLValueString(0, "int"));
       $rsRumorsUnplayed = mysql_query($query_rsRumorsUnplayed, $dbDescent) or die(mysql_error());
       $row_rsRumorsUnplayed = mysql_fetch_assoc($rsRumorsUnplayed);
 
-
       do{
+        // Set these rumors to 3 (autocompleted) and save the progress id of when it happened
         $insertSQLrcq = sprintf("UPDATE tbrumors_played SET played_resolved = %s, played_resolved_progress_id = %s WHERE played_id = %s",
                         GetSQLValueString(3, "int"),
                         GetSQLValueString($ResultID, "int"),
                         GetSQLValueString($row_rsRumorsUnplayed['played_id'], "int"));
 
-
-
+        // If the rumor has a card attached to it.
         if ($row_rsRumorsUnplayed['rumor_unplayed_card'] != NULL){
+          echo "test - " . $row_rsRumorsUnplayed['rumor_unplayed_card'];
           $insertSQLSpecial = sprintf("INSERT INTO  tbskills_aquired (spendxp_game_id, spendxp_char_id, spendxp_skill_id, spendxp_progress_id) VALUES (%s, %s, %s, %s)",
                              GetSQLValueString($gameID, "int"),
                              GetSQLValueString($overlordID, "int"),
@@ -793,6 +799,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "start-quest-form"))
     }
     header(sprintf("Location: %s", $insertGoTo));
     die("Redirecting to self"); 
+
   } else if($postQuestID != "" && $type == 'Rumor'){
     $insertSQLr = sprintf("INSERT INTO tbquests_progress (progress_timestamp, progress_game_id, progress_quest_id, progress_quest_type) VALUES (%s, %s, %s, %s)",
                          GetSQLValueString($_POST['progress_timestamp'], "date"),
@@ -812,18 +819,6 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "start-quest-form"))
 
     mysql_select_db($database_dbDescent, $dbDescent);
     $Resultrrc = mysql_query($insertSQLrrc, $dbDescent) or die(mysql_error());
-
-    if ($currentAct == "Interlude"){
-      $insertSQLrcI = sprintf("UPDATE tbrumors_played SET played_resolved = %s, played_updated_progress_id = %s WHERE played_resolved = %s and played_game_id = %s AND played_rumor_quest_id is not NULL",
-                        GetSQLValueString(2, "int"),
-                        GetSQLValueString($ResultID, "int"),
-                        GetSQLValueString(0, "int"),
-                        GetSQLValueString($gameID, "int"));
-              
-      mysql_select_db($database_dbDescent, $dbDescent);
-      $ResultrcI = mysql_query($insertSQLrcI, $dbDescent) or die(mysql_error());
-   
-    }
 
     $insertSQLrc = sprintf("UPDATE tbrumors_played SET played_resolved = %s WHERE played_game_id = %s AND played_rumor_quest_id is NULL",
                         GetSQLValueString(1, "int"),

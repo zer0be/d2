@@ -148,8 +148,6 @@ do{
       $unbuy[] =  $row_rsRelicsReset['shop_id'];
     }
   }
-  
-  
 
 } while ($row_rsRelicsReset = mysql_fetch_assoc($rsRelicsReset));
 
@@ -175,9 +173,46 @@ if (isset($row_rsProgressReset['progress_threat_gained'])){
 if ($row_rsProgressReset['progress_quest_type'] == "Quest" && isset($row_rsProgressReset['progress_quest_winner'])) {
   $returnXPOL += 1;
   $returnXPH += 1;
+
+
+
+  if(in_array($campaign['camp_id'], $miniCampaigns)){
+
+    $query_rsRelicsXP = sprintf("SELECT * FROM tbitems_aquired INNER JOIN tbitems_relics ON aq_relic_id = relic_id WHERE aq_game_id = %s",
+                      GetSQLValueString($gameID, "int"));
+    $rsRelicsXP = mysql_query($query_rsRelicsXP, $dbDescent) or die(mysql_error());
+    $row_rsRelicsXP = mysql_fetch_assoc($rsRelicsXP);
+    $totalRows_rsRelicsXP = mysql_num_rows($rsRelicsXP);
+
+    do{
+      if($row_rsProgressReset['quest_rew_relic_id'] == $row_rsRelicsXP['aq_relic_id']){
+        if($pID != $row_rsRelicsXP['aq_progress_id'] && $row_rsRelicsXP['aq_trade_progress_id'] == NULL){
+          if($row_rsRelicsXP['aq_char_id'] == $overlordID){
+            $returnXPOL += 1;
+          } else {
+            $returnXPH += 1;
+          }
+          
+        }
+
+      }
+      
+
+    } while ($row_rsRelicsXP = mysql_fetch_assoc($rsRelicsXP));
+
+  }
+
+
+
+
+
+
 }
 
 if (isset($row_rsProgressReset['progress_quest_winner']) && $row_rsProgressReset['progress_quest_winner'] == "Overlord Wins"){
+  if(in_array($campaign['camp_id'], $miniCampaigns)){
+    $returnXPOL += 1;
+  }
   $rewardsOL = explode(";", $row_rsProgressReset['quest_rew_ol']);
   $rewardsOLexp = array();
   foreach ($rewardsOL as $ol){
@@ -262,6 +297,29 @@ $rsUsableDelete = mysql_query($query_rsUsableDelete, $dbDescent) or die(mysql_er
 $row_rsUsableDelete = mysql_fetch_assoc($rsUsableDelete);
 
 
+$query_rsAdvRewGame = sprintf("SELECT game_rumor_rew_used FROM tbgames WHERE game_id = %s", GetSQLValueString($gameID, "int"));
+$rsAdvRewGame = mysql_query($query_rsAdvRewGame, $dbDescent) or die(mysql_error());
+$row_rsAdvRewGame = mysql_fetch_assoc($rsAdvRewGame);
+
+$AdvRewGame = $row_rsAdvRewGame['game_rumor_rew_used'];
+$AdvRewGame = explode(',', $AdvRewGame);
+
+
+$query_rsAdvRewProgress = sprintf("SELECT progress_rumor_rew_used FROM tbquests_progress WHERE progress_game_id = %s AND progress_id = %s", GetSQLValueString($gameID, "int"), GetSQLValueString($pID, "int"));
+$rsAdvRewProgress = mysql_query($query_rsAdvRewProgress, $dbDescent) or die(mysql_error());
+$row_rsAdvRewProgress = mysql_fetch_assoc($rsAdvRewProgress);
+
+$AdvRewProgress = $row_rsAdvRewProgress['progress_rumor_rew_used'];
+$AdvRewProgress = explode(',', $AdvRewProgress);
+
+foreach ($AdvRewProgress as $arv){
+  if(($key = array_search($arv, $AdvRewGame)) !== false) {
+    unset($AdvRewGame[$key]);
+  }  
+}
+
+$AdvRewGame = implode(",", $AdvRewGame);
+
 $_SESSION['delete_phase'] = array(
   "travel" => $untravel,
   "spendxp" => $unspendxp,
@@ -277,6 +335,7 @@ $_SESSION['delete_phase'] = array(
   "returnXPOL" => $returnXPOL,
   "rumorsUpdate" => $rumorsUpdate,
   "rumorsDelete" => $rumorsDelete,
+  "rumorRewardsUsed" => $AdvRewGame,
 );
 
 // echo '<pre>';

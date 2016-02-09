@@ -903,3 +903,10 @@ body {
 	height: auto;
 }
 
+.bg-primary .container,
+.bg-danger .container,
+.bg-warning .container,
+.bg-info .container{
+  padding-top: 10px;
+  margin-bottom: 0px;
+}

@@ -81,6 +81,7 @@ if ($owner == 1){
             $ir = 0;
             foreach ($AvailableQuests as $aqs){ 
               // Show only the quest for this act
+              
               if ($aqs['quest_act'] == $currentAct || (in_array($selCampaign,$minicampaigns) && ($aqs['quest_act'] == "Act 2" && $currentAct == "Interlude" )) || ($aqs['quest_type'] == "rumor" && $aqs['quest_status']['available'] == 1 && $currentAct == "Interlude")  ){
 
                 // Check if the image for the quest exists, if not, use default

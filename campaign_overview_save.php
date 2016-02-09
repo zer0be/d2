@@ -21,6 +21,7 @@ include 'campaign_data.php';
 $pID = $campaign['quests'][0]['id'];
 $qID = $campaign['quests'][0]['quest_id'];
 $token = md5(uniqid(rand(), TRUE));
+$miniCampaigns = array(1,3,5);
 
 $_SESSION['validate'] = array();
 
@@ -31,6 +32,7 @@ if ($owner == 1){
 		"pID" => $pID,
 		"qID" => $qID,
 		"oID" => NULL,
+		"expID" => $campaign['camp_id'],
 		"token" => $token,
 		"gold" => $campaign['gold'],
 	);
@@ -53,6 +55,9 @@ foreach ($players as $h){
   }
 }
 
+// echo '<pre>';
+// var_dump($players);
+// echo '</pre>';
 
 $_SESSION['verify_values'] = array(
 	"players" => $playerIDs,

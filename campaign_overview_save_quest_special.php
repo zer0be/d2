@@ -405,6 +405,104 @@ echo '<div class="row">';
       </select><?php 
     }
 
+    // Special Rewards Advanced Quests
+    
+    $adv_rew_used = explode(',', $campaign['adv_rew']);
+
+    // armed to the teeth (double, because it needs to be available for the quest itself too)
+    if ($qs['quest_id'] == 24){ ?>
+      <p>Select a free item for 'Raiding the Armory'. (Armed to the Teeth reward) (Ignored if the Overlord wins)</p>
+      <select name="armed_teeth_item" class="form-control">
+        <option value="empty">Use Reward Later</option>
+        <?php foreach($availableItems as $ai) {
+          echo $ai;
+        } ?>
+      </select>
+      <select name="armed_teeth_player" class="form-control"><?php 
+        foreach ($players as $h){
+          if ($h['archetype'] != "Overlord"){  ?>
+            <option value="<?php echo $h['id'] ?>"><?php echo $h['name'] ?></option><?php
+          }
+        } ?>
+      </select><?php
+    }
+
+    
+    foreach ($campaign['quests'] as $AdvQuestRew){
+      if(isset($AdvQuestRew["winner"])){
+
+        // Armed to the teeth
+        if($AdvQuestRew['quest_id'] == 24 && !in_array(24, $adv_rew_used)){ 
+          if ($AdvQuestRew["winner"] == "Heroes Win"){ ?>
+            <p>Select a free item for 'Raiding the Armory'. (Armed to the Teeth reward) (Ignored if the Overlord wins)</p>
+            <select name="armed_teeth_item" class="form-control">
+              <option value="empty">Use Reward Later</option>
+              <?php foreach($availableItems as $ai) {
+                echo $ai;
+              } ?>
+            </select>
+            <select name="armed_teeth_player" class="form-control"><?php 
+              foreach ($players as $h){
+                if ($h['archetype'] != "Overlord"){  ?>
+                  <option value="<?php echo $h['id'] ?>"><?php echo $h['name'] ?></option><?php
+                }
+              } ?>
+            </select><?php
+          } else { 
+            if ($AdvQuestRew["winner"] == "Overlord Wins"){ ?>
+              <p>Select a free item for 'Raiding the Armory'. (Armed to the Teeth reward)</p>
+              <select name="armed_teeth_item" class="form-control">
+                <?php foreach($availableItemsRelics as $air) {
+                  echo $air;
+                } ?>
+              </select><?php
+            }
+          }
+        }
+
+        // Crown of Destiny
+        if($AdvQuestRew['quest_id'] == 79 && !in_array(79, $adv_rew_used)){ 
+          if ($AdvQuestRew["winner"] == "Heroes Win"){ ?>
+            <p>Select cards to return for 'The Path not Taken'. (Crown of Destiny reward)</p>
+            <div class="well"><?php
+              foreach($players as $ply){ 
+                if($ply['id'] != $overlordID){ 
+                  echo '<strong>' . $ply['name'] . '</strong>'; ?>
+                  <div class="row"><?php
+                    if(isset($acquiredOptions[$ply['id']])){
+                      foreach ($acquiredOptions[$ply['id']] as $aqo){
+                        echo $aqo;
+                      }
+                    } else {
+                      echo $ply['name'] . ' has no cards to return.';
+                    } ?>
+                  </div><?php
+                }
+              } ?>
+            </div><?php
+          } else { ?>
+            <p>Select cards to return for the 'Reforged'. (Crown of Destiny reward)</p><?php 
+            if ($qs['quest_id'] == 9){ ?>
+              <p>(If the current quest is 'Ritual of Shadows' and the overlord wins this is ignored)</p><?php
+            } ?> 
+            <div class="well">
+              <div class="row"><?php
+                if(isset($acquiredOptions[$overlordID])){
+                  foreach ($acquiredOptions[$overlordID] as $aqo){
+                    echo $aqo;
+                  }
+                } else {
+                  echo 'The overlord has no cards to return.';
+                }
+                 ?>
+              </div>
+            </div><?php
+          }
+        }
+
+      } 
+    }
+
   echo '</div>';
 echo '</div>';
 

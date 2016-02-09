@@ -22,7 +22,7 @@
 	</div>
 
 	<div class="row no-gutters col-skills"><?php 
-		if ($qs['winner'] != NULL) {
+		// if ($qs['winner'] != NULL) {
 			// loop through skills per hero
 			foreach ($qs['spendxp'] as $xsk){	?>
 				<div class="row no-gutters">
@@ -72,6 +72,6 @@
 					</div>
 				</div><?php
 			} //close foreach
- 		} ?>
+ 		// } ?>
 	</div>
 </div>

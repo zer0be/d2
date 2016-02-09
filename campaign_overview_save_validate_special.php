@@ -243,8 +243,9 @@ foreach($_SESSION['rewards_overlord'] as $rh){
       break;
     case "addmonster":
       switch ($qID) {
-        case "6": // HoB - Flame
-        case "8": // HoB - Shadowfall Mountain
+        case "6": // Desecrated tomb
+        case "8": // Enduring the elements
+        case "47": // Source of Sickness
           if ($_POST['progress_quest_winner'] == "Overlord Wins"){
             mysql_select_db($database_dbDescent, $dbDescent);
 
@@ -387,5 +388,85 @@ if(isset($_POST['citizen'])){
     $ResultAgent = mysql_query($insertSQLAgent, $dbDescent) or die(mysql_error());
   }
 }
+
+$query_rsAdvRewGame = sprintf("SELECT game_rumor_rew_used FROM tbgames WHERE game_id = %s", GetSQLValueString($gameID, "int"));
+$rsAdvRewGame = mysql_query($query_rsAdvRewGame, $dbDescent) or die(mysql_error());
+$row_rsAdvRewGame = mysql_fetch_assoc($rsAdvRewGame);
+
+$AdvRewGame = $row_rsAdvRewGame['game_rumor_rew_used'];
+$CurrentAdvRew = "";
+
+
+// Armed to the Teeth
+
+if (isset($_POST['armed_teeth_item']) && $_POST['armed_teeth_item'] != "empty" && $_POST['progress_quest_winner'] == "Heroes Win" && !in_array($_POST['armed_teeth_item'], $checkDuplicate)){
+  $insertSQLArmed = sprintf("INSERT INTO tbitems_aquired (aq_item_id, aq_progress_id, aq_char_id, aq_game_id, aq_item_price_ovrd) VALUES (%s, %s, %s, %s, %s)",
+                       GetSQLValueString($_POST['armed_teeth_item'], "int"),
+                       GetSQLValueString($pID, "int"),
+                       GetSQLValueString($_POST['armed_teeth_player'], "int"),
+                       GetSQLValueString($gameID, "int"),
+                       GetSQLValueString(0, "int"));
+
+  mysql_select_db($database_dbDescent, $dbDescent);
+  
+  $ResultArmed = mysql_query($insertSQLArmed, $dbDescent) or die(mysql_error());
+
+  $CurrentAdvRew = "24" . ",";
+}
+
+// Crown of Destiny Reward
+if (($qID != 9) || ($qID == 9 && $_POST['progress_quest_winner'] != "Overlord Wins")){
+  $destinyUsed = 0;
+  foreach($_SESSION['verify_values']['players'] as $plyID){
+    if (isset($_POST[$plyID])){
+      foreach ($_POST[$plyID] as $skr){
+        mysql_select_db($database_dbDescent, $dbDescent);
+        $insertSQLSpecialRet = sprintf("UPDATE tbskills_aquired SET spendxp_sold = %s, spendxp_sold_progress_id = %s WHERE spendxp_game_id = %s AND spendxp_char_id = %s AND spendxp_skill_id = %s",
+             GetSQLValueString(1, "int"),
+             GetSQLValueString($pID, "int"),
+             GetSQLValueString($gameID, "int"),
+             GetSQLValueString($plyID, "int"),
+             GetSQLValueString($skr, "int"));
+  
+        $query_rsSkillCostRet = sprintf("SELECT skill_cost FROM tbskills WHERE skill_id = %s", GetSQLValueString($skr, "int"));
+        $rsSkillCostRet = mysql_query($query_rsSkillCostRet, $dbDescent) or die(mysql_error());
+        $row_rsSkillCostRet = mysql_fetch_assoc($rsSkillCostRet);
+  
+        $insertSQLRet = sprintf("UPDATE tbcharacters SET char_xp = char_xp + %s WHERE char_id = %s",
+                  GetSQLValueString($row_rsSkillCostRet['skill_cost'], "int"),
+                  GetSQLValueString($plyID, "int"));
+  
+        
+        $ResultSpecialRet = mysql_query($insertSQLSpecialRet, $dbDescent) or die(mysql_error());
+        $ResultRet = mysql_query($insertSQLRet, $dbDescent) or die(mysql_error());
+
+        $destinyUsed = 1;
+      }
+    }
+  }
+
+  if ($destinyUsed == 1){
+    $CurrentAdvRew = "79" . ",";
+  }
+}
+
+if ($CurrentAdvRew != ""){
+
+  $CurrentAdvRew = rtrim($CurrentAdvRew, ",");
+  $insertSQLAdvRew = sprintf("UPDATE tbgames SET game_rumor_rew_used = %s WHERE game_id = %s",
+     GetSQLValueString($CurrentAdvRew, "text"),
+     GetSQLValueString($gameID, "int"));
+
+  $ResultAdvRew = mysql_query($insertSQLAdvRew, $dbDescent) or die(mysql_error());
+
+  $insertSQLAdvRew2 = sprintf("UPDATE tbquests_progress SET progress_rumor_rew_used = %s WHERE progress_game_id = %s AND progress_id = %s",
+     GetSQLValueString($CurrentAdvRew, "text"),
+     GetSQLValueString($gameID, "int"),
+     GetSQLValueString($pID, "int"));
+
+  $ResultAdvRew2 = mysql_query($insertSQLAdvRew2, $dbDescent) or die(mysql_error());
+}
+
+
 
 ?>

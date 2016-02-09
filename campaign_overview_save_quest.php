@@ -186,6 +186,36 @@ foreach ($players as $h){
 					</select><?php
 				}
 
+				if(in_array($selCampaign, $miniCampaigns)){ ?>
+					<h3>Free Shop Card</h3>
+					<p class="text-muted">Ignored if the overlord wins</p> 
+
+					<h4>Item received</h4>
+					<select name="random_item" class="form-control">
+						<option value="empty">None</option><?php 
+						foreach($availableItems as $ai) {
+							echo $ai;
+						} ?>
+					</select>
+
+					<h4>Hero receiving item</h4>
+					<select name="random_player" class="form-control"><?php 
+						foreach ($players as $h){
+							if (isset($_SESSION['old_post']['random_player']) && $_SESSION['old_post']['random_player'] == $h['id']){
+								$selSel = "selected='selected'";
+							} else {
+								$selSel = "";
+							}
+
+							if ($h['archetype'] != "Overlord"){ ?>
+								<option value="<?php print $h['id']; ?>" <?php echo $selSel; ?> ><?php print $h['name']; ?></option><?php
+							}
+						} //close foreach ?>
+					</select><?php
+
+
+				}
+
 			} ?>
 
 		</div><?php

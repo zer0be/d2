@@ -33,6 +33,13 @@
 								echo '<option value="' . 175 . '">' . 175 . ' Gold</option>';
 							} ?>
 					</select><?php
+				} 
+
+				$discounted = 0;
+				if (in_array(23, $rumorsWonByHeroesAct2) && empty($_SESSION["shopItems"])){ ?>
+					<p class="text-center">First item has a 25 Gold discount from 'A Friend at the Forge'.</p>
+					<input type="hidden" name="bought_discount" value="25" /><?php
+					$discounted = 25;
 				} ?>
 
 			<div>

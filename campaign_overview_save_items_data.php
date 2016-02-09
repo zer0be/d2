@@ -15,15 +15,18 @@ $aquiredItems = array();
 $aquiredItemsDetails = array();
 $aquiredItemsList = array();
 
-
-
 if(isset($_GET['data']) && $_GET['data'] == "y"){
 	// add the items already in the session
 	foreach ($_SESSION["shopItems"] as $ses){
 		
 		if ($ses['action'] == "buy"){
 			$aquiredItems[] = $ses['id'];
-			$selectionPrice += $ses['price'];
+			if ($ses['override'] == NULL){
+				$selectionPrice += $ses['price'];
+			} else {
+				$selectionPrice += $ses['override'];
+			}
+			
 		}
 
 		if ($ses['action'] == "sell"){
