@@ -41,6 +41,7 @@ do {
 
   $DetailItemsList[] = array(
     "item_name" => $row_rsDetailItems['item_name'],
+    "item_id" => $row_rsDetailItems['item_id'],
     "default_price" => $row_rsDetailItems['item_default_price'],
     "override_price" => $row_rsDetailItems['aq_item_price_ovrd'],
     "item_type" => $row_rsDetailItems['item_type'],
@@ -229,6 +230,7 @@ do{
   "</div>";
 
   $DetailSkillsList[] = array(
+    "skill_id" => $row_rsDetailSkills['skill_id'],
     "skill_name" => $row_rsDetailSkills['skill_name'],
     "skill_cost" => $row_rsDetailSkills['skill_cost'],
     "skill_class" => $row_rsDetailSkills['skill_class'],

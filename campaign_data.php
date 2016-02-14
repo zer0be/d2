@@ -137,6 +137,7 @@ do {
     "id" => $row_rsCharData['char_id'],
     "player" => $row_rsCharData['player_handle'],
     "name" => $row_rsCharData['hero_name'],
+    "hero_id" => $row_rsCharData['hero_id'],
     "archetype" => $row_rsCharData['hero_type'],
     "speed" => $row_rsCharData['hero_speed'],
     "health" => $row_rsCharData['hero_health'],
@@ -148,6 +149,7 @@ do {
     "awareness" => $row_rsCharData['hero_awareness'],
     "img" => $row_rsCharData['hero_img'],
     "class" => $row_rsCharData['char_class'],
+    //"class_id" => $row_rsCharData['char_class'],
     "xp" => $row_rsCharData['char_xp'],
     "skills" => $skills,
     "items" => $itemsX,
@@ -689,6 +691,26 @@ $iq++;
 
 } while ($row_rsQuestData = mysql_fetch_assoc($rsQuestData));
 
+// FAQ
+$query_rsFAQ = sprintf("SELECT * FROM tbfaq WHERE faq_exp_id IN ($selExpansions) ORDER BY faq_subject");
+$rsFAQ = mysql_query($query_rsFAQ, $dbDescent) or die(mysql_error());
+$row_rsFAQ = mysql_fetch_assoc($rsFAQ);
+$totalRows_rsFAQ = mysql_num_rows($rsFAQ);
+
+$faqArray = array();
+
+do{
+  $faqArray[] = array(
+    "source" => $row_rsFAQ['faq_source'],
+    "subject" => $row_rsFAQ['faq_subject'],
+    "subject_id" => explode(",", $row_rsFAQ['faq_subject_id']),
+    "errata_title" => $row_rsFAQ['faq_errata_title'],
+    "errata_text" => $row_rsFAQ['faq_errata_text'],
+    "question" => $row_rsFAQ['faq_question'],
+    "answer" => $row_rsFAQ['faq_answer'],
+  );
+} while ($row_rsFAQ = mysql_fetch_assoc($rsFAQ));
+
 
 $wonForInterlude = 0;
 $wonForFinale = 0;
@@ -763,7 +785,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "start-quest-form"))
 
         // If the rumor has a card attached to it.
         if ($row_rsRumorsUnplayed['rumor_unplayed_card'] != NULL){
-          echo "test - " . $row_rsRumorsUnplayed['rumor_unplayed_card'];
+          //echo "test - " . $row_rsRumorsUnplayed['rumor_unplayed_card'];
           $insertSQLSpecial = sprintf("INSERT INTO  tbskills_aquired (spendxp_game_id, spendxp_char_id, spendxp_skill_id, spendxp_progress_id) VALUES (%s, %s, %s, %s)",
                              GetSQLValueString($gameID, "int"),
                              GetSQLValueString($overlordID, "int"),

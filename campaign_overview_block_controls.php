@@ -77,12 +77,13 @@ if ($owner == 1){
             </div><?php
 
             $minicampaigns = array(1,3,5);
+            $actonecampaigns = array(30);
 
             $ir = 0;
             foreach ($AvailableQuests as $aqs){ 
               // Show only the quest for this act
               
-              if ($aqs['quest_act'] == $currentAct || (in_array($selCampaign,$minicampaigns) && ($aqs['quest_act'] == "Act 2" && $currentAct == "Interlude" )) || ($aqs['quest_type'] == "rumor" && $aqs['quest_status']['available'] == 1 && $currentAct == "Interlude")  ){
+              if ($aqs['quest_act'] == $currentAct || (in_array($selCampaign,$minicampaigns) && ($aqs['quest_act'] == "Act 2" && $currentAct == "Interlude" )) || (in_array($selCampaign,$actonecampaigns) && ($aqs['quest_act'] == "Finale" && $currentAct == "Interlude" )) || ($aqs['quest_type'] == "rumor" && $aqs['quest_status']['available'] == 1 && $currentAct == "Interlude")  ){
 
                 // Check if the image for the quest exists, if not, use default
                 $filename = "img/quests/" . $aqs['quest_img'];
@@ -112,7 +113,7 @@ if ($owner == 1){
                       <div class="col-md-4" <?php echo $opacity; ?> >
 
                         <div class="row no-gutters" style="background: #f9f9f9; border: 1px solid #ddd;">
-                          <div class="col-sm-4">
+                          <div class="col-sm-4 hidden-xs">
                             <div style="background: url('<?php print $filename; ?>') no-repeat center; background-size: 160% auto; height: 320px;"></div>
                           </div>
                           <div class="col-sm-8" style="padding: 0 15px;">
@@ -197,7 +198,14 @@ if ($owner == 1){
                                 }
                               } ?>
                             </small>
-                            <p style="height: 120px;"><small><?php print $aqs['quest_description']; ?></small></p>
+                            <p style="height: 120px;"><small><?php 
+                              if($aqs['quest_description'] != NULL){
+                                print $aqs['quest_description']; 
+                              } else {
+                                echo 'No description available yet.';
+                              }
+                              
+                              ?></small></p>
                             <div class="row"><?php 
                               foreach ($statsArray as $sta){
                                 if($sta['quest_name'] == $aqs['quest_name']){
@@ -227,9 +235,9 @@ if ($owner == 1){
                                   }
                                   echo "Select this " . $aqs['quest_type']; ?>
                                 </label>
-                              </div>
-                              <p></p><?php
+                              </div><?php
                             } ?>
+                            <p></p>
                           </div>
                           
                         </div>
@@ -257,7 +265,7 @@ if ($owner == 1){
       </div>
     </div>
 
-    <div id="rumors-block" class="col-sm-6">
+    <div id="rumors-block" class="col-sm-6 col-md-offset-3">
       <div class="well"><?php 
         if ($enableRumors == 1){ ?>
           <strong>Put a rumor in play</strong>

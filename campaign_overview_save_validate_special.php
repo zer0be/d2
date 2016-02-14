@@ -54,6 +54,7 @@
             case "85": // Three Heads, One Mind
             case "87": // Three Heads, One Mind
             case "88": // Three Heads, One Mind
+            case "108":
               $val_questGold += ($_POST['special_heroes'] * $rh[1]);
               break;
             case "95": // Army
@@ -79,6 +80,20 @@
                 
                 $ResultMonster = mysql_query($insertSQLMonster, $dbDescent) or die(mysql_error());
               }
+              break;   
+          }
+          break;
+
+        case "freegold":
+          switch ($qID) {
+            case "108":
+            case "109":
+            case "110":
+            case "111":
+            case "112":
+            case "113":
+            case "114":
+              $val_questGold += $rh[1];
               break;   
           }
           break;

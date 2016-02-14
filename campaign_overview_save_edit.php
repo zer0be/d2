@@ -49,8 +49,8 @@
 
     <h2>Open steps for editing</h2>
     <div>
-      <div class="checkbox"><label><input type="checkbox" name="open_skills" value="true"><div>Open Skills Step</label></div></div>
       <div class="checkbox"><label><input type="checkbox" name="open_items" value="true"><div>Open Items Step</label></div></div>
+      <div class="checkbox"><label><input type="checkbox" name="open_skills" value="true"><div>Open Skills Step</label></div></div>    
     </div>
     <div class="col-sm-4">
       <input type="submit" class="btn btn-block btn-primary" value="Undo / Open" />

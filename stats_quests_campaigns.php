@@ -15,6 +15,7 @@ $campaignstemp = array(
   4 => "Shadow of Nerekhall",
   // 5 => "Manor of Ravens",
   29 => "Heirs of Blood",
+  30 => "Mists of Bilehall",
 );
 
 ?>

@@ -18,6 +18,16 @@
                     <p>If you find any issues on the website or have suggestions and/or feedback, please contact me via email at support@d2etracker.com or through the FFG Forums <a href='https://community.fantasyflightgames.com/user/239371-atom4gevampire/'>here</a>.</p>
                     <h2>Recent updates</h2>
 
+                    <h3>February 13th, 2016</h3>
+                    <ul>
+                      <li>Added Mists of Bilehall!</li>
+                    </ul>
+
+                    <h3>February 11th, 2016</h3>
+                    <ul>
+                      <li>Major Update, full changelog coming soon!</li>
+                    </ul>
+
                     <h3>December 17th, 2015</h3>
                     <ul>
                       <li>Hero overview page stats now correctly shows a speed that is lower than the max speed when it is forced by an item, also a small text was added to indicate this is still work in progress</li>

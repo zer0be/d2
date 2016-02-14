@@ -37,7 +37,7 @@ foreach ($travelSteps as $ts){ ?>
 	</div>
 
 	<div class="row no-gutters">
-		<div class="col-sm-2">
+		<div class="col-xs-2">
 			<div class="save-travel-step" style="background: url('img/<?php echo $ts ?>.png') no-repeat center;"></div>
 		</div><?php 
 
@@ -46,7 +46,7 @@ foreach ($travelSteps as $ts){ ?>
 			if ($tmpi <= $tempAmount) { ?>
 
 				<form action="campaign_overview_save_validate.php" method="post" name="travel-substep-form" id="travel-substep-form">
-					<div class="col-sm-5"><?php 
+					<div class="col-sm-5 col-xs-10"><?php 
 
 						if ($tmpi == ($tempAmount)){ ?>
 
@@ -73,7 +73,7 @@ foreach ($travelSteps as $ts){ ?>
 
 					</div>
 
-					<div class="col-sm-4"><?php 
+					<div class="col-sm-4 col-xs-10 col-xs-offset-2 col-sm-offset-0"><?php 
 						if ($tmpi == ($tempAmount)){ ?>
 							<input type="submit" value="Add" class="btn btn-block btn-primary" />
 							<input type="hidden" name="token" value="<?php echo $token ; ?>" />
@@ -83,7 +83,7 @@ foreach ($travelSteps as $ts){ ?>
 						} // close if tmpi ?>
 					</div>
 
-					<div class="col-sm-1">
+					<div class="col-sm-1 hidden-xs">
 					</div>
 				</form><?php 
 
@@ -94,7 +94,7 @@ foreach ($travelSteps as $ts){ ?>
 			if ($tmpi < $tempAmount) { ?>
 
 				<form action="campaign_overview_save_validate.php" method="post" name="travel-substep-details-form" id="travel-substep-details-form">
-					<div class="col-sm-5">
+					<div class="col-sm-5 col-xs-10">
 
 						<select class="form-control" disabled="disabled"><?php 
 							echo $_SESSION['travelevents'][$tmpi]['option']; ?>
@@ -160,6 +160,13 @@ foreach ($travelSteps as $ts){ ?>
 								</select><?php 
 							} // close == golditem
 
+							if ($_SESSION['lastspecialtype'] == "goldchk"){ ?>	
+								<select name="travel_gold" class="form-control">
+									<option value="">No Gold Gained</option>
+									<option value="25">25 Gold Gained</option>
+								</select><?php 
+							} // close == goldchk
+
 							if ($_SESSION['lastspecialtype'] == "skipchk"){ ?>
 								<select name="travel_skipchk" class="form-control">
 									<option value="0">Failed</option>
@@ -188,7 +195,7 @@ foreach ($travelSteps as $ts){ ?>
 
 					</div>
 
-					<div class="col-sm-4"><?php 
+					<div class="col-sm-4 col-xs-10 col-xs-offset-2 col-sm-offset-0"><?php 
 						if ($tmpi == ($tempAmount - 1)){ ?>
 							<input type="submit" value="Update" class="btn btn-block btn-primary" />
 							<input type="hidden" name="token" value="<?php echo $token ; ?>" />
@@ -198,7 +205,7 @@ foreach ($travelSteps as $ts){ ?>
 						} ?>
 					</div>
 
-					<div class="col-sm-1"></div>
+					<div class="col-sm-1 hidden-xs"></div>
 
 				</form><?php 
 			} // close $tmpi < $tempAmount
@@ -229,6 +236,7 @@ foreach ($travelSteps as $ts){ ?>
 		<div class="row no-gutters">
 		<div class="col-sm-4">
 			<div><a class="btn btn-block btn-default" disabled="disabled" />Save</a></div>
+			<p></p>
 		</div>
 	</div><?php 
 }

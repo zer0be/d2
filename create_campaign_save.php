@@ -1,6 +1,7 @@
 <?php
 
   $minicampaigns = array(1,3,5);
+  $oneactcampaigns = array(30);
 
   // Insert the values into the ongoing games table
   $insertSQL = sprintf("INSERT INTO tbgames (game_grp_id, game_dm, game_camp_id, game_expansions) VALUES (%s, %s, %s, %s)",
@@ -55,17 +56,7 @@ $noGoldOverlord = 1;
 
 foreach ($_SESSION["playerdata"] as $xshdb){
   // Save Character
-  if (!in_array($_SESSION["campaigndata"]['campaign_id'], $minicampaigns)){
-    $insertSQL = sprintf("INSERT INTO tbcharacters (char_ggrp_id, char_game_id, char_player, char_hero, char_class) VALUES (%s, %s, %s, %s, %s)",
-                            GetSQLValueString($_SESSION["campaigndata"]['group_id'], "int"),
-                            GetSQLValueString($ResultID, "int"),
-                            GetSQLValueString($xshdb['player'], "text"),
-                            GetSQLValueString($xshdb['id'], "int"),
-                            GetSQLValueString($xshdb['class'], "text"));
-
-    $Result1 = mysql_query($insertSQL, $dbDescent) or die(mysql_error());
-    $Result1ID = mysql_insert_id();
-  } else {
+  if (in_array($_SESSION["campaigndata"]['campaign_id'], $minicampaigns)){
     $insertSQL = sprintf("INSERT INTO tbcharacters (char_ggrp_id, char_game_id, char_player, char_hero, char_class, char_xp) VALUES (%s, %s, %s, %s, %s, %s)",
                             GetSQLValueString($_SESSION["campaigndata"]['group_id'], "int"),
                             GetSQLValueString($ResultID, "int"),
@@ -84,7 +75,28 @@ foreach ($_SESSION["playerdata"] as $xshdb){
       $ResultG = mysql_query($insertSQLG, $dbDescent) or die(mysql_error());
     }
     $noGoldOverlord = 0;
+  } else if (in_array($_SESSION["campaigndata"]['campaign_id'], $oneactcampaigns)){
+    $insertSQL = sprintf("INSERT INTO tbcharacters (char_ggrp_id, char_game_id, char_player, char_hero, char_class, char_xp) VALUES (%s, %s, %s, %s, %s, %s)",
+                            GetSQLValueString($_SESSION["campaigndata"]['group_id'], "int"),
+                            GetSQLValueString($ResultID, "int"),
+                            GetSQLValueString($xshdb['player'], "text"),
+                            GetSQLValueString($xshdb['id'], "int"),
+                            GetSQLValueString($xshdb['class'], "text"),
+                            GetSQLValueString(1, "int"));
+
+    $Result1 = mysql_query($insertSQL, $dbDescent) or die(mysql_error());
+    $Result1ID = mysql_insert_id();
     
+  } else {
+    $insertSQL = sprintf("INSERT INTO tbcharacters (char_ggrp_id, char_game_id, char_player, char_hero, char_class) VALUES (%s, %s, %s, %s, %s)",
+                            GetSQLValueString($_SESSION["campaigndata"]['group_id'], "int"),
+                            GetSQLValueString($ResultID, "int"),
+                            GetSQLValueString($xshdb['player'], "text"),
+                            GetSQLValueString($xshdb['id'], "int"),
+                            GetSQLValueString($xshdb['class'], "text"));
+
+    $Result1 = mysql_query($insertSQL, $dbDescent) or die(mysql_error());
+    $Result1ID = mysql_insert_id();
   }
 
   

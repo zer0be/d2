@@ -150,6 +150,14 @@ if ((isset($_SESSION['user']) && $_SESSION['user']['new'] == 1) || !isset($_SESS
       </div>
       <div class="panel-body">  
         <small>
+          <strong>February 13th, 2016</strong>
+          <ul>
+            <li>Added Mists of Bilehall!</li>
+          </ul>
+          <strong>February 11th, 2016</strong>
+          <ul>
+            <li>Major Update, full changelog coming soon!</li>
+          </ul>
           <strong>December 17th, 2015</strong>
           <ul>
             <li>Hero overview page stats now correctly shows a speed that is lower than the max speed when it is forced by an item, also a small text was added to indicate this is still work in progress</li>
@@ -157,14 +165,6 @@ if ((isset($_SESSION['user']) && $_SESSION['user']['new'] == 1) || !isset($_SESS
             <li>Missing special objective added for SoN - Respected Citizen</li>
             <li>Missing special objective added for SoN - Prison of Khinn</li>
             <li>Fixed incorrect follow-up quests to HoB - Prison of Khinn</li>
-          </ul>
-          <strong>December 14th, 2015</strong>
-          <ul>
-            <li>Playing a rumor that is in play is no longer required before moving to the interlude (as ruled in official faq/errata).</li>
-            <li>Fixed a bug where Act 1 instead of Act 2 items were available for purchase when a rumor was played directly after the Interlude.</li>
-            <li>The 'Lone Knight' travel encounter can now be completed without selecting an item.</li>
-            <li>Universal cards that cost more than 1xp can now be purchased without having to purchase 1xp cards first.</li>
-            <li>Fixed an issue where the Finale selection of Labyrinth of Ruin was linked to Fire and Brimstone instead of Tipping the Scales.</li>
           </ul>
         </small>
       </div>

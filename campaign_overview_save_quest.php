@@ -96,18 +96,64 @@ foreach ($players as $h){
 				echo '<h2>' . $qs['quest_type'] . ' Details</h2></div>';
 		} else {
 			echo '<div class="col-sm-12"><h1>' . $qs['quest_type'] . ' Info</h1>';
-			echo '<p class="top-lead lead text-muted">View selectable monsters, frequently asked questions and errata for this ' . $qs['quest_type'] . '.</p>';
-			echo '<h2>FAQ and Errata</h2>';
-			if ($qs['errata'] != NULL){
-				echo '<p>' . $qs['errata'] . '</p>';     	
-			} else {
-				echo '<p>No know FAQ or Errata regarding this quest.</p>';
-			}
-			echo '<p>If you believe that the above information is incomplete or incorrect, feel free to contact me at support@d2etracker.com.</p>';
+				echo '<p class="top-lead lead text-muted">View selectable monsters, frequently asked questions and errata for this ' . $qs['quest_type'] . '.</p>';
 
-			echo '<h2>Selectable Monsters</h2>'; ?>
-			<p>If you need some help selecting monsters, <a href="stats_monsters.php">this page</a> offers details and statistics about all of Descent's monsters.</p><?php
-			include ('campaign_overview_save_quest_monsters.php');
+				echo '<h2>FAQ and Errata</h2>';
+				echo '<h3>Errata</h3>';
+				$noErrata = 0;
+				foreach ($faqArray as $faq){
+	        if($faq['errata_text'] != NULL){
+	          if ($faq['subject'] == "quest" && in_array($qs['quest_id'], $faq['subject_id'])){
+	            echo '<p><strong>' . $faq['errata_title'] . ':</strong><br />' . $faq['errata_text'] . '</p>';
+	            $noErrata = 1;
+	          }
+	        }
+	      }
+	      if($noErrata == 0){
+	      	echo '<p>No know Errata for this quest.</p>';
+	      }
+
+	      echo '<h3>FAQ</h3>';
+	      $noFaq = 0;
+	      foreach ($faqArray as $faq){
+	      	if($faq['question'] != NULL){
+		        if ($faq['subject'] == "quest" && in_array($qs['quest_id'], $faq['subject_id'])){
+		          echo '<p><i>Q: ' . $faq['question'] . '</i><br />A: ' . $faq['answer'] . '</p>';
+		          $noFaq = 1;
+		        }
+		      }  
+	      }
+	      if($noFaq == 0){
+	      	echo '<p>No know FAQ for this quest.</p>';
+	      }
+	      
+				echo '<p class="text-muted">If you believe that the above information is incomplete or incorrect, feel free to contact me at support@d2etracker.com.</p>';
+
+				echo '<h2>Selectable Monsters</h2>'; ?>
+				<p>If you need some help selecting monsters, <a href="stats_monsters.php">this page</a> offers details and statistics about all of Descent's monsters.</p><?php
+				include ('campaign_overview_save_quest_monsters.php');
+
+				echo '<h3>Monster Errata</h3>';
+				$noErrata = 0;
+				foreach ($faqArray as $faq){
+	        if($faq['errata_text'] != NULL){
+	          if ($faq['subject'] == "monster" && ($faq['subject_id'] == NULL || $faq['subject_id']) ){
+	            echo '<p><strong>' . $faq['errata_title'] . ':</strong><br />' . $faq['errata_text'] . '</p>';
+	            $errata = 1;
+	          }
+	        }
+	      }
+	      echo '<h3>Monster FAQ</h3>';
+	      $noFaq = 0;
+	      foreach ($faqArray as $faq){
+	      	if($faq['question'] != NULL){
+	          if ($faq['subject'] == "monster"){
+	            echo '<p><i>Q: ' . $faq['question'] . '</i><br />A: ' . $faq['answer'] . '</p>';
+	            $noFaq = 1;
+	          }
+	        }
+	      }
+
 			echo '</div>';
 		}
 

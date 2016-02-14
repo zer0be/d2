@@ -130,8 +130,10 @@ if ($currentAct == "Act 2"){
   do{
     // if a rumor with quest was found, and its not in the rumors completed, then it was auto completed at the start of the interlude
     if(!in_array($row_rsRumorsAdvanced['rumor_quest_id'], $rumorsCompleted)){
-      // Add it to the rumors won by the overlord and the rumorscompleted - FIX ME: work on this part, cause its not 100% correct, because the overlord didn't win it.
+      // Add it to the rumors won by the overlord so its available, to Autowon, to change the message, and the rumorscompleted
+      // FIX ME: Filter out LotW and Trollfens
       $rumorsWonByOverlordAct1[] = $row_rsRumorsAdvanced['rumor_quest_id'];
+      $rumorsAutoWon[] = $row_rsRumorsAdvanced['rumor_quest_id'];
       $rumorsCompleted[] = $row_rsRumorsAdvanced['rumor_quest_id'];
     }
 

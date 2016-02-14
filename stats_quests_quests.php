@@ -124,6 +124,7 @@ function questStats($statsArray, $expansion_id){
         <li role="presentation"><a href="#lor" aria-controls="messages" role="tab" data-toggle="tab">LoR</a></li>
         <li role="presentation"><a href="#son" aria-controls="settings" role="tab" data-toggle="tab">SoN</a></li>
         <li role="presentation"><a href="#hob" aria-controls="settings" role="tab" data-toggle="tab">HoB</a></li>
+        <li role="presentation"><a href="#mob" aria-controls="settings" role="tab" data-toggle="tab">MoB</a></li>
         <li role="presentation"><a href="#other" aria-controls="settings" role="tab" data-toggle="tab">Other</a></li>
       </ul>
 
@@ -243,6 +244,10 @@ function questStats($statsArray, $expansion_id){
 
         <div role="tabpanel" class="tab-pane fade" id="hob"><?php
           questStats($statsArray, 29); ?>
+        </div>
+
+        <div role="tabpanel" class="tab-pane fade" id="mob"><?php
+          questStats($statsArray, 30); ?>
         </div>
                 
         <div role="tabpanel" class="tab-pane fade" id="other"><?php

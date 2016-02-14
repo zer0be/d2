@@ -76,7 +76,7 @@ include 'stats_quests_array.php';
 						foreach ($players as $h){
 							if (($players[$ih]['archetype'] != "Overlord")){ ?>
 								<a href="campaign_overview.php?urlGamingID=<?php echo $gameID * 43021; ?>&urlCharID=<?php echo $players[$ih]['id']; ?>">
-									<div class="col-sm-3 hero text-center" style="background-image: url('img/heroes/<?php print $players[$ih]['img']; ?>');">
+									<div class="col-sm-3 col-xs-6 hero text-center" style="background-image: url('img/heroes/<?php print $players[$ih]['img']; ?>');">
 										<div class="name"><?php echo htmlentities($players[$ih]['name'], ENT_QUOTES, 'UTF-8'); ?></div>
 										<div class="class"><?php print $players[$ih]['class']; ?></div>
 										<div class="player"><?php echo htmlentities($players[$ih]['player'], ENT_QUOTES, 'UTF-8'); ?></div>
@@ -161,15 +161,19 @@ include 'stats_quests_array.php';
 						<div class="row no-gutters campaign-phase phase-<?php echo $qs['id']; ?>"><?php 
 
 							if ($owner == 1 && $del == 1){ ?>
-								<div class="col-sm-12 text-right">
+								<div class="col-sm-12 text-center">
 									<small><?php
+										// <a href="#"><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> FAQ & Errata</a>
+										// echo ' - ';
+										// <a href="#"><span class="glyphicon glyphicon-book" aria-hidden="true"></span> History</a><?php
+										// echo ' - ';
 										if($campaign['quests'][0]['items_set'] == 1 && $campaign['quests'][0]['spendxp_set'] == 1){ ?>																		
 											<a href="campaign_overview_save.php?urlGamingID=<?php echo $gameID * 43021; ?>&part=edit"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Edit</a><?php
 										} else { ?>
 											<span class="text-muted"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Edit</span><?php
-										}
-										echo ' - ';
-										if($campaign['quests'][0]['act'] != "Introduction"){ ?>	  
+										}	
+										if($campaign['quests'][0]['act'] != "Introduction"){ 
+											echo ' - '; ?>
 											<a href="campaign_overview_save.php?urlGamingID=<?php echo $gameID * 43021; ?>&part=del"><span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span> Delete</a><?php
 										} ?>
 										</small>

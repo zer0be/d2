@@ -134,7 +134,21 @@ echo '<div class="row">';
               <option value="0">Yes</option>
               <option value="1">No</option>
             </select><?php
-          break;
+            break;
+
+          case "108": // Strange Awakening ?>
+            <p>How many heroes moved off the map?</p>
+            <select name="special_heroes" class="form-control">
+              <option value="0">None</option><?php 
+              $xh = 1;
+              foreach ($players as $h){
+                if ($h['archetype'] != "Overlord"){  ?>
+                  <option value="<?php print $xh; ?>"><?php print $xh; ?> Heroes</option><?php
+                  $xh++;
+                }
+              } ?>
+            </select><?php
+            break;
         }
       }
     }

@@ -180,6 +180,9 @@ body {
 .label-primary.purple {
   background-color: #B564E3;
 }
+.label-primary.greenblue {
+  background-color: #00cc99;
+}
 
 /* line 184, content.scss */
 .row-bg-white {

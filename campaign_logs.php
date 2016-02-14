@@ -14,6 +14,7 @@ $questsWonByHeroesAct2 = array();
 $rumorsWonByHeroesAct1 = array();
 $rumorsWonByHeroesAct2 = array();
 $rumorsWonByOverlordAct1 = array();
+$rumorsAutoWon = array();
 
 // loop through the quests played in this game
 foreach ($campaign['quests'] as $qos){
@@ -318,7 +319,11 @@ foreach ($AvailableQuests as $aqs) {
         case 29:
           // --- HEIRS OF BLOOD --- //
           include 'campaign_logs_hob.php';
-          break;  
+          break; 
+        case 30:
+          // --- MISTS OF BILEHALL --- //
+          include 'campaign_logs_mob.php';
+          break;   
       }
       
     } else {
@@ -374,13 +379,25 @@ foreach ($AvailableQuests as $aqs) {
               }
             // if the overlord won and the rumor requires the previous quest to be won by the overlord
             } else if(!empty($intersectionO) && $aqs['quest_req_type'] == "Overlord"){
-              $AvailableQuests[$aqs['quest_id']]['quest_status']['available'] = 1;
-              $AvailableQuests[$aqs['quest_id']]['quest_status']['message'] = "Available because the Overlord won ";
-              foreach ($aqs['quest_req'] as $reqs){
-                if (in_array($reqs, $rumorsCompleted)){
-                  $AvailableQuests[$aqs['quest_id']]['quest_status']['message'] .= $AvailableQuests[$reqs]['quest_name'] . ".";
-                }     
+
+              if(array_intersect($aqs['quest_req'], $rumorsAutoWon)){
+                $AvailableQuests[$aqs['quest_id']]['quest_status']['available'] = 1;
+                $AvailableQuests[$aqs['quest_id']]['quest_status']['message'] = "Available because the rumor quest ";
+                foreach ($aqs['quest_req'] as $reqs){
+                  if (in_array($reqs, $rumorsCompleted)){
+                    $AvailableQuests[$aqs['quest_id']]['quest_status']['message'] .= $AvailableQuests[$reqs]['quest_name'] . " was not played.";
+                  }     
+                }
+              } else {
+                $AvailableQuests[$aqs['quest_id']]['quest_status']['available'] = 1;
+                $AvailableQuests[$aqs['quest_id']]['quest_status']['message'] = "Available because the Overlord won ";
+                foreach ($aqs['quest_req'] as $reqs){
+                  if (in_array($reqs, $rumorsCompleted)){
+                    $AvailableQuests[$aqs['quest_id']]['quest_status']['message'] .= $AvailableQuests[$reqs]['quest_name'] . ".";
+                  }     
+                }
               }
+
             // if the heroes won and the rumor requires the previous quest to be won by the overlord
             } else if(empty($intersectionO) && $aqs['quest_req_type'] == "Overlord"){
               $AvailableQuests[$aqs['quest_id']]['quest_status']['available'] = 0;
@@ -392,12 +409,23 @@ foreach ($AvailableQuests as $aqs) {
               }
             // if the rumor requires no specific winner
             } else if(!empty($intersectionAll) && $aqs['quest_req_type'] == "All"){
-              $AvailableQuests[$aqs['quest_id']]['quest_status']['available'] = 1;
-              $AvailableQuests[$aqs['quest_id']]['quest_status']['message'] = "Available because it is the follow up to ";
-              foreach ($aqs['quest_req'] as $reqs){
-                if (in_array($reqs, $rumorsCompleted)){
-                  $AvailableQuests[$aqs['quest_id']]['quest_status']['message'] .= $AvailableQuests[$reqs]['quest_name'] . ".";
-                }     
+
+              if(array_intersect($aqs['quest_req'], $rumorsAutoWon)){
+                $AvailableQuests[$aqs['quest_id']]['quest_status']['available'] = 1;
+                $AvailableQuests[$aqs['quest_id']]['quest_status']['message'] = "Available because the rumor quest ";
+                foreach ($aqs['quest_req'] as $reqs){
+                  if (in_array($reqs, $rumorsCompleted)){
+                    $AvailableQuests[$aqs['quest_id']]['quest_status']['message'] .= $AvailableQuests[$reqs]['quest_name'] . " was not played.";
+                  }     
+                }
+              } else {
+                $AvailableQuests[$aqs['quest_id']]['quest_status']['available'] = 1;
+                $AvailableQuests[$aqs['quest_id']]['quest_status']['message'] = "Available because it is the follow up to ";
+                foreach ($aqs['quest_req'] as $reqs){
+                  if (in_array($reqs, $rumorsCompleted)){
+                    $AvailableQuests[$aqs['quest_id']]['quest_status']['message'] .= $AvailableQuests[$reqs]['quest_name'] . ".";
+                  }     
+                }
               }
             } 
           }

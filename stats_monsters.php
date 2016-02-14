@@ -47,6 +47,9 @@ function getCampaignLabel($var, $view){
     case "Manor of Ravens":
       $camClass = "label-primary";
       break;
+    case "Mists of Bilehall":
+      $camClass = "label-primary greenblue";
+      break;
     default:
       $camClass = "label-default";
       break;

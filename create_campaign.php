@@ -31,7 +31,7 @@ mysql_select_db($database_dbDescent, $dbDescent);
 
 
 // Select the campaigns from the database and give them a custom order
-$query_rsCampaigns = "SELECT * FROM tbcampaign ORDER BY CASE WHEN cam_type = 'full' THEN '1' WHEN cam_type = 'mini' THEN '2' WHEN cam_type = 'monster' THEN '3' ELSE cam_type END, cam_id ASC";
+$query_rsCampaigns = "SELECT * FROM tbcampaign ORDER BY CASE WHEN cam_type = 'full' THEN '1' WHEN cam_type = 'mini' THEN '2' WHEN cam_type = 'act-one' THEN '3' WHEN cam_type = 'monster' THEN '4' ELSE cam_type END, cam_id ASC";
 $rsCampaigns = mysql_query($query_rsCampaigns, $dbDescent) or die(mysql_error());
 $row_rsCampaigns = mysql_fetch_assoc($rsCampaigns);
 $totalRows_rsCampaigns = mysql_num_rows($rsCampaigns);
@@ -44,7 +44,7 @@ $checkboxOptions = array();
 $currentType = "";
 $checkboxOptions[] = '<div class="checkbox"><label><input type="checkbox" id="checkAll"/>Select All</label></div>';
 do {
-  if($row_rsCampaigns['cam_type'] == "full" || $row_rsCampaigns['cam_type'] == "mini" || $row_rsCampaigns['cam_type'] == "book"){
+  if($row_rsCampaigns['cam_type'] == "full" || $row_rsCampaigns['cam_type'] == "mini" || $row_rsCampaigns['cam_type'] == "book" || $row_rsCampaigns['cam_type'] == "act-one"){
     $selectOptions[] = '<option value="' . $row_rsCampaigns['cam_id'] . '">' . $row_rsCampaigns['cam_name'] . '</option>';
   }
 
@@ -57,6 +57,9 @@ do {
       case "mini":
         $checkboxOptions[] = '<div class="expansion-type"><strong class="expansion-type">Small Box Expansion</strong></div>';
       break;
+      // case "act-one":
+      //   $checkboxOptions[] = '<div class="expansion-type"><strong class="expansion-type">One Act Campaigns</strong></div>';
+      // break;
       case "lieutenant":
         $checkboxOptions[] = '<div class="expansion-type"><strong class="expansion-type">Lieutenant Pack</strong></div>';
       break;

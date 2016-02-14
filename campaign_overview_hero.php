@@ -7,8 +7,7 @@ $currentHeroType = NULL;
 ?>
 <div class="container full">
   <div id="heroes-detail" class="clearfix">
-    <div class="row no-gutters">
-      <?php 
+    <div class="row no-gutters"><?php 
       // loop through heroes
       foreach ($players as $h){
         if (($h['id'] == $detailCharID)){ 
@@ -86,7 +85,9 @@ $currentHeroType = NULL;
 
                   <div class="detail-items col-sm-4 col-bg-white">
                     <h2 class="text-center">Items and Relics</h2><?php 
+                    $faqItems = array();
                     foreach($DetailItemsList as $dil) {
+                      $faqItems[] = $dil['item_id'];
                       if (isset($dil['item_name'])){ ?>
                         <div class="item row no-gutters">     
                           <div class="col-xs-2">
@@ -122,7 +123,9 @@ $currentHeroType = NULL;
                   <div class="detail-skills col-sm-4 col-bg-white">
                     <h2 class="text-center">Skills</h2><?php 
 
-                    foreach($DetailSkillsList as $dsl) { ?>
+                    $faqSkills = array();
+                    foreach($DetailSkillsList as $dsl) { 
+                      $faqSkills[] = $dsl['skill_id']; ?>
                       <div class="skill row no-gutters">
                         <div class="col-xs-2">
                           <div class="hero-mini" style="background: url('img/staminacost<?php print $dsl['skill_stamina_cost']; ?>.png') center;"></div>
@@ -142,6 +145,7 @@ $currentHeroType = NULL;
 
                   <div class="detail-items col-sm-4 col-bg-white">
                     <h2 class="text-center">Items and Relics</h2><?php 
+                    $faqItems = array();
                     foreach($DetailRelicsList as $drl) {  
                       if (isset($drl['relic_ol_name'])){ ?>
                         <div class="item row no-gutters">
@@ -155,11 +159,14 @@ $currentHeroType = NULL;
                     } ?>
                   </div> <!-- close items -->
 
+
                   <div class="detail-skills col-sm-4 col-bg-white">
                     <h2 class="text-center">Overlord Cards</h2><?php 
                     $olCardTotal = 0;
                     $olClassTotal = array();
+                    $faqSkills = array();
                     foreach($DetailSkillsList as $dsl) { 
+                      $faqSkills[] = $dsl['skill_id'];
                       if($dsl['skill_plot'] != 1){ ?>
                         <div class="skill row no-gutters">
                           <div class="col-xs-2"><div class="hero-mini" style="background: url('img/overlordcard.jpg') center;"></div></div>
@@ -294,6 +301,7 @@ $currentHeroType = NULL;
 
                     <div class="panel-group no-bottom" id="accordion" role="tablist" aria-multiselectable="true">
                       <div class="panel panel-default">
+
                         <div class="panel-heading" role="tab" id="headingOne">
                           <h4 class="panel-title text-center">
                             <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
@@ -301,13 +309,14 @@ $currentHeroType = NULL;
                             </a>
                           </h4>
                         </div>
+
                         <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
                           <div class="panel-body">
                             <div class="col-sm-12">
                               <div class="row no-gutters">
-                                <p>Below is an overview of the current stats of the heroes, which shows their 
-                                  <span class="badge dark-green">strenghts</span> and <span class="badge dark-red">weaknesses</span> 
-                                  based on the overall maximum and minimum values of each stat or attribute (of all heroes). Useful for choosing the most effective overlord card to use on a hero.</p>
+                                <p>Below is an overview of the current stats of the heroes, which shows their <span class="badge dark-green">strenghts</span> and <span class="badge dark-red">weaknesses</span> 
+                                  based on the overall maximum and minimum values of each stat or attribute (of all heroes). Useful for choosing the most effective overlord card to use on a hero.
+                                </p>
                               </div>
                               <div class="row no-gutters">
                                 <div class="col-sm-3 text-center hidden-xs">
@@ -355,9 +364,7 @@ $currentHeroType = NULL;
                                   if($ho['archetype'] != "Overlord"){ 
 
                                     $heroID = $ho['id'];
-                                    include 'campaign_overview_hero_data.php';
-
-                                    ?>
+                                    include 'campaign_overview_hero_data.php'; ?>
 
                                     <div class="col-sm-3 detail-items text-center">
                                       <div class="text-margin-10"><?php echo $ho['name']; ?></div>
@@ -539,7 +546,39 @@ $currentHeroType = NULL;
                   </div>
    
                 <?php } ?>
-            </div>
+                <div class="col-sm-12 col-bg-white">
+                  <div class="col-sm-12">
+                    <h3 class="text-center">Hero, Class and Skills FAQ and Errata</h3><?php
+                    $noErrata = 0;
+                    foreach ($faqArray as $faq){
+                      if($faq['errata_text'] != NULL){
+                        if ( ($faq['subject'] == "hero" && in_array($h['hero_id'], $faq['subject_id'])) || ($faq['subject'] == "class" && in_array($h['class'], $faq['subject_id'])) || ($faq['subject'] == "skill" && array_intersect($faqSkills, $faq['subject_id'])) || ($faq['subject'] == "item" && array_intersect($faqItems, $faq['subject_id'])) ){
+                          echo '<p><strong>' . $faq['errata_title'] . ':</strong><br />' . $faq['errata_text'] . '<br />';
+                          if($faq['source'] == "official"){
+                            echo '<small><span class="text-muted">Source: Official Errata</span></small></p>';
+                          }
+                          $noErrata = 1;
+                        }
+                      } 
+                    }
+                    foreach ($faqArray as $faq){
+                      if($faq['question'] != NULL){
+                        if ( ($faq['subject'] == "hero" && in_array($h['hero_id'], $faq['subject_id'])) || ($faq['subject'] == "class" && in_array($h['class'], $faq['subject_id'])) || ($faq['subject'] == "skill" && array_intersect($faqSkills, $faq['subject_id'])) || ($faq['subject'] == "item" && array_intersect($faqItems, $faq['subject_id'])) ){
+                          echo '<p><strong><i>Q: ' . $faq['question'] . '</i></strong><br />A: ' . $faq['answer'] . '<br />';
+                          if($faq['source'] == "official"){
+                            echo '<small><span class="text-muted">Source: Official Errata</span></small></p>';
+                          }
+                          $noErrata = 1;
+                        }
+                      }
+                    } 
+                    if($noErrata == 0){
+                      echo '<p>No know FAQ or Errata.</p>';
+                    }?>
+                  </div>
+                </div>
+              </div>
+              
 
      </div>
 
