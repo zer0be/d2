@@ -177,11 +177,11 @@ include 'stats_quests_array.php';
 
             
 
-              <div class="col-md-3">
+              <div class="col-md-4">
 
                 <div class="row no-gutters" style="background: #f9f9f9; border: 1px solid #ddd;">
                   <div class="col-sm-4">
-                    <div style="background: url('<?php print $filename; ?>') no-repeat center; background-size: 160% auto; height: 224px;"></div>
+                    <div style="background: url('<?php print $filename; ?>') no-repeat center; background-size: 130% auto; height: 240px;"></div>
                   </div>
                   <div class="col-sm-8" style="padding: 0 15px;">
                     <h2 class="h4"><?php print $cia['name']; ?></h2>
@@ -212,7 +212,7 @@ include 'stats_quests_array.php';
               
               </div><?php
 
-        if($ir == 4){
+        if($ir == 3){
           echo '</div>';
           echo '</div>';
           $ir = 0;
@@ -242,11 +242,11 @@ include 'stats_quests_array.php';
         } 
         $ir++; ?>
 
-              <div class="col-md-3">
+              <div class="col-md-4">
 
                 <div class="row no-gutters" style="background: #f9f9f9; border: 1px solid #ddd;">
                   <div class="col-sm-4">
-                    <div style="background: url('<?php print $filename; ?>') no-repeat center; background-size: 160% auto; height: 224px;"></div>
+                    <div style="background: url('<?php print $filename; ?>') no-repeat center; background-size: 160% auto; height: 240px;"></div>
                   </div>
                   <div class="col-sm-8" style="padding: 0 15px;">
                     <h2 class="h4"><?php print $quest['name']; ?></h2>
@@ -277,7 +277,7 @@ include 'stats_quests_array.php';
               
               </div><?php
 
-        if($ir == 4){
+        if($ir == 3){
           echo '</div>';
           echo '</div>';
           $ir = 0;
@@ -309,7 +309,7 @@ include 'stats_quests_array.php';
           } 
           $ir++; ?>
 
-                <div class="col-md-3">
+                <div class="col-md-4">
 
                   <div class="row no-gutters" style="background: #f9f9f9; border: 1px solid #ddd;">
                     <div class="col-sm-4">
@@ -321,7 +321,7 @@ include 'stats_quests_array.php';
                         <p><?php 
                           foreach ($monster['traits'] as $trait){
                           	if ($trait != 'all'){
-                          		echo '<span class="label label-default">' . $trait . '</span> ';
+                          		echo '<span class="text-muted">' . $trait . '</span> ';
                           	}
                           } ?>
                         </p>
@@ -357,7 +357,7 @@ include 'stats_quests_array.php';
                 
                 </div><?php
 
-          if($ir == 4){
+          if($ir == 3){
             echo '</div>';
             echo '</div>';
             $ir = 0;
