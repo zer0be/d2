@@ -7,7 +7,7 @@ if (isset($_GET['urlGamingID']) && is_numeric($_GET['urlGamingID'])) {
 } else {
   $insertGoTo = "404.php?info=campaignid";
   header(sprintf("Location: %s", $insertGoTo));
-  die("Redirecting to 404.php"); 
+  die("Redirecting to 404.php");
 }
 
 if (isset($_GET['urlCharID'])) {
@@ -34,7 +34,7 @@ $totalRows_rsGroupCampaign = mysql_num_rows($rsGroupCampaign);
 if ($totalRows_rsGroupCampaign == 0){
   $insertGoTo = "404.php?info=campaignid";
   header(sprintf("Location: %s", $insertGoTo));
-  die("Redirecting to 404.php"); 
+  die("Redirecting to 404.php");
 }
 
 $selCampaign = $row_rsGroupCampaign['game_camp_id'];
@@ -51,13 +51,13 @@ $rumorsInPlay = array();
 $rumorsDone = array();
 
 if ($totalRows_rsRumorPlayed > 0){
-  do {  
+  do {
     if ($row_rsRumorPlayed['played_resolved'] == 0){
       $rumorsInPlay[] = $row_rsRumorPlayed['played_rumor_id'];
     } else {
       $rumorsDone[] = $row_rsRumorPlayed['played_rumor_id'];
     }
-    
+
   } while ($row_rsRumorPlayed = mysql_fetch_assoc($rsRumorPlayed));
 }
 
@@ -78,10 +78,10 @@ $players = array();
 do {
 
   // Get the skills
-  $query_rsSkillsData = sprintf("SELECT * 
-    FROM tbcharacters 
-    INNER JOIN tbskills_aquired ON tbcharacters.char_id = tbskills_aquired.spendxp_char_id 
-    INNER JOIN tbskills ON tbskills_aquired.spendxp_skill_id = tbskills.skill_id 
+  $query_rsSkillsData = sprintf("SELECT *
+    FROM tbcharacters
+    INNER JOIN tbskills_aquired ON tbcharacters.char_id = tbskills_aquired.spendxp_char_id
+    INNER JOIN tbskills ON tbskills_aquired.spendxp_skill_id = tbskills.skill_id
     WHERE char_game_id = %s AND char_id = %s", GetSQLValueString($gameID, "int"), GetSQLValueString($row_rsCharData['char_id'], "int"));
   $rsSkillsData = mysql_query($query_rsSkillsData, $dbDescent) or die(mysql_error());
   $row_rsSkillsData = mysql_fetch_assoc($rsSkillsData);
@@ -89,7 +89,7 @@ do {
 
 
   $skills = array();
-  do {  
+  do {
         $skills[] = array(
           "id" => $row_rsSkillsData['spendxp_id'],
           "skill_id" => $row_rsSkillsData['skill_id'],
@@ -103,25 +103,25 @@ do {
 
   // Get the items
   $query_rsItemsData = sprintf("SELECT *
-    FROM tbitems_aquired 
+    FROM tbitems_aquired
     LEFT JOIN tbitems ON tbitems_aquired.aq_item_id = tbitems.item_id
-    LEFT JOIN tbitems_relics ON tbitems_aquired.aq_relic_id = tbitems_relics.relic_id 
-    INNER JOIN tbcharacters ON tbitems_aquired.aq_char_id = tbcharacters.char_id 
-    INNER JOIN tbheroes ON tbcharacters.char_hero = tbheroes.hero_id 
+    LEFT JOIN tbitems_relics ON tbitems_aquired.aq_relic_id = tbitems_relics.relic_id
+    INNER JOIN tbcharacters ON tbitems_aquired.aq_char_id = tbcharacters.char_id
+    INNER JOIN tbheroes ON tbcharacters.char_hero = tbheroes.hero_id
     WHERE aq_game_id = %s AND char_id = %s AND aq_sold_progress_id is null AND aq_trade_progress_id is null", GetSQLValueString($gameID, "int"), GetSQLValueString($row_rsCharData['char_id'], "int"));
   $rsItemsData = mysql_query($query_rsItemsData, $dbDescent) or die(mysql_error());
   $row_rsItemsData = mysql_fetch_assoc($rsItemsData);
   $totalRows_rsItemsData = mysql_num_rows($rsItemsData);
 
   $itemsX = array();
-  do {  
+  do {
 
       if(isset($row_rsItemsData['item_name'])){
         $itemNameTemp = $row_rsItemsData['item_name'];
       } else {
         $itemNameTemp = $row_rsItemsData['relic_h_name'];
       }
-        
+
       if (isset($row_rsItemsData['item_id']) || isset($row_rsItemsData['relic_id'])){
         $itemsX[] = array(
           "id" => $row_rsItemsData['shop_id'],
@@ -165,6 +165,12 @@ do {
 
 } while ($row_rsCharData = mysql_fetch_assoc($rsCharData));
 
+foreach ($players as $h){
+  if ($h['archetype'] == 'Overlord'){
+    $overlordID = $h['id'];
+  }
+}
+
 // Select Monsters
 $query_rsMonsters = sprintf("SELECT * FROM tbmonsters WHERE monster_exp_id IN ($selExpansions) ORDER BY monster_name ASC");
 $rsMonsters = mysql_query($query_rsMonsters, $dbDescent) or die(mysql_error());
@@ -176,7 +182,7 @@ $D2Monsters = array();
 $monsterLimits = array();
 
 do {
-  
+
   if ($row_rsMonsters['monster_limits'] != "1"){
     $monsterLimitsexp = explode(";", $row_rsMonsters['monster_limits']);
     foreach ($monsterLimitsexp as $mle){
@@ -189,7 +195,7 @@ do {
   } else {
 
   }
-  
+
 
   $monsters[] = array(
     "id" => $row_rsMonsters['monster_id'],
@@ -232,7 +238,7 @@ foreach ($monsters as $mo){
     );
   }
 
-} 
+}
 
 
 $query_rsMonstersUsable = sprintf("SELECT * FROM tbmonsters_usable WHERE usable_game_id = %s", GetSQLValueString($gameID, "int"));
@@ -256,7 +262,7 @@ do {
 // -------------- //
 // -- CAMPAIGN -- //
 // -------------- //
- 
+
 $campaign = array(
     "name" => $selCampaignName,
     "type" => $selCampaignType,
@@ -273,10 +279,10 @@ $campaign = array(
 // -- DATABASE QUERIES -- //
 
 // Get the quests
-$query_rsQuestData = sprintf("SELECT * 
-  FROM tbquests_progress 
-  INNER JOIN tbquests ON tbquests_progress.progress_quest_id = tbquests.quest_id 
-  LEFT JOIN tbitems_relics ON tbquests.quest_rew_relic_id = tbitems_relics.relic_id 
+$query_rsQuestData = sprintf("SELECT *
+  FROM tbquests_progress
+  INNER JOIN tbquests ON tbquests_progress.progress_quest_id = tbquests.quest_id
+  LEFT JOIN tbitems_relics ON tbquests.quest_rew_relic_id = tbitems_relics.relic_id
   WHERE progress_game_id = %s ORDER BY progress_id DESC", GetSQLValueString($gameID, "int"));
 $rsQuestData = mysql_query($query_rsQuestData, $dbDescent) or die(mysql_error());
 $row_rsQuestData = mysql_fetch_assoc($rsQuestData);
@@ -329,12 +335,12 @@ do {
     if (count($monstersEnc1Expl) == 1){
        $monstersSpecialEnc1 = NULL;
     } else {
-      for ($i=1; $i < count($monstersEnc1Expl); $i++) { 
+      for ($i=1; $i < count($monstersEnc1Expl); $i++) {
         $monstersSpecialEnc1[] = $monstersEnc1Expl[$i];
       }
     }
 
-    
+
     $m1exi = 0;
     foreach ($monstersEnc1Expl as $m1ex){
       $monstersEnc1Expl[$m1exi] = explode(',', $m1ex);
@@ -352,7 +358,7 @@ do {
     if (count($monstersEnc2Expl) == 1){
        $monstersSpecialEnc2 = NULL;
     } else {
-      for ($i=1; $i < count($monstersEnc2Expl); $i++) { 
+      for ($i=1; $i < count($monstersEnc2Expl); $i++) {
         $monstersSpecialEnc2[] = $monstersEnc2Expl[$i];
       }
     }
@@ -379,7 +385,7 @@ do {
     if (count($monstersEnc3Expl) == 1){
        $monstersSpecialEnc3 = NULL;
     } else {
-      for ($i=1; $i < count($monstersEnc3Expl); $i++) { 
+      for ($i=1; $i < count($monstersEnc3Expl); $i++) {
         $monstersSpecialEnc3[] = $monstersEnc3Expl[$i];
       }
     }
@@ -417,7 +423,7 @@ do {
   } else {
     $traits_enc3exp = NULL;
   }
-  
+
 
   $campaign['quests'][$iq] = array(
     "id" => $row_rsQuestData['progress_id'],
@@ -459,12 +465,12 @@ do {
 
   // Get the Travel Steps
 
-  $query_rsQuestTravelData = sprintf("SELECT * 
-    FROM tbtravel_aquired 
+  $query_rsQuestTravelData = sprintf("SELECT *
+    FROM tbtravel_aquired
     INNER JOIN tbtravel ON tbtravel_aquired.travel_aq_event_id = tbtravel.travel_id
     LEFT JOIN tbitems ON tbtravel_aquired.travel_aq_item = tbitems.item_id
-    LEFT JOIN tbcharacters ON tbtravel_aquired.travel_aq_player = tbcharacters.char_id 
-    LEFT JOIN tbheroes ON tbcharacters.char_hero = tbheroes.hero_id 
+    LEFT JOIN tbcharacters ON tbtravel_aquired.travel_aq_player = tbcharacters.char_id
+    LEFT JOIN tbheroes ON tbcharacters.char_hero = tbheroes.hero_id
     WHERE travel_aq_progress_id = %s", GetSQLValueString($row_rsQuestData['progress_id'], "int"));
   $rsQuestTravelData = mysql_query($query_rsQuestTravelData, $dbDescent) or die(mysql_error());
   $row_rsQuestTravelData = mysql_fetch_assoc($rsQuestTravelData);
@@ -475,7 +481,7 @@ do {
   do {
     if ($totalRows_rsQuestTravelData > 0){
       if ($questTravelSteps[$qts] == $row_rsQuestTravelData['travel_type'] || $row_rsQuestTravelData['travel_type'] == "all" || $row_rsQuestTravelData['travel_type'] == "None"){
-        
+
       } else {
         $qts--;
       }
@@ -493,15 +499,15 @@ do {
 
   } while ($row_rsQuestTravelData = mysql_fetch_assoc($rsQuestTravelData));
 
- 
-  
+
+
 
   // Get the skills
-  $query_rsQuestSkillsData = sprintf("SELECT * 
-    FROM tbskills_aquired 
-    INNER JOIN tbskills ON tbskills_aquired.spendxp_skill_id = tbskills.skill_id 
-    INNER JOIN tbcharacters ON tbskills_aquired.spendxp_char_id = tbcharacters.char_id 
-    INNER JOIN tbheroes ON tbcharacters.char_hero = tbheroes.hero_id 
+  $query_rsQuestSkillsData = sprintf("SELECT *
+    FROM tbskills_aquired
+    INNER JOIN tbskills ON tbskills_aquired.spendxp_skill_id = tbskills.skill_id
+    INNER JOIN tbcharacters ON tbskills_aquired.spendxp_char_id = tbcharacters.char_id
+    INNER JOIN tbheroes ON tbcharacters.char_hero = tbheroes.hero_id
     WHERE spendxp_progress_id = %s OR spendxp_sold_progress_id = %s", GetSQLValueString($row_rsQuestData['progress_id'], "int"),GetSQLValueString($row_rsQuestData['progress_id'], "int"));
   $rsQuestSkillsData = mysql_query($query_rsQuestSkillsData, $dbDescent) or die(mysql_error());
   $row_rsQuestSkillsData = mysql_fetch_assoc($rsQuestSkillsData);
@@ -548,7 +554,7 @@ do {
           "action" => "return",
         );
       }
-      
+
     }
 
     $ips++;
@@ -556,15 +562,15 @@ do {
   } while ($row_rsQuestSkillsData = mysql_fetch_assoc($rsQuestSkillsData));
 
   // Get the items
-  $query_rsQuestItemsData = sprintf("SELECT * 
-    FROM tbitems_aquired 
+  $query_rsQuestItemsData = sprintf("SELECT *
+    FROM tbitems_aquired
     LEFT JOIN tbitems ON tbitems_aquired.aq_item_id = tbitems.item_id
-    LEFT JOIN tbitems_relics ON tbitems_aquired.aq_relic_id = tbitems_relics.relic_id 
-    INNER JOIN tbcharacters ON tbitems_aquired.aq_char_id = tbcharacters.char_id 
-    INNER JOIN tbheroes ON tbcharacters.char_hero = tbheroes.hero_id 
-    WHERE aq_progress_id = %s OR aq_sold_progress_id = %s OR aq_trade_progress_id = %s ORDER BY aq_char_id ASC", 
-      GetSQLValueString($row_rsQuestData['progress_id'], "int"), 
-      GetSQLValueString($row_rsQuestData['progress_id'], "int"), 
+    LEFT JOIN tbitems_relics ON tbitems_aquired.aq_relic_id = tbitems_relics.relic_id
+    INNER JOIN tbcharacters ON tbitems_aquired.aq_char_id = tbcharacters.char_id
+    INNER JOIN tbheroes ON tbcharacters.char_hero = tbheroes.hero_id
+    WHERE aq_progress_id = %s OR aq_sold_progress_id = %s OR aq_trade_progress_id = %s ORDER BY aq_char_id ASC",
+      GetSQLValueString($row_rsQuestData['progress_id'], "int"),
+      GetSQLValueString($row_rsQuestData['progress_id'], "int"),
       GetSQLValueString($row_rsQuestData['progress_id'], "int"));
 
   $rsQuestItemsData = mysql_query($query_rsQuestItemsData, $dbDescent) or die(mysql_error());
@@ -582,14 +588,14 @@ do {
         if($row_rsQuestItemsData['aq_item_id'] != NULL){
           $itemName = $row_rsQuestItemsData['item_name'];
           $itemType = "Item";
-        } 
+        }
         else {
           $itemType = "Relic";
-          if($row_rsQuestData['progress_quest_winner'] == "Heroes Win"){
-            $itemName = $row_rsQuestItemsData['relic_h_name'];
-
-          } else {
+          // if($row_rsQuestData['progress_quest_winner'] == "Heroes Win"){
+          if($row_rsQuestItemsData['char_id'] == $overlordID){
             $itemName = $row_rsQuestItemsData['relic_ol_name'];
+          } else {
+            $itemName = $row_rsQuestItemsData['relic_h_name'];
           }
         }
 
@@ -605,7 +611,7 @@ do {
 
         $ips++;
 
-      } 
+      }
 
       // if an item got traded, a duplicate is created. This code is to make sure that it doesn't get displayed in the step it is created in
       if($row_rsQuestItemsData['aq_item_gottraded'] != 0 && $row_rsQuestItemsData['aq_progress_id'] == $row_rsQuestData['progress_id']){
@@ -615,14 +621,14 @@ do {
         if($row_rsQuestItemsData['aq_item_id'] != NULL){
           $itemName = $row_rsQuestItemsData['item_name'];
           $itemType = "Item";
-        } 
+        }
         else {
           $itemType = "Relic";
-          if($row_rsQuestData['progress_quest_winner'] == "Heroes Win"){
-            $itemName = $row_rsQuestItemsData['relic_h_name'];
-
-          } else {
+          //if($row_rsQuestData['progress_quest_winner'] == "Heroes Win"){
+          if($row_rsQuestItemsData['char_id'] == $overlordID){
             $itemName = $row_rsQuestItemsData['relic_ol_name'];
+          } else {
+            $itemName = $row_rsQuestItemsData['relic_h_name'];
           }
         }
 
@@ -662,7 +668,7 @@ do {
 
         if ($row_rsQuestItemsData['aq_trade_char_id'] != NULL && $row_rsQuestItemsData['aq_trade_progress_id'] == $row_rsQuestData['progress_id']){
 
-          $query_rsTradedPlayer = sprintf("SELECT * 
+          $query_rsTradedPlayer = sprintf("SELECT *
             FROM tbcharacters INNER JOIN tbheroes ON tbcharacters.char_hero = tbheroes.hero_id WHERE char_id = %s", GetSQLValueString($row_rsQuestItemsData['aq_trade_char_id'], "int"));
           $rsTradedPlayer = mysql_query($query_rsTradedPlayer, $dbDescent) or die(mysql_error());
           $row_rsTradedPlayer = mysql_fetch_assoc($rsTradedPlayer);
@@ -685,7 +691,7 @@ do {
 
   } while ($row_rsQuestItemsData = mysql_fetch_assoc($rsQuestItemsData));
 
-  
+
 
 $iq++;
 
@@ -720,11 +726,11 @@ $olquests = array();
 
 include 'campaign_logs.php';
 
-foreach ($players as $h){
-  if ($h['archetype'] == 'Overlord'){
-    $overlordID = $h['id'];
-  }
-}
+// foreach ($players as $h){
+//   if ($h['archetype'] == 'Overlord'){
+//     $overlordID = $h['id'];
+//   }
+// }
 
 // Save Quests
 
@@ -743,7 +749,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "start-quest-form"))
       $type = 'Rumor';
       $postQuestID = str_replace("rumor","",$_POST['selectquest']);
     }
-  } 
+  }
 
   if($postQuestID != "" && $type == 'Quest'){
     // Insert timestamp, gameid, quest id, and the type into the db
@@ -768,9 +774,9 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "start-quest-form"))
 
     // if the current act is the interlude
     if ($currentAct == "Interlude"){
-      
+
       // select from rumors played
-      $query_rsRumorsUnplayed = sprintf("SELECT * FROM tbrumors_played INNER JOIN tbrumors ON played_rumor_id = rumor_id WHERE played_game_id = %s AND played_resolved = %s AND played_rumor_quest_id is not null", 
+      $query_rsRumorsUnplayed = sprintf("SELECT * FROM tbrumors_played INNER JOIN tbrumors ON played_rumor_id = rumor_id WHERE played_game_id = %s AND played_resolved = %s AND played_rumor_quest_id is not null",
                         GetSQLValueString($gameID, "int"),
                         GetSQLValueString(0, "int"));
       $rsRumorsUnplayed = mysql_query($query_rsRumorsUnplayed, $dbDescent) or die(mysql_error());
@@ -791,18 +797,18 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "start-quest-form"))
                              GetSQLValueString($overlordID, "int"),
                              GetSQLValueString($row_rsRumorsUnplayed['rumor_unplayed_card'], "int"),
                              GetSQLValueString($ResultID, "int"));
-                  
+
           mysql_select_db($database_dbDescent, $dbDescent);
           $ResultSpecial = mysql_query($insertSQLSpecial, $dbDescent) or die(mysql_error());
         }
 
-        if ($row_rsRumorsUnplayed['rumor_unplayed_relic'] != NULL){     
+        if ($row_rsRumorsUnplayed['rumor_unplayed_relic'] != NULL){
           $insertSQLRelic = sprintf("INSERT INTO  tbitems_aquired (aq_game_id, aq_char_id, aq_relic_id, aq_progress_id) VALUES (%s, %s, %s, %s)",
                      GetSQLValueString($gameID, "int"),
                      GetSQLValueString($overlordID, "int"),
                      GetSQLValueString($row_rsRumorsUnplayed['rumor_unplayed_relic'], "int"),
                      GetSQLValueString($ResultID, "int"));
-          
+
           mysql_select_db($database_dbDescent, $dbDescent);
           $ResultRelic = mysql_query($insertSQLRelic, $dbDescent) or die(mysql_error());
         }
@@ -811,7 +817,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "start-quest-form"))
         $Resultrcq = mysql_query($insertSQLrcq, $dbDescent) or die(mysql_error());
 
       } while ($row_rsRumorsUnplayed = mysql_fetch_assoc($rsRumorsUnplayed));
-   
+
     }
 
     $insertGoTo = "campaign_overview.php?urlGamingID=" . $row_rsSelectedCampaign['ggrp_id'] . "";
@@ -820,7 +826,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "start-quest-form"))
       $insertGoTo .= $_SERVER['QUERY_STRING'];
     }
     header(sprintf("Location: %s", $insertGoTo));
-    die("Redirecting to self"); 
+    die("Redirecting to self");
 
   } else if($postQuestID != "" && $type == 'Rumor'){
     $insertSQLr = sprintf("INSERT INTO tbquests_progress (progress_timestamp, progress_game_id, progress_quest_id, progress_quest_type) VALUES (%s, %s, %s, %s)",
@@ -845,7 +851,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "start-quest-form"))
     $insertSQLrc = sprintf("UPDATE tbrumors_played SET played_resolved = %s WHERE played_game_id = %s AND played_rumor_quest_id is NULL",
                         GetSQLValueString(1, "int"),
                         GetSQLValueString($gameID, "int"));
-              
+
     mysql_select_db($database_dbDescent, $dbDescent);
     $Resultrc = mysql_query($insertSQLrc, $dbDescent) or die(mysql_error());
 
@@ -855,7 +861,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "start-quest-form"))
       $insertGoTo .= $_SERVER['QUERY_STRING'];
     }
     header(sprintf("Location: %s", $insertGoTo));
-    die("Redirecting to self"); 
+    die("Redirecting to self");
   }
 }
 
@@ -885,7 +891,7 @@ if (isset($_POST["MM_insert"]) && ($_POST["MM_insert"] == "add-rumor-form")) {
     $insertSQLrc2 = sprintf("UPDATE tbgames SET game_threat = game_threat + %s WHERE game_id = %s",
                         GetSQLValueString($thrtRumor, "int"),
                         GetSQLValueString($gameID, "int"));
-              
+
     mysql_select_db($database_dbDescent, $dbDescent);
     $Resultrc = mysql_query($insertSQLrc, $dbDescent) or die(mysql_error());
     $Resultrc2 = mysql_query($insertSQLrc2, $dbDescent) or die(mysql_error());
@@ -896,8 +902,12 @@ if (isset($_POST["MM_insert"]) && ($_POST["MM_insert"] == "add-rumor-form")) {
       $insertGoTo .= $_SERVER['QUERY_STRING'];
     }
     header(sprintf("Location: %s", $insertGoTo));
-    die("Redirecting to self"); 
+    die("Redirecting to self");
   }
 }
+
+// echo '<pre>';
+// var_dump($campaign);
+// echo '</pre>';
 
 ?>
