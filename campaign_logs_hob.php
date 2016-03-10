@@ -136,16 +136,27 @@ if ($currentAct == "Act 1" && $aqs['quest_act'] == "Act 1"){
 
     if($aqs['quest_id'] == "97" || $aqs['quest_id'] == "98" || $aqs['quest_id'] == "99" || $aqs['quest_id'] == "100"){
 
-      if(!empty($intersection2)){
-        if($aqs['quest_req_type'] == "Heroes"){
-          $AvailableQuests[$aqs['quest_id']]['quest_status']['available'] = 1;
-          setQuestMessage("heroes-won", $aqs['quest_id'], $aqs['quest_req'], NULL, NULL);
-        }
-        if($aqs['quest_req_type'] == "Overlord"){
-          setQuestMessage("overlord-lost", $aqs['quest_id'], $aqs['quest_req'], NULL, NULL);
+      if($intersection3){
+        if(!empty($intersection2)){
+          if($aqs['quest_req_type'] == "Heroes"){
+            $AvailableQuests[$aqs['quest_id']]['quest_status']['available'] = 1;
+            setQuestMessage("heroes-won", $aqs['quest_id'], $aqs['quest_req'], NULL, NULL);
+          }
+          if($aqs['quest_req_type'] == "Overlord"){
+            setQuestMessage("overlord-lost", $aqs['quest_id'], $aqs['quest_req'], NULL, NULL);
+          }
+        } else{
+          if($aqs['quest_req_type'] == "Overlord"){
+            $AvailableQuests[$aqs['quest_id']]['quest_status']['available'] = 1;
+            setQuestMessage("overlord-won", $aqs['quest_id'], $aqs['quest_req'], NULL, NULL);
+          }
+          if($aqs['quest_req_type'] == "Heroes"){
+            setQuestMessage("heroes-lost", $aqs['quest_id'], $aqs['quest_req'], NULL, NULL);
+          }
         }
       } else {
-        setQuestMessage("unavailable-because", $aqs['quest_id'], $aqs['quest_req'], NULL, NULL);   
+        setQuestMessage("unavailable-because", $aqs['quest_id'], $aqs['quest_req'], NULL, NULL);
+
       }
           
     } else {

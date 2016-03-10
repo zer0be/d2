@@ -57,10 +57,11 @@ include 'stats_quests_array.php';
 		});
 		</script>
 	</head>
-	<body><?php 
+	<body class="img-background"><?php 
 		
 		include 'navbar.php';
 
+		echo '<div class="tile"></div>';
 		if (!(isset($_GET['urlCharID']))) { // normal page or detail page? ?> 
 			<div class="container grey full">
 				<div class="row no-gutters" id="heroes-div">

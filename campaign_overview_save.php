@@ -176,7 +176,7 @@ if(isset($_GET['part']) && $_GET['part'] == "del") {// close if (isset)
     </script>
 	</head>
 
-	<body>
+	<body class="img-background">
 		<!-- <div id="wrapper"> -->
 		<?php include 'navbar.php'; ?>
     <div class="container">

@@ -52,11 +52,173 @@ $currentHeroType = NULL;
                         <div class="skill-name col-xs-8">Stamina</div>
                         <div class="col-xs-2 text-center"><a href="#" data-toggle="tooltip" title="<?php echo $tooltipStamina; ?>"><span class="badge <?php if($extraStamina > 0){ echo 'green';}else{ echo 'blue'; }?>"><?php print $h['stamina']  + $extraStamina; ?></span></a></div>
                       </div>
-                      <div class="skill row no-gutters">
+                      <div class="skill row no-gutters"><?php
+                        $totaldefense = $h['defense']  . $extraDefense;
+                        $arraydefense = explode(",", $totaldefense);
+                        $sortdefense = array();
+                        foreach ($arraydefense as $def){
+                          if($def == "BL"){
+                            $sortdefense[] = $def;
+                          }
+                        }
+                        foreach ($arraydefense as $def){
+                          if($def == "G"){
+                            $sortdefense[] = $def;
+                          }
+                        }
+                        foreach ($arraydefense as $def){
+                          if($def == "B"){
+                            $sortdefense[] = $def;
+                          }
+                        }
+                        //var_dump($sortdefense);
+                        $defenseimgs = '<img style="margin-top: 3px;" src="img/defense';
+                        $dicecount = 0;
+                        foreach ($sortdefense as $defsort){
+                          if($dicecount == 3){
+                             $defenseimgs .= '.png" /><img style="margin-top: 3px; margin-left: -3px;" src="img/defense';
+                             $dicecount = 0;
+                          }
+                          $defenseimgs .= $defsort;
+                          $dicecount++;
+                        }
+                        if($dicecount <= 3){
+                          $defenseimgs .= '.png" />';
+                        } 
+                        $colwidth1 = 8;
+                        $colwidth2 = 2;
+                        if(count($sortdefense) > 3){
+                          $colwidth1 = 7;
+                          $colwidth2 = 3;
+                        }
+
+
+                        ?>
                         <div class="col-xs-2"><div class="hero-mini" style="background: url('img/defense.png') center;"></div></div>
-                        <div class="skill-name col-xs-8">Defense</div>
-                        <div class="col-xs-2 text-center"><a href="#" data-toggle="tooltip" title="<?php echo $tooltipDefense; ?>"><div class="hero-mini center-block" style="background: url('img/defense<?php print $h['defense']  . $extraDefense; ?>.png') center;"></div></a></div>
+                        <div class="skill-name col-xs-<?php echo $colwidth1; ?>">Defense</div>
+                        <div class="col-xs-<?php echo $colwidth2; ?> text-center">
+                          <a href="#" data-toggle="tooltip" title="<?php echo $tooltipDefense; ?>">
+                          <!-- <div class="hero-mini center-block" style="background: url('img/defense<?php print $h['defense']  . $extraDefense; ?>.png') center;"></div> -->
+                          <?php echo $defenseimgs; ?>
+                          </a>
+                        </div>
                       </div>
+
+
+
+                      <div class="skill row no-gutters"><?php
+                        $totalattack = $attackdiceH1;
+                        $arrayattack = explode(",", $attackdiceH1);
+                        $sortattack = array();
+                        foreach ($arrayattack as $atk){
+                          if($atk == "B"){
+                            $sortattack[] = $atk;
+                          }
+                        }
+                        foreach ($arrayattack as $atk){
+                          if($atk == "R"){
+                            $sortattack[] = $atk;
+                          }
+                        }
+                        foreach ($arrayattack as $atk){
+                          if($atk == "Y"){
+                            $sortattack[] = $atk;
+                          }
+                        }
+                        foreach ($arrayattack as $atk){
+                          if($atk == "G"){
+                            $sortattack[] = $atk;
+                          }
+                        }
+                        //var_dump($sortdefense);
+                        $attackimgs = '<img style="margin-top: 3px;" src="img/attack';
+                        $dicecount = 0;
+                        foreach ($sortattack as $atksort){
+                          if($dicecount == 3){
+                             $attackimgs .= '.png" /><img style="margin-top: 3px; margin-left: -3px;" src="img/attack';
+                             $dicecount = 0;
+                          }
+                          $attackimgs .= $atksort;
+                          $dicecount++;
+                        }
+                        if($dicecount <= 3){
+                          $attackimgs .= '.png" />';
+                        } 
+                        $colwidth1 = 8;
+                        $colwidth2 = 2;
+                        if(count($sortattack) > 3){
+                          $colwidth1 = 7;
+                          $colwidth2 = 3;
+                        } ?>
+                        <div class="col-xs-2"><div class="hero-mini" style="background: url('img/attack.png') center;"></div></div>
+                        <div class="skill-name col-xs-<?php echo $colwidth1; ?>">Attack</div>
+                        <div class="col-xs-<?php echo $colwidth2; ?> text-center">
+                          <a href="#" data-toggle="tooltip" title="<?php echo $tooltipAttackH1; ?>">
+                          <!-- <div class="hero-mini center-block" style="background: url('img/defense<?php print $h['defense']  . $extraDefense; ?>.png') center;"></div> -->
+                          <?php echo $attackimgs; ?>
+                          </a>
+                        </div>
+                      </div>
+
+                      <?php
+                        $totalattack = $attackdiceH2;
+                        $arrayattack = explode(",", $attackdiceH2);
+                      if(in_array("B", $arrayattack)){ ?>
+                        <div class="skill row no-gutters"><?php
+                        $sortattack = array();
+                        foreach ($arrayattack as $atk){
+                          if($atk == "B"){
+                            $sortattack[] = $atk;
+                          }
+                        }
+                        foreach ($arrayattack as $atk){
+                          if($atk == "R"){
+                            $sortattack[] = $atk;
+                          }
+                        }
+                        foreach ($arrayattack as $atk){
+                          if($atk == "Y"){
+                            $sortattack[] = $atk;
+                          }
+                        }
+                        foreach ($arrayattack as $atk){
+                          if($atk == "G"){
+                            $sortattack[] = $atk;
+                          }
+                        }
+                        //var_dump($sortdefense);
+                        $attackimgs = '<img style="margin-top: 3px;" src="img/attack';
+                        $dicecount = 0;
+                        foreach ($sortattack as $atksort){
+                          if($dicecount == 3){
+                             $attackimgs .= '.png" /><img style="margin-top: 3px; margin-left: -3px;" src="img/attack';
+                             $dicecount = 0;
+                          }
+                          $attackimgs .= $atksort;
+                          $dicecount++;
+                        }
+                        if($dicecount <= 3){
+                          $attackimgs .= '.png" />';
+                        } 
+                        $colwidth1 = 8;
+                        $colwidth2 = 2;
+                        if(count($sortattack) > 3){
+                          $colwidth1 = 7;
+                          $colwidth2 = 3;
+                        } ?>
+                        <div class="col-xs-2"><div class="hero-mini" style="background: url('img/attack.png') center;"></div></div>
+                        <div class="skill-name col-xs-<?php echo $colwidth1; ?>">Attack Offhand</div>
+                        <div class="col-xs-<?php echo $colwidth2; ?> text-center">
+                          <a href="#" data-toggle="tooltip" title="<?php echo $tooltipAttackH2; ?>">
+                          <!-- <div class="hero-mini center-block" style="background: url('img/defense<?php print $h['defense']  . $extraDefense; ?>.png') center;"></div> -->
+                          <?php echo $attackimgs; ?>
+                          </a>
+                        </div>
+                      </div><?php
+
+                      } ?>
+
+                      
 
 
                       <div class="skill row no-gutters">
@@ -79,7 +241,7 @@ $currentHeroType = NULL;
                         <div class="skill-name col-xs-8">Awareness</div>
                         <div class="col-xs-2 text-center"><a href="#" data-toggle="tooltip" title="<?php echo $tooltipAwareness; ?>"><span class="badge <?php if($extraAwareness > 0){ echo 'green';}else{ echo 'blue'; }?>"><?php print $h['awareness']  + $extraAwareness; ?></span></a></div>
                       </div>
-                      <div class="text-center text-muted"><small>The data above might not be accurate, this is still work in progress and more complex items are not yet taken into account. (e.g. 'Rune Plate')</small></div>
+                      <!-- <div class="text-center text-muted"><small>The data above might not be accurate, this is still work in progress and more complex items are not yet taken into account. (e.g. 'Rune Plate')</small></div> -->
                   </div> <!-- close stats -->
 
 
@@ -93,7 +255,10 @@ $currentHeroType = NULL;
                           <div class="col-xs-2">
                             <div class="hero-mini" style="background: url('img/<?php print $dil['item_type']; ?>.jpg') center;"></div>
                           </div>
-                          <div class="item-name col-xs-8"><a href="#" data-toggle="tooltip" title="<?php print $dil['tooltip']; ?>"><?php print $dil['item_name']; ?></a></div><?php 
+                          <div class="item-name col-xs-8">
+                            <a href="#" data-toggle="tooltip" title="<?php print $dil['tooltip']; ?>"><?php print $dil['item_name']; ?></a>
+                            <?php if(in_array($dil['item_id'],$equiped)){ echo '<span title="Equipped for stats" style="color: #5cb85c;" class="glyphicon glyphicon-ok" aria-hidden="true"></span>'; } ?>
+                          </div><?php 
                           if ($dil['default_price'] == 0){ ?>
                             <div class="col-xs-2 text-center"><span class="badge blue">Free</span></div><?php 
                           } else if ($dil['override_price'] != NULL && $dil['override_price'] == 0) { ?>
@@ -441,8 +606,43 @@ $currentHeroType = NULL;
                                             <?php print $ho['stamina']  + $extraStamina; ?>
                                           </span>
                                         </div>
-                                        <div class="col-xs-1">
-                                          <div class="hero-mini center-block" style="background: url('img/defense<?php print $ho['defense']  . $extraDefense; ?>.png') center;"></div>
+
+
+                                        <div class="col-xs-1 text-center"><?php
+                                          $totaldefense = $ho['defense']  . $extraDefense;
+                                          $arraydefense = explode(",", $totaldefense);
+                                          $sortdefense = array();
+                                          foreach ($arraydefense as $def){
+                                            if($def == "BL"){
+                                              $sortdefense[] = $def;
+                                            }
+                                          }
+                                          foreach ($arraydefense as $def){
+                                            if($def == "G"){
+                                              $sortdefense[] = $def;
+                                            }
+                                          }
+                                          foreach ($arraydefense as $def){
+                                            if($def == "B"){
+                                              $sortdefense[] = $def;
+                                            }
+                                          }
+                                          //var_dump($sortdefense);
+                                          $defenseimgs = '<img style="margin-top: 3px;" src="img/defense';
+                                          $dicecount = 0;
+                                          foreach ($sortdefense as $defsort){
+                                            if($dicecount == 3){
+                                               $defenseimgs .= '.png" /><img style="margin-top: -7px;" src="img/defense';
+                                               $dicecount = 0;
+                                            }
+                                            $defenseimgs .= $defsort;
+                                            $dicecount++;
+                                          }
+                                          if($dicecount <= 3){
+                                            $defenseimgs .= '.png" />';
+                                          } ?>
+                                          <!-- <div class="hero-mini center-block" style="background: url('img/defense<?php print $ho['defense']  . $extraDefense; ?>.png') center;"></div> -->
+                                          <?php echo $defenseimgs; ?>
                                         </div>
                                         <div class="col-xs-1 text-center">
                                           <span class="badge <?php 

@@ -17,15 +17,39 @@
                     <h2>Issue?</h2>
                     <p>If you find any issues on the website or have suggestions and/or feedback, please contact me via email at support@d2etracker.com or through the FFG Forums <a href='https://community.fantasyflightgames.com/user/239371-atom4gevampire/'>here</a>.</p>
                     <h2>Recent updates</h2>
+                    <h3>March 10th, 2016</h3>
+                    <ul>
+                      <li>Updated the homepage. It should be more user friendly.</li>
+                      <li>Added 'auto equip' functionality for inventory items of the heroes. This now also means stats should be adjusted by the more complex items. Also added an indication of a hero's attack dice.</li>
+                      <li>Fixed an issue in Heirs of Blood where no next quest could be selected after Army of Dal'Zunm or Prison of Khinn.</li>
+                      <li>Fixed an issue where the incorrect name was displayed for relics in Heirs of Blood</li>
+                    </ul>
 
                     <h3>February 13th, 2016</h3>
                     <ul>
                       <li>Added Mists of Bilehall!</li>
+                      <li>Added Treaty of Champions!</li>
+                      <li>Added Zarihell, Ardus Ix'Erebus and Kyndrithul lieutenant packs!</li>
                     </ul>
 
                     <h3>February 11th, 2016</h3>
                     <ul>
-                      <li>Major Update, full changelog coming soon!</li>
+                      <li>Implemented a new way to select the next quest: Quest balance, duration and flavour text is now shown. There is also an indication of why a certain quest is available/unavailable.</li>
+                      <li>Fixed the rewards for mini campaigns. The overlord will now receive bonus XP, the heroes will receive a free item and there is a check in place to see if a relic has already been obtained by the heroes or the Overlord. I recommend that if you started a Mini Campaign (LotW, Trollfens or MoR) in the past, to restart the campaign to make sure it is correct.</li>
+                      <li>Fixed an issue with rumors not correctly awarding cards when then went unplayed if the last quest before the interlude was a rumor quest.</li>
+                      <li>Implemented the rewards of certain Advanced Quests. (Crown of Destiny, At the Forge, ..)</li>
+                      <li>Added a dropdown to indicate how much time was spent on a quest (often requested feature).</li>
+                      <li>Switched the skills and items column according to errata 1.6.</li>
+                      <li>Fixed an issue with Ritual of Shadows when the Overlord had no cards to return.</li>
+                      <li>Fixed an issue with the replacement of Lieutenants when quest rules required it.</li>
+                      <li>Added a pager to the all groups page.</li>
+                      <li>Fixed an issue with the selected monsters for a quest on the statistics page.</li>
+                      <li>Changed the way the selected monsters are displayed on the statistics page.</li>
+                      <li>Moved the travel statistics to a separate page.</li>
+                      <li>Improved the campaign statistics.</li>
+                      <li>Improvements to the mobile version of the site.</li>
+                      <li>Improved the FAQ and Errata implementation and added it to more pages, for example to the Hero details page.</li>
+                      <li>More small improvements.</li>
                     </ul>
 
                     <h3>December 17th, 2015</h3>
