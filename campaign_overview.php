@@ -5,7 +5,7 @@
 //-----------------------//
 
 //include the db
-require_once('Connections/dbDescent.php'); 
+require_once('Connections/dbDescent.php');
 
 //initialize the session
 if (!isset($_SESSION)) {
@@ -21,12 +21,12 @@ include 'includes/function_createProgressBar.php';
 include 'campaign_data.php';
 
 include 'stats_quests_array.php';
-	
+
 ?>
 
 <html>
 	<head>
-		<?php 
+		<?php
   	$pagetitle = "Campaign Overview";
   	include 'head.php'; ?>
 		<script>
@@ -57,12 +57,11 @@ include 'stats_quests_array.php';
 		});
 		</script>
 	</head>
-	<body class="img-background"><?php 
-		
+	<body class="img-background"><?php
+
 		include 'navbar.php';
 
-		echo '<div class="tile"></div>';
-		if (!(isset($_GET['urlCharID']))) { // normal page or detail page? ?> 
+		if (!isset($_GET['urlCharID']) && !isset($_GET['story'])) { // normal page or detail page? ?>
 			<div class="container grey full">
 				<div class="row no-gutters" id="heroes-div">
 
@@ -70,7 +69,7 @@ include 'stats_quests_array.php';
 						if(count($players) == 3){ ?>
 							<div class="col-sm-3 hero hidden-xs" style="background: url('img/heroes/nohero.jpg'); background-position: center;">
 							</div> <!-- close hero --> <?php
-						}	
+						}
 
 						// loop through heroes
 						$ih = 0;
@@ -103,7 +102,7 @@ include 'stats_quests_array.php';
 
 				<div id="overlord-div" class="row no-gutters" style="display: none;">
 
-					<div id="overlord" class="clearfix"><?php 
+					<div id="overlord" class="clearfix"><?php
 						// loop through heroes
 						$ih = 0;
 						foreach ($players as $h){
@@ -111,7 +110,7 @@ include 'stats_quests_array.php';
 								<a href="campaign_overview.php?urlGamingID=<?php echo $gameID * 43021; ?>&urlCharID=<?php echo $players[$ih]['id']; ?>">
 									<div class="overlord col-xs-12 text-center" style="background: url('img/heroes/large_<?php print $players[$ih]['img']; ?>') center;">
 										<div class="name"><?php print $players[$ih]['name']; ?></div>
-										<div class="class"><?php 
+										<div class="class"><?php
 											if ($plotStuff != 0){
 												print $players[$ih]['class'];
 											} ?>
@@ -125,10 +124,10 @@ include 'stats_quests_array.php';
 						} //close foreach ?>
 					</div> <!-- close overlord -->
 
-					<div class="gold"><?php 
+					<div class="gold"><?php
 						if ($plotStuff != 0){ ?>
 							<div class="gold-amount"><?php print $campaign['threat']; ?></div>
-							<div class="gold-label">THREAT</div><?php 
+							<div class="gold-label">THREAT</div><?php
 						} ?>
 					</div> <!-- close gold -->
 
@@ -138,7 +137,7 @@ include 'stats_quests_array.php';
 
 					<div class="col-xs-4 hidden-xs">
 					</div>
-	 
+
 					<div class="col-sm-2 col-xs-6 heroes-button text-center" id="heroes-button">
 						<div class="label label-default">Heroes</div>
 					</div>
@@ -152,14 +151,54 @@ include 'stats_quests_array.php';
 
 				</div>
 
-				<div id="campaign"><?php 
-		
-					include 'campaign_overview_block_controls.php';
-					
+				<div id="campaign"><?php
+
+					include 'campaign_overview_block_controls.php'; ?>
+
+					<div class="row">
+						<div class="col-sm-12 text-center" style="margin-left: -10px;"><p><?php
+
+							$questWinsArray = array();
+							foreach ($campaign['quests'] as $qs){
+								$questWinsArray[] = $qs['winner'];
+							}
+
+							$questWinsArray = array_reverse($questWinsArray);
+
+							$previousWin = "";
+							foreach ($questWinsArray as $win){
+								if ($win != "Setup" && isset($win)){
+									$imgoutput = '<img src="img/';
+									if ($win == "Overlord Wins"){
+										$imgoutput .= 'olwin_';
+									} else if ($win == "Heroes Win"){
+										$imgoutput .= 'hwin_';
+									}
+
+									if($previousWin == ""){
+										$imgoutput .= 'start';
+									} else if($previousWin == "Overlord Wins"){
+										$imgoutput .= 'overlord';
+									} else if($previousWin == "Heroes Win"){
+										$imgoutput .= 'heroes';
+									}
+
+									$previousWin = $win;
+
+									$imgoutput .= '.png" title="' . $win . '" />';
+
+									echo $imgoutput;
+								}
+
+
+							} ?>
+						</p></div>
+					</div><?php
+
 					// loop through quests
 					$del = 1;
 					foreach ($campaign['quests'] as $qs){ ?>
-						<div class="row no-gutters campaign-phase phase-<?php echo $qs['id']; ?>"><?php 
+						<div class="row no-gutters campaign-phase phase-<?php echo $qs['id']; ?>"><?php
 
 							if ($owner == 1 && $del == 1){ ?>
 								<div class="col-sm-12 text-center">
@@ -168,14 +207,14 @@ include 'stats_quests_array.php';
 										// echo ' - ';
 										// <a href="#"><span class="glyphicon glyphicon-book" aria-hidden="true"></span> History</a><?php
 										// echo ' - ';
-										if($campaign['quests'][0]['items_set'] == 1 && $campaign['quests'][0]['spendxp_set'] == 1){ ?>																		
+										if($campaign['quests'][0]['items_set'] == 1 && $campaign['quests'][0]['spendxp_set'] == 1){ ?>
 											<a href="campaign_overview_save.php?urlGamingID=<?php echo $gameID * 43021; ?>&part=edit"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Edit</a><?php
 										} else { ?>
 											<span class="text-muted"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Edit</span><?php
-										}	
-										if($campaign['quests'][0]['act'] != "Introduction"){ 
+										}
+										if($campaign['quests'][0]['act'] != "Introduction"){
 											echo ' - '; ?>
-											<a href="campaign_overview_save.php?urlGamingID=<?php echo $gameID * 43021; ?>&part=del"><span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span> Delete</a><?php
+											<a href="campaign_overview_save.php?urlGamingID=<?php echo $gameID * 43021; ?>&part=del"><span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span> Delete</a> - <a href="campaign_overview.php?urlGamingID=<?php echo $gameID * 43021; ?>&story"><span class="glyphicon glyphicon-book" aria-hidden="true"></span> Story</a><?php
 										} ?>
 										</small>
 									&nbsp;
@@ -187,7 +226,7 @@ include 'stats_quests_array.php';
 							include 'campaign_overview_block_quest.php';
 							include 'campaign_overview_block_market.php';
 							include 'campaign_overview_block_spendxp.php'; ?>
-						</div><?php	
+						</div><?php
 					} //close quests foreach ?>
 				</div> <!-- close campaign -->
 			</div> <!-- close wrapper -->
@@ -195,10 +234,12 @@ include 'stats_quests_array.php';
 
 
 			<?php
+			} else if(isset($_GET['story'])) {
+				include 'campaign_overview_story.php';
 			} else {
 				include 'campaign_overview_hero.php';
 			} ?>
-		
+
 
 	</body>
 </html>

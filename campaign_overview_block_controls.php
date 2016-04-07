@@ -1,21 +1,23 @@
 <?php
 
+
+// Display a message about winning the campaign if the last quest is the finale or an act 2 quest when its a mini campaign, and the winner is set
+if (($campaign['quests'][0]['act'] == "Finale" || ($campaign['quests'][0]['act'] == "Act 2" && $campaign['type'] == "mini") ) && $campaign['quests'][0]['winner'] != NULL){ ?>
+  <div class="row no-gutters">
+    <div class="col-sm-12 text-center"><?php
+      if($campaign['quests'][0]['winner'] == "Heroes Win"){ ?>
+        <p class="lead">The Heroes won the Finale! They are the winners of this campaign!</p><?php
+      } else if($campaign['quests'][0]['winner'] == "Overlord Wins"){ ?>
+        <p class="lead">The Overlord won the Finale! He is the winner of this campaign!</p><?php
+      } ?>
+    </div>
+  </div><?php 
+
+}
+
+
 // If the person watching this page is the owner of the campaign, show this stuff
 if ($owner == 1){
-
-  // Display a message about winning the campaign if the last quest is the finale or an act 2 quest when its a mini campaign, and the winner is set
-  if (($campaign['quests'][0]['act'] == "Finale" || ($campaign['quests'][0]['act'] == "Act 2" && $campaign['type'] == "mini") ) && $campaign['quests'][0]['winner'] != NULL){ ?>
-    <div class="row no-gutters">
-      <div class="col-sm-12 text-center"><?php
-        if($campaign['quests'][0]['winner'] == "Heroes Win"){ ?>
-          <p class="lead">The Heroes won the Finale! They are the winners of this campaign!</p><?php
-        } else if($campaign['quests'][0]['winner'] == "Overlord Wins"){ ?>
-          <p class="lead">The Overlord won the Finale! He is the winner of this campaign!</p><?php
-        } ?>
-      </div>
-    </div><?php 
-
-  }
 
   // Enable or Disable the buttons
   if($campaign['quests'][0]['items_set'] == 1 && $campaign['quests'][0]['spendxp_set'] == 1 && $campaign['quests'][0]['act'] != "Finale"){ 
