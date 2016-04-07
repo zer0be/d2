@@ -21,6 +21,7 @@ if(isset($front)){
 			    <p class="lead">Welcome to the Unofficial Campaign Tracker for the boardgame Descent: Journeys in the Dark - 2nd Edition. <br />
 			    Here you can record your progress through it's various campaigns, as well as view stats about the game based on the campaigns that have been played.</p>
 			    <p><a href="new_campaign_tutorial.php" class="btn btn-primary btn-lg">Get Started!</a></p>
+			    <p><a href="login.php">or Log In</a></p>
 			  </div><?php
 			} else { ?>
 		  	<div class="row banner-buttons">
@@ -68,12 +69,13 @@ if(isset($front)){ ?>
 			if ((isset($_SESSION['user']) && $_SESSION['user']['new'] == 1) || !isset($_SESSION['user'])) { ?>
 			  <div class="row banner-buttons">
 			    <p class="lead">Welcome to the Unofficial Campaign Tracker for the boardgame Descent: Journeys in the Dark - 2nd Edition.</p>
-			    <p><a href="new_campaign_tutorial.php" class="btn btn-primary btn-lg">Get Started!</a></p>
+			    <p><a href="new_campaign_tutorial.php" class="btn btn-primary">Get Started!</a><br />
+			    <a href="login.php">or Log In</a></p>
 			  </div><?php
 			} else { ?>
 		  	<div class="row banner-buttons">
 		  		<div class="col col-xs-12 text-center">
-		  			<a class="btn btn-primary" href="#">
+		  			<a class="btn btn-primary" href="campaign_overview.php?urlGamingID=<?php echo $lastcampaign * 43021; ?>">
 		  				<span class="glyphicon pad glyphicon-play" aria-hidden="true"></span> CONTINUE CAMPAIGN
 		  			</a>
 		  		</div>

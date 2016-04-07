@@ -101,9 +101,11 @@ body {
 }
 
 body.img-background{
-  background: url("img/bg.jpg");
-  /*background:  url("img/debut_dark.png");*/
+  background: url("img/descentbanner2.jpg");
+  background-attachment: fixed;
+  background-size: 100%;
 }
+
 
 /*.tile{
   position: absolute;
@@ -466,6 +468,10 @@ body.img-background{
 
 .special-tester{
   color: #337ab7;
+}
+
+.campaign-intro{
+  font-size: 16px;
 }
 
 .ontop{
