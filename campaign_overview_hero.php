@@ -278,7 +278,7 @@ $currentHeroType = NULL;
                           <div class="col-xs-2">  
                             <div class="hero-mini" style="background: url('img/<?php print $drl['relic_type']; ?>.jpg') center;"></div>
                           </div>
-                          <div class="item-name col-xs-8"><a href="#" data-toggle="tooltip" title="<?php print $drl['tooltip_h']; ?>"><?php print $drl['relic_h_name']; ?></a></div> <!-- FIX ME: Overlord relics and stuff -->
+                          <div class="item-name col-xs-8"><a href="#" data-toggle="tooltip" title="<?php print $drl['tooltip_h']; ?>"><?php print $drl['relic_h_name']; ?></a> <?php if(in_array($drl['item_id'],$equiped)){ echo '<span title="Equipped for stats" style="color: #5cb85c;" class="glyphicon glyphicon-ok" aria-hidden="true"></span>'; } ?></div> <!-- FIX ME: Overlord relics and stuff -->
                           <div class="col-xs-2 text-center"><span class="badge blue">Relic</span></div>
                         </div><?php 
                       }  

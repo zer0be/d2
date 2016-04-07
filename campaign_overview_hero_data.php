@@ -184,6 +184,57 @@ do {
 
 } while ($row_rsDetailItems = mysql_fetch_assoc($rsDetailItems));
 
+// Get the relics
+$query_rsDetailRelics = sprintf("SELECT * FROM tbitems_aquired INNER JOIN tbitems_relics ON aq_relic_id = relic_id WHERE aq_char_id = %s AND aq_trade_char_id is null", GetSQLValueString($heroID, "int"));
+$rsDetailRelics = mysql_query($query_rsDetailRelics, $dbDescent) or die(mysql_error());
+$row_rsDetailRelics = mysql_fetch_assoc($rsDetailRelics);
+$totalRows_rsDetailRelics = mysql_num_rows($rsDetailRelics);
+
+do{
+
+  $diceimg = "";
+  if ($row_rsDetailRelics['relic_dice'] != NULL){
+    $diceimg = "<img src='img/" . $row_rsDetailRelics['relic_dice'] . ".png' />";
+  }
+
+  $tooltip_h_Relics = 
+  "<div class='text-center tooltip-div row'>" .
+    "<div class='col-sm-12'>" . 
+      "<div><strong>" . $row_rsDetailRelics['relic_h_name'] . "</strong></div>" . 
+      //"<div><small>" . $row_rsDetailRelics['item_tags'] . "</small></div>" . 
+      "<div class='col-sm-5 text-margin-5'>" . $row_rsDetailRelics['relic_attack'] . "</div>" . "<div class='col-sm-2'></div>" . "<div class='col-sm-5'>" . $diceimg . "</div>" . 
+      "<div class='col-sm-12 item-text'>" . $row_rsDetailRelics['relic_h_text'] . "</div>" . 
+    "</div>" .
+  "</div>";
+
+  $tooltip_ol_Relics = 
+  "<div class='text-center tooltip-div row'>" .
+    "<div class='col-sm-12'>" . 
+      "<div><strong>" . $row_rsDetailRelics['relic_ol_name'] . "</strong></div>" . 
+      "<div class='col-sm-12 item-text'>" . $row_rsDetailRelics['relic_ol_text'] . "</div>" . 
+    "</div>" .
+  "</div>";
+
+
+  $DetailRelicsList[] = array(
+    "relic_h_name" => $row_rsDetailRelics['relic_h_name'],
+    "relic_ol_name" => $row_rsDetailRelics['relic_ol_name'],
+    "relic_type" => $row_rsDetailRelics['relic_type'],
+    "tooltip_h" => $tooltip_h_Relics,
+    "tooltip_ol" => $tooltip_ol_Relics,
+    "item_id" => $row_rsDetailRelics['relic_id'],
+    'item_name' => $row_rsDetailRelics['relic_h_name'],
+    "item_type" => $row_rsDetailRelics['relic_type'],
+    "item_tags" => explode(",",$row_rsDetailRelics['relic_tags']),
+    "default_price" => 500,
+    "item_special" => $row_rsDetailRelics['relic_special'],
+    "attack_dice" => $row_rsDetailRelics['relic_dice'],
+  );
+} while ($row_rsDetailRelics = mysql_fetch_assoc($rsDetailRelics));
+
+// echo '<pre>';
+// var_dump($DetailRelicsList);
+// echo '</pre>';
 
 // Get the traded items
 // $query_rsDetailTradedItems = sprintf("SELECT * FROM tbitems_aquired INNER JOIN tbitems ON aq_item_id = item_id WHERE aq_trade_char_id = %s AND aq_item_sold = %s", GetSQLValueString($heroID, "int"), GetSQLValueString(0, "int"));
@@ -235,430 +286,33 @@ $bestOther2 = NULL;
 $bestOther2Value = 0;
 
 foreach ($DetailItemsList as $dti){
-  $ip = 0;
-  $valueCalc = "";
-  $value = ($dti['default_price'] / 1000);
-  $valueCalc .= $value;
-
-
-  $tempextraSpeed = 0;
-  $temptooltipSpeedArray = array();
-  $tempmaxSpeed = 0;
-  $tempextraHealth = 0;
-  $tempattrHealth = array();
-  $temptooltipHealthArray = array();
-  $temptooltipAttrHealthArray = array();
-  $tempextraStamina = 0;
-  $tempextraDefense = "";
-  $temptooltipDefenseArray = array();
-  $temptooltipAttackArray = array();
-  $tempextraMight = 0;
-  $tempextraKnowledge = 0;
-  $tempextraWillpower = 0;
-  $tempextraAwareness = 0;
-  $tempattackdice = "";
-
-  if($dti['attack_dice'] != NULL){
-    $attackdiceArray = str_split($dti['attack_dice']);
-
-    if ($dti['item_type'] != "armor" && $attackdiceArray[0] == "B" && isset($attackdiceArray[1])){
-      $tempattackdice = "B";
-      $temptooltipAttackArray[] = array(
-        "item" => $dti['item_name'],
-        "skill" => NULL,
-        "amount" => "Blue",
-      );
-      foreach($attackdiceArray as $attackdie){
-        if ($attackdie == "B"){
-
-        }
-        if ($attackdie == "R"){
-          $tempattackdice = $tempattackdice . "," . $attackdie;
-          $value += 2;
-          $temptooltipAttackArray[] = array(
-            "item" => $dti['item_name'],
-            "skill" => NULL,
-            "amount" => "Red",
-          );
-        }
-        if ($attackdie == "Y"){
-          $tempattackdice = $tempattackdice . "," . $attackdie;
-          $value += 1.5;
-          $temptooltipAttackArray[] = array(
-            "item" => $dti['item_name'],
-            "skill" => NULL,
-            "amount" => "Yellow",
-          );
-        }
-        if ($attackdie == "G"){
-          $tempattackdice = $tempattackdice . "," . $attackdie;
-          $value += 1;
-          $temptooltipAttackArray[] = array(
-            "item" => $dti['item_name'],
-            "skill" => NULL,
-            "amount" => "Green",
-          );
-        }
-
-      }
-    }
-  }
-
-  if(in_array("shield", $dti['item_tags'])){
-    $value += 2;
-  }
-
-
-
-
-
-  if($dti['item_special'] != NULL){
-    $itemsSpecial = explode(';', $dti['item_special']);
-    foreach ($itemsSpecial as $isp){
-      $itemsSpecial[$ip] = explode(',', $isp);
-      switch ($itemsSpecial[$ip][0]) {
-        case "speed":
-          $tempextraSpeed += intval($itemsSpecial[$ip][1]);
-          $value += intval($itemsSpecial[$ip][1]);
-          $valueCalc .= " + " . intval($itemsSpecial[$ip][1]);
-          $temptooltipSpeedArray[] = array(
-            "item" => $dti['item_name'],
-            "skill" => NULL,
-            "amount" => intval($itemsSpecial[$ip][1]),
-          );
-          break;
-        case "limitspeed":
-          $tempmaxSpeed = intval($itemsSpecial[$ip][1]);
-          $value += ($itemsSpecial[$ip][1] - $h['speed']) * 1.5;
-          $valueCalc .= " + " . ($itemsSpecial[$ip][1] - $h['speed']) * 1.5;
-          break;
-        case "health":
-          $tempextraHealth += intval($itemsSpecial[$ip][1]);
-          $value += intval($itemsSpecial[$ip][1]) * 0.75;
-          $valueCalc .= " + " . intval($itemsSpecial[$ip][1]) * 0.75;
-          $temptooltipHealthArray[] = array(
-            "item" => $dti['item_name'],
-            "skill" => NULL,
-            "amount" => intval($itemsSpecial[$ip][1]),
-          );
-          break;
-        case "attribhealth":
-          $tempattrHealth[] = array(
-            "item" => $dti['item_name'],
-            "bonus" => intval($itemsSpecial[$ip][1]),
-            "type" => intval($itemsSpecial[$ip][2]),
-            "required" => intval($itemsSpecial[$ip][3]),
-          );
-          break;
-        case "stamina":
-          $tempextraStamina += intval($itemsSpecial[$ip][1]);
-          $value += intval($itemsSpecial[$ip][1]) * 2;
-          $valueCalc .= " + " . intval($itemsSpecial[$ip][1]) * 2;
-          $temptooltipStaminaArray[] = array(
-            "item" => $dti['item_name'],
-            "skill" => NULL,
-            "amount" => intval($itemsSpecial[$ip][1]),
-          );
-          break;
-        case "attack":
-          if ($itemsSpecial[$ip][1] == "R"){
-            $die = "Red";
-            $value += 2;
-            $valueCalc .= " + 2";
-          } else if ($itemsSpecial[$ip][1] == "Y"){
-            $die = "Yellow";
-            $value += 1.5;
-            $valueCalc .= " + 1.5";
-          } else if ($itemsSpecial[$ip][1] == "G"){
-            $die = "Green";
-            $value += 1;
-            $valueCalc .= " + 1";
-          }
-          $tempattackdice = $tempattackdice . "," . $itemsSpecial[$ip][1];
-          $temptooltipAttackArray[] = array(
-            "item" => $dti['item_name'],
-            "skill" => NULL,
-            "amount" => $die,
-          );
-          break;
-        case "defense":
-          if ($itemsSpecial[$ip][1] == "B"){
-            $die = "Brown";
-            $value += 1;
-            $valueCalc .= " + 1";
-          } else if ($itemsSpecial[$ip][1] == "G"){
-            $die = "Grey";
-            $value += 3;
-            $valueCalc .= " + 3";
-          } else if ($itemsSpecial[$ip][1] == "BL"){
-            $die = "Black";
-            $value += 5;
-            $valueCalc .= " + 5";
-          }
-          $tempextraDefense = $tempextraDefense . "," . $itemsSpecial[$ip][1];
-          $temptooltipDefenseArray[] = array(
-            "item" => $dti['item_name'],
-            "skill" => NULL,
-            "amount" => $die,
-          );
-          break;
-        case "runedefense":
-          if(!in_array("rune", $itemTags)){
-            $tempextraDefense = $tempextraDefense . "," . $itemsSpecial[$ip][1];
-            $tempdie = $itemsSpecial[$ip][1];
-          } else {
-            $tempextraDefense = $tempextraDefense . "," . $itemsSpecial[$ip][2];
-            $tempdie = $itemsSpecial[$ip][2];
-          }
-          if ($tempdie == "B"){
-            $die = "Brown";
-            $value += 1;
-            $valueCalc .= " + 1";
-          } else if ($tempdie == "G"){
-            $die = "Grey";
-            $value += 3;
-            $valueCalc .= " + 3";
-          } else if ($tempdie == "BL"){
-            $die = "Black";
-            $value += 5;
-            $valueCalc .= " + 5";
-          }
-          $temptooltipDefenseArray[] = array(
-            "item" => $dti['item_name'],
-            "skill" => NULL,
-            "amount" => $die,
-          );
-          break;
-        case "might":
-          $tempextraMight += intval($itemsSpecial[$ip][1]);
-          $value += intval($itemsSpecial[$ip][1]) * 1.5;
-          $valueCalc .= " + " . intval($itemsSpecial[$ip][1]) * 1.5;
-          $temptooltipMightArray[] = array(
-            "item" => $dti['item_name'],
-            "skill" => NULL,
-            "amount" => intval($itemsSpecial[$ip][1]),
-          );
-          break;
-        case "knowledge":
-          $tempextraKnowledge += intval($itemsSpecial[$ip][1]);
-          $value += intval($itemsSpecial[$ip][1]) * 1.5;
-          $valueCalc .= " + " . intval($itemsSpecial[$ip][1]) * 1.5;
-          $temptooltipKnowledgeArray[] = array(
-            "item" => $dti['item_name'],
-            "skill" => NULL,
-            "amount" => intval($itemsSpecial[$ip][1]),
-          );
-          break;
-        case "willpower":
-          $tempextraWillpower += intval($itemsSpecial[$ip][1]);
-          $value += intval($itemsSpecial[$ip][1]) * 1.5;
-          $valueCalc .= " + " . intval($itemsSpecial[$ip][1]) * 1.5;
-          $temptooltipWillpowerArray[] = array(
-            "item" => $dti['item_name'],
-            "skill" => NULL,
-            "amount" => intval($itemsSpecial[$ip][1]),
-          );
-          break;
-        case "awareness":
-          $tempextraAwareness += intval($itemsSpecial[$ip][1]);
-          $value += intval($itemsSpecial[$ip][1]) * 1.5;
-          $valueCalc .= " + " . intval($itemsSpecial[$ip][1]) * 1.5;
-          $temptooltipAwarenessArray[] = array(
-            "item" => $dti['item_name'],
-            "skill" => NULL,
-            "amount" => intval($itemsSpecial[$ip][1]),
-          );
-          break;
-      }
-
-      $ip++;
-    }
-  }
-
-  if($dti['item_type'] == "2h"){
-    $value = $value * 2;
-  }
-
-  // echo $dti['item_name'] . " = " . $value . "<br />";
-  if($dti['item_type'] == "1h" && !in_array("shield", $dti['item_tags']) && ($bestHand1 == NULL || ($bestHand1Value < $value && $bestHand2Value >= $bestHand1Value && $bestHand2 != NULL))){
-
-    $bestHand1 = $dti['item_id'];
-    $bestHand1Value = $value;
-
-    $H1extraSpeed = $tempextraSpeed;
-    $H1tooltipSpeed = $temptooltipSpeedArray;
-    $H1maxSpeed = $tempmaxSpeed;
-    $H1extraHealth = $tempextraHealth;
-    $H1attrHealth = $tempattrHealth;
-    $H1tooltipHealthArray = $temptooltipHealthArray;
-    $H1tooltipAttrHealthArray = $temptooltipAttrHealthArray;
-    $H1extraStamina = $tempextraStamina;
-    $H1extraDefense = $tempextraDefense;
-    $H1tooltipDefenseArray = $temptooltipDefenseArray;
-    $H1tooltipAttackArray = $temptooltipAttackArray;
-
-    $H1attackdice = $tempattackdice;
-
-    $H1extraMight = $tempextraMight;
-    $H1extraKnowledge = $tempextraKnowledge;
-    $H1extraWillpower = $tempextraWillpower;
-    $H1extraAwareness = $tempextraAwareness;
-  } else if($dti['item_type'] == "1h" && ($bestHand2 == NULL || $bestHand2Value < $value)){
-    $bestHand2 = $dti['item_id'];
-    $bestHand2Value = $value;
-
-    $H2extraSpeed = $tempextraSpeed;
-    $H2tooltipSpeed = $temptooltipSpeedArray;
-    $H2maxSpeed = $tempmaxSpeed;
-    $H2extraHealth = $tempextraHealth;
-    $H2attrHealth = $tempattrHealth;
-    $H2tooltipHealthArray = $temptooltipHealthArray;
-    $H2tooltipAttrHealthArray = $temptooltipAttrHealthArray;
-    $H2extraStamina = $tempextraStamina;
-    $H2extraDefense = $tempextraDefense;
-    $H2tooltipDefenseArray = $temptooltipDefenseArray;
-    $H2tooltipAttackArray = $temptooltipAttackArray;
-
-    $H2attackdice = $tempattackdice;
-
-    $H2extraMight = $tempextraMight;
-    $H2extraKnowledge = $tempextraKnowledge;
-    $H2extraWillpower = $tempextraWillpower;
-    $H2extraAwareness = $tempextraAwareness;
-  }
-  if($dti['item_type'] == "2h" && ($bestHand1 == NULL || ($bestHand1Value + $bestHand2Value) < $value)){
-    $bestHand1 = $dti['item_id'];
-    $bestHand2 = NULL;
-    $bestHand1Value = $value;
-    $bestHand2Value = 0;
-
-    $H1extraSpeed = $tempextraSpeed;
-    $H1tooltipSpeed = $temptooltipSpeedArray;
-    $H1maxSpeed = $tempmaxSpeed;
-    $H1extraHealth = $tempextraHealth;
-    $H1attrHealth = $tempattrHealth;
-    $H1tooltipHealthArray = $temptooltipHealthArray;
-    $H1tooltipAttrHealthArray = $temptooltipAttrHealthArray;
-    $H1extraStamina = $tempextraStamina;
-    $H1extraDefense = $tempextraDefense;
-    $H1tooltipDefenseArray = $temptooltipDefenseArray;
-    $H1tooltipAttackArray = $temptooltipAttackArray;
-
-    $H1attackdice = $tempattackdice;
-    $H1extraMight = $tempextraMight;
-    $H1extraKnowledge = $tempextraKnowledge;
-    $H1extraWillpower = $tempextraWillpower;
-    $H1extraAwareness = $tempextraAwareness;
-
-    $H2extraSpeed = 0;
-    $H2tooltipSpeed = array();
-    $H2maxSpeed = 0;
-    $H2extraHealth = 0;
-    $H2attrHealth = array();
-    $H2tooltipHealthArray = array();
-    $H2tooltipAttrHealthArray = array();
-    $H2extraStamina = 0;
-    $H2extraDefense = "";
-    $H2tooltipDefenseArray = array();
-    $H2tooltipAttackArray = array();
-    $H2attackdice = "";
-    $H2extraMight = 0;
-    $H2extraKnowledge = 0;
-    $H2extraWillpower = 0;
-    $H2extraAwareness = 0;
-  }
-  if($dti['item_type'] == "armor" && ($bestArmor == NULL || $bestArmorValue < $value)){
-    $bestArmor = $dti['item_id'];
-    $bestArmorValue = $value;
-
-    $AextraSpeed = $tempextraSpeed;
-    $AtooltipSpeed = $temptooltipSpeedArray;
-    $AmaxSpeed = $tempmaxSpeed;
-    $AextraHealth = $tempextraHealth;
-    $AattrHealth = $tempattrHealth;
-    $AtooltipHealthArray = $temptooltipHealthArray;
-    $AtooltipAttrHealthArray = $temptooltipAttrHealthArray;
-    $AextraStamina = $tempextraStamina;
-    $AextraDefense = $tempextraDefense;
-    $AtooltipDefenseArray = $temptooltipDefenseArray;
-    $AtooltipAttackArray = $temptooltipAttackArray;
-
-    $Aattackdice = $tempattackdice;
-
-    $AextraMight = $tempextraMight;
-    $AextraKnowledge = $tempextraKnowledge;
-    $AextraWillpower = $tempextraWillpower;
-    $AextraAwareness = $tempextraAwareness;
-  }
-
-  if($dti['item_type'] == "other" && ($bestOther1 == NULL || ($bestOther1Value < $value && $bestOther2 != NULL))){
-    $bestOther1 = $dti['item_id'];
-    $bestOther1Value = $value;
-
-    $O1extraSpeed = $tempextraSpeed;
-    $O1ooltipSpeed = $temptooltipSpeedArray;
-    $O1maxSpeed = $tempmaxSpeed;
-    $O1extraHealth = $tempextraHealth;
-    $O1attrHealth = $tempattrHealth;
-    $O1tooltipHealthArray = $temptooltipHealthArray;
-    $O1tooltipAttrHealthArray = $temptooltipAttrHealthArray;
-    $O1extraStamina = $tempextraStamina;
-    $O1extraDefense = $tempextraDefense;
-    $O1tooltipDefenseArray = $temptooltipDefenseArray;
-    $O1tooltipAttackArray = $temptooltipAttackArray;
-
-    $O1attackdice = $tempattackdice;
-
-    $O1extraMight = $tempextraMight;
-    $O1extraKnowledge = $tempextraKnowledge;
-    $O1extraWillpower = $tempextraWillpower;
-    $O1extraAwareness = $tempextraAwareness;
-  } else if($dti['item_type'] == "other" && ($bestOther2 == NULL || $bestOther2Value < $value)){
-    $bestOther2 = $dti['item_id'];
-    $bestOther2Value = $value;
-
-    $O2extraSpeed = $tempextraSpeed;
-    $O2ooltipSpeed = $temptooltipSpeedArray;
-    $O2maxSpeed = $tempmaxSpeed;
-    $O2extraHealth = $tempextraHealth;
-    $O2attrHealth = $tempattrHealth;
-    $O2tooltipHealthArray = $temptooltipHealthArray;
-    $O2tooltipAttrHealthArray = $temptooltipAttrHealthArray;
-    $O2extraStamina = $tempextraStamina;
-    $O2extraDefense = $tempextraDefense;
-    $O2tooltipDefenseArray = $temptooltipDefenseArray;
-    $O2tooltipAttackArray = $temptooltipAttackArray;
-
-    $O2attackdice = $tempattackdice;
-
-    $O2extraMight = $tempextraMight;
-    $O2extraKnowledge = $tempextraKnowledge;
-    $O2extraWillpower = $tempextraWillpower;
-    $O2extraAwareness = $tempextraAwareness;
-  }
+  include 'campaign_overview_hero_data_special.php';
+}
+foreach ($DetailRelicsList as $dti){
+  include 'campaign_overview_hero_data_special.php';
 }
 
-$extraSpeed = $AextraSpeed + $O1extraSpeed + $O2extraSpeed + $H1extraSpeed + $H2extraSpeed;
-$tooltipSpeed = array_merge($AtooltipSpeed,$O1tooltipSpeed,$O2tooltipSpeed,$H1tooltipSpeed,$H2tooltipSpeed);
-$maxSpeed = $AmaxSpeed + $O1maxSpeed + $O2maxSpeed + $H1maxSpeed + $H2maxSpeed;
-$extraHealth = $AextraHealth + $O1extraHealth + $O2extraHealth + $H1extraHealth + $H2extraHealth;
-$attrHealth = array_merge($AattrHealth,$O1attrHealth,$O2attrHealth,$H1attrHealth,$H2attrHealth);
-$tooltipHealthArray = array_merge($AtooltipHealthArray,$O1tooltipHealthArray,$O2tooltipHealthArray,$H1tooltipHealthArray,$H2tooltipHealthArray);
-$tooltipAttrHealthArray = array_merge($AtooltipAttrHealthArray,$O1tooltipAttrHealthArray,$O2tooltipAttrHealthArray,$H1tooltipAttrHealthArray,$H2tooltipAttrHealthArray);
-$extraStamina = $AextraStamina + $O1extraStamina + $O2extraStamina + $H1extraStamina + $H2extraStamina;
+$extraSpeed = $extraSpeed + $AextraSpeed + $O1extraSpeed + $O2extraSpeed + $H1extraSpeed + $H2extraSpeed;
+$tooltipSpeed = array_merge($tooltipSpeed, $AtooltipSpeed,$O1tooltipSpeed,$O2tooltipSpeed,$H1tooltipSpeed,$H2tooltipSpeed);
+$maxSpeed = $maxSpeed + $AmaxSpeed + $O1maxSpeed + $O2maxSpeed + $H1maxSpeed + $H2maxSpeed;
+$extraHealth = $extraHealth + $AextraHealth + $O1extraHealth + $O2extraHealth + $H1extraHealth + $H2extraHealth;
+$attrHealth = array_merge($attrHealth, $AattrHealth,$O1attrHealth,$O2attrHealth,$H1attrHealth,$H2attrHealth);
+$tooltipHealthArray = array_merge($tooltipHealthArray, $AtooltipHealthArray,$O1tooltipHealthArray,$O2tooltipHealthArray,$H1tooltipHealthArray,$H2tooltipHealthArray);
+$tooltipAttrHealthArray = array_merge($tooltipAttrHealthArray, $AtooltipAttrHealthArray,$O1tooltipAttrHealthArray,$O2tooltipAttrHealthArray,$H1tooltipAttrHealthArray,$H2tooltipAttrHealthArray);
+$extraStamina = $extraStamina + $AextraStamina + $O1extraStamina + $O2extraStamina + $H1extraStamina + $H2extraStamina;
 $extraDefense = $AextraDefense . $O1extraDefense . $O2extraDefense . $H1extraDefense . $H2extraDefense;
-$tooltipDefenseArray = array_merge($H1tooltipDefenseArray,$H2tooltipDefenseArray,$AtooltipDefenseArray,$O1tooltipDefenseArray,$O2tooltipDefenseArray);
+$tooltipDefenseArray = array_merge($tooltipDefenseArray, $H1tooltipDefenseArray,$H2tooltipDefenseArray,$AtooltipDefenseArray,$O1tooltipDefenseArray,$O2tooltipDefenseArray);
 
 $attackdiceH1 = $H1attackdice . $Aattackdice . $O1attackdice . $O2attackdice;
 $attackdiceH2 = $H2attackdice . $Aattackdice . $O1attackdice . $O2attackdice;
-$tooltipAttackArrayH1 = array_merge($H1tooltipAttackArray,$AtooltipAttackArray,$O1tooltipAttackArray,$O2tooltipAttackArray);
-$tooltipAttackArrayH2 = array_merge($H2tooltipAttackArray,$AtooltipAttackArray,$O1tooltipAttackArray,$O2tooltipAttackArray);
+$tooltipAttackArrayH1 = array_merge($tooltipAttackArrayH1, $H1tooltipAttackArray,$AtooltipAttackArray,$O1tooltipAttackArray,$O2tooltipAttackArray);
+$tooltipAttackArrayH2 = array_merge($tooltipAttackArrayH2, $H2tooltipAttackArray,$AtooltipAttackArray,$O1tooltipAttackArray,$O2tooltipAttackArray);
 
 
-$extraMight = $AextraMight + $O1extraMight + $O2extraMight + $H1extraMight + $H2extraMight;
-$extraKnowledge = $AextraKnowledge + $O1extraKnowledge + $O2extraKnowledge + $H1extraKnowledge + $H2extraKnowledge;
-$extraWillpower = $AextraWillpower + $O1extraWillpower + $O2extraWillpower + $H1extraWillpower + $H2extraWillpower;
-$extraAwareness = $AextraAwareness + $O1extraAwareness + $O2extraAwareness + $H1extraAwareness + $H2extraAwareness;
+$extraMight = $extraMight + $AextraMight + $O1extraMight + $O2extraMight + $H1extraMight + $H2extraMight;
+$extraKnowledge = $extraKnowledge + $AextraKnowledge + $O1extraKnowledge + $O2extraKnowledge + $H1extraKnowledge + $H2extraKnowledge;
+$extraWillpower = $extraWillpower + $AextraWillpower + $O1extraWillpower + $O2extraWillpower + $H1extraWillpower + $H2extraWillpower;
+$extraAwareness = $extraAwareness + $AextraAwareness + $O1extraAwareness + $O2extraAwareness + $H1extraAwareness + $H2extraAwareness;
 
 $equiped['H1'] = $bestHand1;
 $equiped['H2'] = $bestHand2;
@@ -671,53 +325,6 @@ $equiped['O2'] = $bestOther2;
     // echo '</pre>';
 
 //var_dump($equiped);
-
-
-
-
-
-
-
-// Get the relics
-$query_rsDetailRelics = sprintf("SELECT * FROM tbitems_aquired INNER JOIN tbitems_relics ON aq_relic_id = relic_id WHERE aq_char_id = %s AND aq_trade_char_id is null", GetSQLValueString($heroID, "int"));
-$rsDetailRelics = mysql_query($query_rsDetailRelics, $dbDescent) or die(mysql_error());
-$row_rsDetailRelics = mysql_fetch_assoc($rsDetailRelics);
-$totalRows_rsDetailRelics = mysql_num_rows($rsDetailRelics);
-
-do{
-
-  $diceimg = "";
-  if ($row_rsDetailRelics['relic_dice'] != NULL){
-    $diceimg = "<img src='img/" . $row_rsDetailRelics['relic_dice'] . ".png' />";
-  }
-
-  $tooltip_h_Relics = 
-  "<div class='text-center tooltip-div row'>" .
-    "<div class='col-sm-12'>" . 
-      "<div><strong>" . $row_rsDetailRelics['relic_h_name'] . "</strong></div>" . 
-      //"<div><small>" . $row_rsDetailRelics['item_tags'] . "</small></div>" . 
-      "<div class='col-sm-5 text-margin-5'>" . $row_rsDetailRelics['relic_attack'] . "</div>" . "<div class='col-sm-2'></div>" . "<div class='col-sm-5'>" . $diceimg . "</div>" . 
-      "<div class='col-sm-12 item-text'>" . $row_rsDetailRelics['relic_h_text'] . "</div>" . 
-    "</div>" .
-  "</div>";
-
-  $tooltip_ol_Relics = 
-  "<div class='text-center tooltip-div row'>" .
-    "<div class='col-sm-12'>" . 
-      "<div><strong>" . $row_rsDetailRelics['relic_ol_name'] . "</strong></div>" . 
-      "<div class='col-sm-12 item-text'>" . $row_rsDetailRelics['relic_ol_text'] . "</div>" . 
-    "</div>" .
-  "</div>";
-
-
-  $DetailRelicsList[] = array(
-    "relic_h_name" => $row_rsDetailRelics['relic_h_name'],
-    "relic_ol_name" => $row_rsDetailRelics['relic_ol_name'],
-    "relic_type" => $row_rsDetailRelics['relic_type'],
-    "tooltip_h" => $tooltip_h_Relics,
-    "tooltip_ol" => $tooltip_ol_Relics,
-  );
-} while ($row_rsDetailRelics = mysql_fetch_assoc($rsDetailRelics));
 
 
 foreach($attrHealth as $atrH){
@@ -782,7 +389,7 @@ if(!empty($tooltipDefenseArray)){
   $tooltipDefense = "<div class='text-center tooltip-div'>";
   foreach ($tooltipDefenseArray as $da){
     if ($da['item'] != NULL){
-      $tooltipDefense .= "<div>" . $da['amount'] . " die from '" . str_replace(' ', '&nbsp;', $da['item']) . "' item</div>";
+      $tooltipDefense .= "<div>" . $da['amount'] . " die from '" . str_replace(' ', '&nbsp;', $da['item']) . "'</div>";
     }
     if ($da['skill'] != NULL){
       $tooltipDefense .= "<div>" . $da['amount'] . " die from '" . $da['skill'] . "' skill</div>";
