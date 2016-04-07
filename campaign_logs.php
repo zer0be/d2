@@ -237,7 +237,7 @@ do {
 
 // Get the available rumors, available as in 'these are in the expansions the game has been started with'
 
-$query_rsAvRumorList = sprintf("SELECT * FROM tbquests LEFT JOIN tbcampaign ON quest_expansion_id = cam_id WHERE quest_expansion_id IN ($selExpansions) AND quest_expansion_id != %s AND cam_type != %s AND cam_type != %s ORDER BY quest_order ASC", GetSQLValueString($row_rsGroupCampaign['game_camp_id'], "int"), GetSQLValueString("full", "text"), GetSQLValueString("book", "text"));
+$query_rsAvRumorList = sprintf("SELECT * FROM tbquests LEFT JOIN tbcampaign ON quest_expansion_id = cam_id WHERE quest_expansion_id IN ($selExpansions) AND quest_expansion_id != %s AND cam_type != %s AND cam_type != %s AND cam_type != %s ORDER BY quest_order ASC", GetSQLValueString($row_rsGroupCampaign['game_camp_id'], "int"), GetSQLValueString("full", "text"), GetSQLValueString("book", "text"), GetSQLValueString("act-one", "text"));
 $rsAvRumorList = mysql_query($query_rsAvRumorList, $dbDescent) or die(mysql_error());
 $row_rsAvRumorList = mysql_fetch_assoc($rsAvRumorList);
 $totalRows_rsAvRumorList = mysql_num_rows($rsAvRumorList);
