@@ -56,6 +56,7 @@ do{
 		"type" => $row_rsCampaignInfo['cam_type'],
     "story" => $row_rsCampaignInfo['cam_story'],
 		"heroes" => array(),
+    "classes" => array(),
 	);
 } while ($row_rsCampaignInfo = mysql_fetch_assoc($rsCampaignInfo));
 
@@ -83,6 +84,27 @@ do{
 	}
 
 } while ($row_rsCampaignHeroes = mysql_fetch_assoc($rsCampaignHeroes));
+
+$query_rsClassInfo = sprintf("SELECT * FROM tbclasses WHERE class_exp_id = %s", GetSQLValueString($campaignUrlID, "int"));
+$rsClassInfo = mysql_query($query_rsClassInfo, $dbDescent) or die(mysql_error());
+$row_rsClassInfo = mysql_fetch_assoc($rsClassInfo);
+$totalRows_rsClassInfo = mysql_num_rows($rsClassInfo);
+
+do{
+  if (isset($row_rsClassInfo['class_id'])){
+    $shortl = $row_rsClassInfo['class_name'];
+    $shortl = strtolower($shortl);
+    $shortl = str_replace(" ","_",$shortl);
+    $shortl = preg_replace("/[^A-Za-z0-9_]/","",$shortl);
+
+    $campaignInfoArray['classes'][] = array(
+      "id" => $row_rsClassInfo['class_id'],
+      "name" => $row_rsClassInfo['class_name'],
+      "archetype" => $row_rsClassInfo['class_archetype'],
+      "img" => $shortl . ".jpg",
+    );
+  }
+} while ($row_rsClassInfo = mysql_fetch_assoc($rsClassInfo));
 
 $query_rsCampaignQuests = sprintf("SELECT * FROM tbquests WHERE quest_expansion_id = %s", GetSQLValueString($campaignUrlID, "int"));
 $rsCampaignQuests = mysql_query($query_rsCampaignQuests, $dbDescent) or die(mysql_error());
@@ -263,6 +285,70 @@ include 'stats_quests_array.php';
           echo '</div>';
         }
       }
+
+
+      if(!empty($campaignInfoArray['classes'])){ ?>
+        <h2>Classes</h2><?php
+        $ir = 0;
+        foreach ($campaignInfoArray['classes'] as $cia){
+
+          // Check if the image for the quest exists, if not, use default
+          $filename = "img/heroes/" . $cia['img'];
+          if (!file_exists($filename)) {
+            $filename = "img/quests/default.jpg";
+          }
+
+          if($ir == 0){ ?>
+            <div class="row no-gutters" style="margin-bottom: 30px;">
+              <div class="col-xs-12"><?php
+          }
+          $ir++; ?>
+
+
+
+                <div class="col-md-4">
+
+                  <div class="row no-gutters" style="background: #f9f9f9; border: 1px solid #ddd;">
+                    <div class="col-sm-4">
+                      <div style="background: url('<?php print $filename; ?>') no-repeat center; background-size: 130% auto; height: 120px;"></div>
+                    </div>
+                    <div class="col-sm-8" style="padding: 0 15px;">
+                      <h2 class="h4"><a href="stats_class_page.php?class=<?php print $cia['id']; ?>"><?php print $cia['name']; ?></a></h2>
+                      <small>
+                        <p>
+                          <small><?php echo $cia['archetype']; ?></small>
+                        </p>
+                      </small>
+                      <p><small><?php // print $cia['description']; ?></small></p>
+                      <div class="row">
+
+                      </div>
+
+                    </div>
+
+                  </div>
+
+
+
+
+                </div><?php
+
+          if($ir == 3){
+            echo '</div>';
+            echo '</div>';
+            $ir = 0;
+          }
+
+        } // foreach
+
+        if($ir != 0){
+          echo '</div>';
+          echo '</div>';
+        }
+      }
+
+
+
 
       if(!empty($campaignInfoArray['quests'])){ ?>
         <h2>Quests</h2><?php
